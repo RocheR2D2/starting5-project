@@ -2,7 +2,7 @@ Starting5 powered by Symfony3
 =========
 
 #INSTALLATION
- ##Créer le .env
+ ##Créer le .env à la racine
  
  MYSQL_ROOT_PASSWORD=  
  MYSQL_DATABASE=starting5  
