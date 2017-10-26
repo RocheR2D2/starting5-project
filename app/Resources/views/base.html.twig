@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<meta charset="UTF-8"/>
+<title>{% block title %}Welcome!{% endblock %}</title>
+{% block stylesheets %}{% endblock %}
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Starting5 - Créer votre 5 majeurs de rêve !</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <link href="{{ asset('css/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('css/scrolling-nav.css') }}" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+{% block body %}{% endblock %}
+<!-- Bootstrap core JavaScript -->
+<script src="{{ asset('js/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('css/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+<!-- Plugin JavaScript -->
+<script src="{{ asset('js/jquery-easing/jquery.easing.min.js') }}"></script>
+
+<!-- Custom JavaScript for this theme -->
+<script src="{{ asset('js/scrolling-nav.js') }}"></script>
+
+</body>
+
+</html>
