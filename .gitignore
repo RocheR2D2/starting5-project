@@ -17,3 +17,4 @@
 /web/bundles/
 .env
 .idea
+docker/logs/nginx/*
