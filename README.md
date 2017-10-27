@@ -1,12 +1,15 @@
 Starting5 powered by Symfony3
 =========
 
-#INSTALLATION
+INSTALLATION
+=========
 
- ##Cloner le projet
+Cloner le projet
+=========
  `git clone https://github.com/eungtony/starting5-project.git`
  
- ##Créer le .env à la racine du projet
+Créer le .env à la racine du projet
+=========
  
  MYSQL_ROOT_PASSWORD=  
  MYSQL_DATABASE=starting5  
@@ -14,11 +17,13 @@ Starting5 powered by Symfony3
  MYSQL_PASSWORD=
  
  
- ##Lancer les commandes:
+Lancer les commandes:
+=========
  - Docker-compose build
  - Docker-compose up -d
  
- ##Composer install
+Composer install
+=========
  
  Dans le terminal, accéder à la racine du projet, et lancer la commande ‘composer Install’
  
@@ -27,4 +32,5 @@ Starting5 powered by Symfony3
  ‘DATABASE_NAME’ = starting5  
  ‘DATABASE_PASSWORD’={MYSQL_PASSWORD}
  
- #Accéder à ‘localhost:88’
+Accéder à ‘localhost:88’
+=========
