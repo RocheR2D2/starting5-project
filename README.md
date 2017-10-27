@@ -2,7 +2,11 @@ Starting5 powered by Symfony3
 =========
 
 #INSTALLATION
- ##Créer le .env à la racine
+
+ ##Cloner le projet
+ `git clone https://github.com/eungtony/starting5-project.git`
+ 
+ ##Créer le .env à la racine du projet
  
  MYSQL_ROOT_PASSWORD=  
  MYSQL_DATABASE=starting5  
