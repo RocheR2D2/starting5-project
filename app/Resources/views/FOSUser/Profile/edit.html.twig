@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+<h2>Edit my profile</h2>
+{% endblock header %}
+
+{% block body %}
+
+    <section id="connexion_form">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    {% trans_default_domain 'FOSUserBundle' %}
+
+                    {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+                    {{ form_widget(form) }}
+                    <div>
+                        <input type="submit" class="btn btn-primary" value="{{ 'Edit'|trans }}" />
+                    </div>
+                    {{ form_end(form) }}
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock body %}
