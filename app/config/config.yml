@@ -74,8 +74,11 @@ fos_user:
     firewall_name: main
     user_class: AppBundle\Entity\User
     from_email:
-        address: "%mailer_user%"
-        sender_name: "%mailer_user%"
-    registration:
+        address: '%mailer_user%'
+        sender_name: '%mailer_user%'
+    Registration:
         form:
-            type: AppBundle\Form\RegistrationType
+            type: AppBundle\Form\RegistrationFormType
+    profile:
+        form:
+            type: AppBundle\Form\ProfileFormType
