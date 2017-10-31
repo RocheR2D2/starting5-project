@@ -24,3 +24,7 @@ fos_user_change_password:
 dashboard:
     path:     /dashboard
     defaults: { _controller: AppBundle:Dashboard:index }
+
+admin:
+    path:     /admin
+    defaults: { _controller: AppBundle:Admin:index }
