@@ -81,6 +81,12 @@ class User extends BaseUser
      * @ORM\Column(name="phone", type="string", length=255, nullable=true)
      */
     protected $phone;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="team_id", type="integer")
+     */
+    protected $teamId;
 
     /**
      * Constructor
@@ -202,6 +208,22 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $teamId
+     */
+    public function setTeamId($teamId)
+    {
+        $this->teamId = $teamId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTeamId()
+    {
+        return $this->teamId;
     }
 
     /**
