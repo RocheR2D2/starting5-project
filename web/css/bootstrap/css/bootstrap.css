@@ -5665,7 +5665,9 @@ button.close {
 }
 
 .bg-primary {
-  background-image: url('../../../images/lebronwade.jpg'); !important;
+  background-image: url('../../../images/mj.jpg'); !important;
+  background-position: center;
+  background-size: cover;
 }
 
 a.bg-primary:focus, a.bg-primary:hover {
