@@ -36,11 +36,10 @@ class Division
     private $slugDivision;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="conference_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="Conference", inversedBy="division")
+     * @ORM\JoinColumn(name="conference_id", referencedColumnName="id")
      */
-    private $conferenceId;
+    private $conference;
 
 
     /**
@@ -102,27 +101,24 @@ class Division
     }
 
     /**
-     * Set teamId
-     *
-     * @param integer $conferenceId
-     *
-     * @return Division
+     * @param $conference
+     * @return $this
      */
-    public function setConferenceId($conferenceId)
+    public function setConference($conference)
     {
-        $this->conferenceId = $conferenceId;
+        $this->conference = $conference;
 
         return $this;
     }
 
     /**
-     * Get conferenceId
+     * Get conference
      *
      * @return int
      */
-    public function getConferenceId()
+    public function getConference()
     {
-        return $this->conferenceId;
+        return $this->conference;
     }
 }
 
