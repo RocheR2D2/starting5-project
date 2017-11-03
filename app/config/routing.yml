@@ -28,3 +28,32 @@ dashboard:
 admin:
     path:     /admin
     defaults: { _controller: AppBundle:Admin:index }
+
+team.new:
+    path:     /admin/team/new
+    defaults: { _controller: AppBundle:Team:new }
+
+state.new:
+    path:     /admin/state/new
+    defaults: { _controller: AppBundle:State:new }
+    methods:  [GET, POST]
+
+division.new:
+    path:     /admin/division/new
+    defaults: { _controller: AppBundle:Division:new }
+    methods:  [GET, POST]
+
+stadium.new:
+    path:     /admin/stadium/new
+    defaults: { _controller: AppBundle:Stadium:new }
+    methods:  [GET, POST]
+
+town.new:
+    path:     /admin/town/new
+    defaults: { _controller: AppBundle:Town:new }
+    methods:  [GET, POST]
+
+team.new:
+    path:     /admin/team/new
+    defaults: { _controller: AppBundle:Team:new }
+    methods:  [GET, POST]
