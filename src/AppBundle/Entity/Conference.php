@@ -28,6 +28,13 @@ class Conference
      */
     private $name;
 
+    /**
+     *
+     *
+     * @ORM\OneToMany(targetEntity="State", mappedBy="conference")
+     */
+    private $state;
+
 
     /**
      * Get id
@@ -61,6 +68,27 @@ class Conference
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set state
+     *
+     * @return string
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this->state;
+    }
+    /**
+     * Get state
+     *
+     * @return string
+     */
+    public function getState()
+    {
+        return $this->state;
     }
 }
 
