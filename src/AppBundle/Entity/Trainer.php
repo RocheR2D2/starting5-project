@@ -36,12 +36,10 @@ class Trainer
     private $lastname;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="team_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="Team", inversedBy="trainer")
+     * @ORM\JoinColumn(name="team_id", referencedColumnName="id")
      */
-    private $teamId;
-
+    private $team;
 
     /**
      * Get id
@@ -102,27 +100,27 @@ class Trainer
     }
 
     /**
-     * Set teamId
+     * Set team
      *
-     * @param integer $teamId
+     * @param integer $team
      *
      * @return Trainer
      */
-    public function setTeamId($teamId)
+    public function setTeam($team)
     {
-        $this->teamId = $teamId;
+        $this->team = $team;
 
         return $this;
     }
 
     /**
-     * Get teamId
+     * Get team
      *
      * @return int
      */
-    public function getTeamId()
+    public function getTeam()
     {
-        return $this->teamId;
+        return $this->team;
     }
 }
 
