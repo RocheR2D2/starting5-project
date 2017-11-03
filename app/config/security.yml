@@ -24,4 +24,7 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, role: ROLE_ADMIN }
+        - { path: ^/admin/team/new, role: ROLE_ADMIN }
+        - { path: ^/admin/state/new, role: ROLE_ADMIN }
+        - { path: ^/admin/division/new, role: ROLE_ADMIN }
         - { path: ^/dashboard, role: ROLE_USER }
