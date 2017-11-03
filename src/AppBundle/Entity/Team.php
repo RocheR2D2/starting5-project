@@ -36,44 +36,38 @@ class Team
     private $slugTeam;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="division_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="Division", inversedBy="team")
+     * @ORM\JoinColumn(name="division_id", referencedColumnName="id")
      */
-    private $divisionId;
+    private $division;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="conference_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="Conference", inversedBy="team")
+     * @ORM\JoinColumn(name="conference_id", referencedColumnName="id")
      */
-    private $conferenceId;
+    private $conference;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="state_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="State", inversedBy="team")
+     * @ORM\JoinColumn(name="state_id", referencedColumnName="id")
      */
-    private $stateId;
+    private $state;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="stadium_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="Stadium", inversedBy="team")
+     * @ORM\JoinColumn(name="stadium_id", referencedColumnName="id")
      */
-    private $stadiumId;
+    private $stadium;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="trainer_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="Trainer", inversedBy="team")
+     * @ORM\JoinColumn(name="trainer_id", referencedColumnName="id")
      */
-    private $trainerId;
+    private $trainer;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="town", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Town", inversedBy="team")
+     * @ORM\JoinColumn(name="town_id", referencedColumnName="id")
      */
     private $town;
 
@@ -137,123 +131,123 @@ class Team
     }
 
     /**
-     * Set divisionId
+     * Set division
      *
-     * @param integer $divisionId
+     * @param integer $division
      *
      * @return Team
      */
-    public function setDivisionId($divisionId)
+    public function setDivision($division)
     {
-        $this->divisionId = $divisionId;
+        $this->division = $division;
 
         return $this;
     }
 
     /**
-     * Get divisionId
+     * Get division
      *
      * @return int
      */
-    public function getDivisionId()
+    public function getDivision()
     {
-        return $this->divisionId;
+        return $this->division;
     }
 
     /**
-     * Set conferenceId
+     * Set conference
      *
-     * @param integer $conferenceId
+     * @param integer $conference
      *
      * @return Team
      */
-    public function setConferenceId($conferenceId)
+    public function setConference($conference)
     {
-        $this->conferenceId = $conferenceId;
+        $this->conference = $conference;
 
         return $this;
     }
 
     /**
-     * Get conferenceId
+     * Get conference
      *
      * @return int
      */
-    public function getConferenceId()
+    public function getConference()
     {
-        return $this->conferenceId;
+        return $this->conference;
     }
 
     /**
-     * Set stateId
+     * Set state
      *
-     * @param integer $stateId
+     * @param integer $state
      *
      * @return Team
      */
-    public function setStateId($stateId)
+    public function setState($state)
     {
-        $this->stateId = $stateId;
+        $this->state = $state;
 
         return $this;
     }
 
     /**
-     * Get stateId
+     * Get state
      *
      * @return int
      */
-    public function getStateId()
+    public function getState()
     {
-        return $this->stateId;
+        return $this->state;
     }
 
     /**
-     * Set stadiumId
+     * Set stadium
      *
-     * @param integer $stadiumId
+     * @param integer $stadium
      *
      * @return Team
      */
-    public function setStadiumId($stadiumId)
+    public function setStadium($stadium)
     {
-        $this->stadiumId = $stadiumId;
+        $this->stadium = $stadium;
 
         return $this;
     }
 
     /**
-     * Get statiumId
+     * Get stadium
      *
      * @return int
      */
-    public function getStatiumId()
+    public function getStadium()
     {
-        return $this->statiumId;
+        return $this->stadium;
     }
 
     /**
-     * Set trainerId
+     * Set trainer
      *
-     * @param integer $trainerId
+     * @param integer $trainer
      *
      * @return Team
      */
-    public function setTrainerId($trainerId)
+    public function setTrainer($trainer)
     {
-        $this->trainerId = $trainerId;
+        $this->trainer = $trainer;
 
         return $this;
     }
 
     /**
-     * Get trainerId
+     * Get trainer
      *
      * @return int
      */
-    public function getTrainerId()
+    public function getTrainer()
     {
-        return $this->trainerId;
+        return $this->trainer;
     }
 
     /**
