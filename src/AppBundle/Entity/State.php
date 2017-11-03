@@ -24,9 +24,9 @@ class State
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="state_name", type="string", length=255)
      */
-    private $name;
+    private $stateName;
 
     /**
      * @var string
@@ -34,6 +34,22 @@ class State
      * @ORM\Column(name="slug_state", type="string", length=255)
      */
     private $slugState;
+
+    /**
+     *
+     *
+     * @ORM\ManyToOne(targetEntity="Conference", inversedBy="state")
+     * @ORM\JoinColumn(name="conference_id", referencedColumnName="id")
+     */
+    private $conference;
+
+    /**
+     *
+     *
+     * @ORM\ManyToOne(targetEntity="Division", inversedBy="state")
+     * @ORM\JoinColumn(name="division_id", referencedColumnName="id")
+     */
+    private $division;
 
 
     /**
@@ -49,13 +65,13 @@ class State
     /**
      * Set name
      *
-     * @param string $name
+     * @param string $stateName
      *
      * @return State
      */
-    public function setName($name)
+    public function setStateName($stateName)
     {
-        $this->name = $name;
+        $this->stateName = $stateName;
 
         return $this;
     }
@@ -65,9 +81,9 @@ class State
      *
      * @return string
      */
-    public function getName()
+    public function getStateName()
     {
-        return $this->name;
+        return $this->stateName;
     }
 
     /**
@@ -92,6 +108,48 @@ class State
     public function getSlugState()
     {
         return $this->slugState;
+    }
+
+    /**
+     * Set conference
+     *
+     * @return string
+     */
+    public function setConference($conference)
+    {
+        $this->conference = $conference;
+
+        return $this->conference;
+    }
+    /**
+     * Get conference
+     *
+     * @return string
+     */
+    public function getConference()
+    {
+        return $this->conference;
+    }
+
+    /**
+     * Set division
+     *
+     * @return string
+     */
+    public function setDivision($division)
+    {
+        $this->division = $division;
+
+        return $this->division;
+    }
+    /**
+     * Get division
+     *
+     * @return string
+     */
+    public function getDivision()
+    {
+        return $this->division;
     }
 }
 
