@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+    {% block header %}
+        <h1>Create New Division</h1>
+    {% endblock header %}
+
+{% block body %}
+
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h1>All Divisions</h1>
+                    <ul>
+                        {% for division in divisions %}
+                            <li>
+                                <h3>
+                                    {{ division.name }}
+                                </h3>
+                                <p>
+                                    {{ division.conference.name }}
+                                </p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {{ form_start(form, { 'action': path('division.new')}) }}
+                    <div class="form-group">
+                        {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.slugDivision, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.conference, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

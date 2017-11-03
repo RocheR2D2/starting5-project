@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+    {% block header %}
+        <h1>Create New Town</h1>
+    {% endblock header %}
+
+{% block body %}
+
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h2>All Towns</h2>
+                    <ul>
+                        {% for town in towns %}
+                            <li>
+                                <h5>
+                                    {{ town.name }}
+                                </h5>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {{ form_start(form, { 'action': path('town.new')}) }}
+                    <div class="form-group">
+                        {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.slugTown, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+    {% block header %}
+        <h1>Create New State</h1>
+    {% endblock header %}
+
+{% block body %}
+
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h2>All States</h2>
+                    <ul>
+                        {% for state in states %}
+                            <li>
+                                <h5>
+                                    {{ state.stateName }} -
+                                    {{ state.conference.name }} -
+                                    {{ state.division.name }}
+                                </h5>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {{ form_start(form, { 'action': path('state.new')}) }}
+                    <div class="form-group">
+                        {{ form_row(form.stateName, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.slugState, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.conference, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.division, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
