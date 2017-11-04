@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Team;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Form\TeamType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -71,6 +71,30 @@ class TeamController extends Controller
         return $this->render('starting5/admin/team/new.html.twig', array(
             'form' => $form->createView(),
             'teams' => $teams
+        ));
+    }
+
+    public function editAction(Request $request, $id)
+    {
+        $teamRepository = $this->getDoctrine()->getRepository(Team::class);
+        $team = $teamRepository->find($id);
+        $form = $this->createForm(TeamType::class, $team);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $team = $form->getData();
+            $em->persist($team);
+            $em->flush();
+
+            return $this->redirectToRoute('team.edit', ['id' => $id]);
+        }
+
+            return $this->render('starting5/admin/team/edit.html.twig', array(
+            'form' => $form->createView(),
+            'team' => $team,
+            'id' => $id
         ));
     }
 }
