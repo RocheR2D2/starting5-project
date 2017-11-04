@@ -57,3 +57,10 @@ team.new:
     path:     /admin/team/new
     defaults: { _controller: AppBundle:Team:new }
     methods:  [GET, POST]
+
+team.edit:
+    path:     /admin/team/{id}/edit
+    defaults: { _controller: AppBundle:Team:edit }
+    requirements:
+            id: '\d+'
+    methods:  [GET, POST]
