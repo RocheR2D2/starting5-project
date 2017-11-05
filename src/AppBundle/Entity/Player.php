@@ -36,6 +36,13 @@ class Player
     private $lastname;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="slug_player", type="string", length=255)
+     */
+    private $slugPlayer;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="shirt_number", type="integer")
@@ -194,6 +201,30 @@ class Player
     public function getLastname()
     {
         return $this->lastname;
+    }
+
+    /**
+     * Set slugPlayer
+     *
+     * @param string $slugPlayer
+     *
+     * @return Player
+     */
+    public function setSlugPlayer($slugPlayer)
+    {
+        $this->slugPlayer = $slugPlayer;
+
+        return $this;
+    }
+
+    /**
+     * Get slugPlayer
+     *
+     * @return string
+     */
+    public function getSlugPlayer()
+    {
+        return $this->slugPlayer;
     }
 
     /**
