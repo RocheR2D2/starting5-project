@@ -64,3 +64,15 @@ team.edit:
     requirements:
             id: '\d+'
     methods:  [GET, POST]
+
+player.new:
+    path:     /admin/player/new
+    defaults: { _controller: AppBundle:Player:new }
+    methods:  [GET, POST]
+
+player.edit:
+    path:     /admin/player/{id}/edit
+    defaults: { _controller: AppBundle:Player:edit }
+    requirements:
+            id: '\d+'
+    methods:  [GET, POST]
