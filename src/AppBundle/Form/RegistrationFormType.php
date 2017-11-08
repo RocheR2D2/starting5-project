@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use FOS\UserBundle\Util\LegacyFormHelper;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,6 +21,11 @@ class RegistrationFormType extends AbstractType
             ->add('username', null, array('label' => 'Pseudo', 'translation_domain' => 'FOSUserBundle'))
             ->add('firstname', null, array('label' => 'Firstname', 'translation_domain' => 'FOSUserBundle'))
             ->add('lastname', null, array('label' => 'Lastname', 'translation_domain' => 'FOSUserBundle'))
+            ->add('team', EntityType::class, array(
+                'label' => 'My Fav Team',
+                'class' => 'AppBundle:Team',
+                'choice_label' => 'name',
+            ))
             ->add('plainPassword', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\RepeatedType'), array(
                 'type' => LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\PasswordType'),
                 'options' => array('translation_domain' => 'FOSUserBundle'),

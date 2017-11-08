@@ -76,17 +76,21 @@ class User extends BaseUser
     protected $country;
 
     /**
-     * @var
-     *
      * @ORM\Column(name="phone", type="string", length=255, nullable=true)
      */
     protected $phone;
+
     /**
      * @var integer
      *
-     * @ORM\Column(name="team_id", type="integer")
+     * @ORM\Column(name="quiz_points", type="integer")
      */
-    protected $teamId;
+    protected $quizPoints;
+    /**
+     * @ORM\ManyToOne(targetEntity="Team", inversedBy="user")
+     * @ORM\JoinColumn(name="team_id", referencedColumnName="id")
+     */
+    protected $team;
 
     /**
      * Constructor
@@ -211,22 +215,6 @@ class User extends BaseUser
     }
 
     /**
-     * @param int $teamId
-     */
-    public function setTeamId($teamId)
-    {
-        $this->teamId = $teamId;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTeamId()
-    {
-        return $this->teamId;
-    }
-
-    /**
      * @param mixed $zipCode
      */
     public function setZipCode($zipCode)
@@ -258,4 +246,34 @@ class User extends BaseUser
         return $this->phone;
     }
 
+    /**
+     * @return int
+     */
+    public function getQuizPoints()
+    {
+        return $this->quizPoints;
+    }
+
+    /**
+     * @param int $quizPoints
+     */
+    public function setQuizPoints($quizPoints)
+    {
+        $this->quizPoints = $quizPoints;
+    }
+    /**
+     * @return mixed
+     */
+    public function getTeam()
+    {
+        return $this->team;
+    }
+
+    /**
+     * @param mixed $team
+     */
+    public function setTeam($team)
+    {
+        $this->team = $team;
+    }
 }
