@@ -6,6 +6,7 @@ use AppBundle\Entity\Team;
 use AppBundle\Form\TeamType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,7 @@ class TeamController extends Controller
         $form = $this->createFormBuilder($team)
             ->add('name', TextType::class, array('label' => 'Name of Team'))
             ->add('slugTeam', TextType::class, array('label' => 'Slug of Team'))
+            ->add('isTop', CheckboxType::class, array('label' => 'Is top of the division ?', 'required' => false))
             ->add('conference', EntityType::class, array(
             'label' => 'Select Conference',
             'class' => 'AppBundle:Conference',

@@ -15,6 +15,7 @@ use AppBundle\Entity\Team;
 use FOS\UserBundle\Util\LegacyFormHelper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,6 +30,7 @@ class TeamType extends AbstractType
         $builder
             ->add('name', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\TextType'), array('label' => 'Name of Team', 'translation_domain' => 'FOSUserBundle'))
             ->add('slugTeam', TextType::class, array('label' => 'Slug of Team'))
+            ->add('isTop', CheckboxType::class, array('label' => 'Is top of the division ?', 'required' => false))
             ->add('conference', EntityType::class, array(
                 'label' => 'Select Conference',
                 'class' => 'AppBundle:Conference',

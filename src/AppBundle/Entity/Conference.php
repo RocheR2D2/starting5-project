@@ -30,7 +30,6 @@ class Conference
 
     /**
      *
-     *
      * @ORM\OneToMany(targetEntity="State", mappedBy="conference")
      */
     private $state;
