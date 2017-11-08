@@ -29,7 +29,10 @@ class PlayerController extends Controller
             ->add('slugPlayer', TextType::class, array('label' => 'Slug of Player'))
             ->add('shirtNumber', NumberType::class, array('label' => '# of Player'))
             ->add('nbaDebut', NumberType::class, array('label' => 'NBA Debut'))
-            ->add('born', BirthdayType::class, array('label' => 'Date of Birth'))
+            ->add('born', BirthdayType::class, array(
+                'label' => 'Date of Birth',
+                'years' => range(date('Y') - 40, date('Y'))
+            ))
             ->add('fGPercentage', NumberType::class, array('label' => 'FG%'))
             ->add('threePointsPercentage', NumberType::class, array('label' => '3P%'))
             ->add('fTPercentage', NumberType::class, array('label' => 'FT%'))
