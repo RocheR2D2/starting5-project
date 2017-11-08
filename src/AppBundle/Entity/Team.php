@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -71,6 +72,24 @@ class Team
      */
     private $town;
 
+    /**
+     * One Team has Many Players.
+     * @ORM\OneToMany(targetEntity="Player", mappedBy="team", fetch="EAGER")
+     */
+    private $players;
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_top", type="boolean")
+     */
+    private $isTop;
+
+    /**
+     * Team constructor.
+     */
+    public function __construct() {
+        $this->players = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -80,6 +99,22 @@ class Team
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlayers()
+    {
+        return $this->players;
+    }
+
+    /**
+     * @param mixed $players
+     */
+    public function setPlayers($players)
+    {
+        $this->players = $players;
     }
 
     /**
@@ -272,6 +307,21 @@ class Team
     public function getTown()
     {
         return $this->town;
+    }
+    /**
+     * @return bool
+     */
+    public function isTop()
+    {
+        return $this->isTop;
+    }
+
+    /**
+     * @param bool $isTop
+     */
+    public function setIsTop($isTop)
+    {
+        $this->isTop = $isTop;
     }
 }
 
