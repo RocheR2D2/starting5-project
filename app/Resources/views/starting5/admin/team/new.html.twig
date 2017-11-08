@@ -10,47 +10,61 @@
         <div class="container">
             <h2>All Teams</h2>
             <div class="row">
-                        {% for team in teams %}
-                            <div class="col-md-3">
-                                <img src="{{ asset('images/teams/' ~ team.slugTeam ~ '.svg') }}" alt="{{ team.name }}" width="100%">
-                                <h5>
-                                    {{ team.name }} ({{ team.town.name }}, {{ team.state.stateName }})
-                                </h5>
-                                <p>{{ team.stadium.name }}</p>
-                                <p>{{ team.conference.name }} - {{ team.division.name }}</p>
-                                <a href="{{ path('team.edit', {'id': team.id}) }}">Edit Team</a>
-                            </div>
-                        {% endfor %}
+                {% for team in teams %}
+                    <div class="col-md-3">
+                        <img src="{{ asset('images/teams/' ~ team.slugTeam ~ '.svg') }}" alt="{{ team.name }}" width="100%">
+                        <h5>
+                            {{ team.name }} ({{ team.town.name }}, {{ team.state.stateName }})
+                        </h5>
+                        <p>{{ team.stadium.name }}</p>
+                        <p>{{ team.conference.name }} - {{ team.division.name }}</p>
+                        <p>Players</p>
+                        <ul>
+                            {% for player in team.players %}
+                                <li>
+                                    <a href="{{ path('player.edit', {'id' : player.id}) }}">
+                                        {{ player.firstname }}
+                                        {{ player.lastname }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <a href="{{ path('team.edit', {'id': team.id}) }}">Edit Team</a>
+                    </div>
+                {% endfor %}
             </div>
             <hr>
             <div class="col-md-8 col-md-offset-2">
                 <h2>Create New Team</h2>
-                    {{ form_start(form, { 'action': path('team.new')}) }}
-                    <div class="form-group">
-                        {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_row(form.slugTeam, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_row(form.conference, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_row(form.division, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_row(form.state, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_row(form.town, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_row(form.stadium, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_row(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
-                    </div>
-                    {{ form_end(form) }}
+                {{ form_start(form, { 'action': path('team.new')}) }}
+                <div class="form-group">
+                    {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(form.slugTeam, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(form.conference, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(form.division, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(form.state, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(form.town, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(form.stadium, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(form.isTop, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+                </div>
+                {{ form_end(form) }}
             </div>
         </div>
     </section>
