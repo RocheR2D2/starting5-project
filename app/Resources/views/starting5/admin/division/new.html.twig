@@ -8,21 +8,56 @@
 
     <section id="about">
         <div class="container">
+            <h1>All Divisions</h1>
             <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h1>All Divisions</h1>
-                    <ul>
-                        {% for division in divisions %}
-                            <li>
-                                <h3>
-                                    {{ division.name }}
-                                </h3>
-                                <p>
-                                    {{ division.conference.name }}
-                                </p>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                {% for division in divisions %}
+                    <div class="col-md-3">
+                        <h3>
+                            {{ division.name }}
+                        </h3>
+                        <div>
+                            {% for team in division.team %}
+                                <img src="{{ asset('images/teams/' ~ team.slugTeam ~ '.svg') }}"
+                                     alt="{{ team.name }}" width="100%">
+                                {% if team.isTop == false %}
+                                    <p>
+                                        <a href="{{ path('team.edit', {'id' : team.id}) }}">
+                                            {{ team.name }}
+                                        </a>
+                                    </p>
+                                    <ul>
+                                        {% for player in team.players %}
+                                            <li>
+                                                <a href="{{ path('player.edit', {'id': player.id}) }}">
+                                                    {{ player.firstname }} {{ player.lastname }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p>
+                                        <a href="{{ path('team.edit', {'id' : team.id}) }}">
+                                            {{ team.name }}
+                                        </a>
+                                    </p>
+                                    <ul>
+                                        {% for player in team.players %}
+                                            <li>
+                                                <a href="{{ path('player.edit', {'id': player.id}) }}">
+                                                    {{ player.firstname }} {{ player.lastname }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-12">
                     {{ form_start(form, { 'action': path('division.new')}) }}
                     <div class="form-group">
                         {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
