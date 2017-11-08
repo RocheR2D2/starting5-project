@@ -41,6 +41,11 @@ class Division
      */
     private $conference;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Team", mappedBy="division", fetch="EAGER")
+     */
+    private $team;
+
 
     /**
      * Get id
@@ -119,6 +124,21 @@ class Division
     public function getConference()
     {
         return $this->conference;
+    }
+    /**
+     * @return mixed
+     */
+    public function getTeam()
+    {
+        return $this->team;
+    }
+
+    /**
+     * @param mixed $team
+     */
+    public function setTeam($team)
+    {
+        $this->team = $team;
     }
 }
 
