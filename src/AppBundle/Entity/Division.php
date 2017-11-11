@@ -45,7 +45,10 @@ class Division
      * @ORM\OneToMany(targetEntity="Team", mappedBy="division", fetch="EAGER")
      */
     private $team;
-
+    /**
+     * @ORM\OneToMany(targetEntity="UserDivision", mappedBy="division", fetch="EAGER")
+     */
+    private $userDivision;
 
     /**
      * Get id
@@ -139,6 +142,21 @@ class Division
     public function setTeam($team)
     {
         $this->team = $team;
+    }
+    /**
+     * @return mixed
+     */
+    public function getUserDivision()
+    {
+        return $this->userDivision;
+    }
+
+    /**
+     * @param mixed $userDivision
+     */
+    public function setUserDivision($userDivision)
+    {
+        $this->userDivision = $userDivision;
     }
 }
 

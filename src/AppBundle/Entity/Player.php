@@ -34,6 +34,11 @@ class Player
      * @ORM\Column(name="lastname", type="string", length=255)
      */
     private $lastname;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="firstname", type="string", length=255)
+     */
 
     /**
      * @var string
@@ -585,6 +590,10 @@ class Player
     public function getNbaDebut()
     {
         return $this->nbaDebut;
+    }
+
+    public function getFullName(){
+        return $this->firstname.' '.$this->lastname;
     }
 }
 

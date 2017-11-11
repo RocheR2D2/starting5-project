@@ -122,5 +122,10 @@ class Trainer
     {
         return $this->team;
     }
+
+    public function getFullName()
+    {
+        return $this->firstname.' '.$this->lastname;
+    }
 }
 

@@ -76,3 +76,8 @@ player.edit:
     requirements:
             id: '\d+'
     methods:  [GET, POST]
+
+user.team.new:
+    path:     /teams/new
+    defaults: { _controller: AppBundle:Dashboard:new }
+    methods:  [GET, POST]

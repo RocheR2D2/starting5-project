@@ -1,0 +1,58 @@
+<h1>Small Forwards available</h1>
+<label for="form_smallForward" class="required">Select My Small Forward</label>
+<select id="form_smallForward" name="form[smallForward]">
+{% for userDivision in userDivisions %}
+        {% for team in userDivision.division.team %}
+            {% if team.isTop %}
+                {% if team.id in userTopTeams %}
+                    {% if team.smallForwards|length > 0 %}
+                        {% for sf in team.smallForwards %}
+                            <option value="{{ sf.id }}">{{ sf.fullname }}</option>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                {% if team.smallForwards|length > 0 %}
+                    {% for sf in team.smallForwards %}
+                        <option value="{{ sf.id }}">{{ sf.fullname }}</option>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </select>
+{% endfor %}
+{% for userDivision in userDivisions %}
+    <div class="row">
+        {% for team in userDivision.division.team %}
+            <div class="col-md-4 text-center">
+                <img src="{{ asset('images/teams/' ~ team.slugTeam ~ '.svg') }}"
+                     alt="{{ team.name }}" width="100px">
+                {% if team.isTop %}
+                    {% if team.id in userTopTeams %}
+                        {% if team.smallForwards|length > 0 %}
+                            {% for sf in team.smallForwards %}
+                                <div>
+                                    #{{ sf.shirtNumber }} - {{ sf.fullname }}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>No Small Forwards available for this team</p>
+                        {% endif %}
+                    {% else %}
+                        <p>Lock Team</p>
+                    {% endif %}
+                {% else %}
+                    {% if team.smallForwards|length > 0 %}
+                        {% for sf in team.smallForwards %}
+                            <div>
+                                #{{ sf.shirtNumber }} - {{ sf.fullname }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No Small Forwards available for this team</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}

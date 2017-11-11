@@ -1,0 +1,58 @@
+<h1>Power Forwards available</h1>
+<label for="form_powerForward" class="required">Select My Power Forward</label>
+<select id="form_powerForward" name="form[powerForward]">
+    {% for userDivision in userDivisions %}
+    {% for team in userDivision.division.team %}
+        {% if team.isTop %}
+            {% if team.id in userTopTeams %}
+                {% if team.powerForwards|length > 0 %}
+                    {% for pf in team.powerForwards %}
+                        <option value="{{ pf.id }}">{{ pf.fullname }}</option>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        {% else %}
+            {% if team.powerForwards|length > 0 %}
+                {% for pf in team.powerForwards %}
+                    <option value="{{ pf.id }}">{{ pf.fullname }}</option>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</select>
+{% endfor %}
+{% for userDivision in userDivisions %}
+    <div class="row">
+        {% for team in userDivision.division.team %}
+            <div class="col-md-4 text-center">
+                <img src="{{ asset('images/teams/' ~ team.slugTeam ~ '.svg') }}"
+                     alt="{{ team.name }}" width="100px">
+                {% if team.isTop %}
+                    {% if team.id in userTopTeams %}
+                        {% if team.powerForwards|length > 0 %}
+                            {% for pf in team.powerForwards %}
+                                <div>
+                                    #{{ pf.shirtNumber }} - {{ pf.fullname }}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>No Power Forwards available for this team</p>
+                        {% endif %}
+                    {% else %}
+                        <p>Lock Team</p>
+                    {% endif %}
+                {% else %}
+                    {% if team.powerForwards|length > 0 %}
+                        {% for pf in team.powerForwards %}
+                            <div>
+                                #{{ pf.shirtNumber }} - {{ pf.fullname }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No Power Forwards available for this team</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}

@@ -29,3 +29,4 @@ security:
         - { path: ^/admin/state/new, role: ROLE_ADMIN }
         - { path: ^/admin/division/new, role: ROLE_ADMIN }
         - { path: ^/dashboard, role: ROLE_USER }
+        - { path: ^/teams/new, role: ROLE_USER }

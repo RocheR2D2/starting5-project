@@ -1,0 +1,58 @@
+<h1>Shooting Guards available</h1>
+<label for="form_shootingGuard" class="required">Select My Shooting Guard</label>
+<select id="form_shootingGuard" name="form[shootingGuard]">
+    {% for userDivision in userDivisions %}
+    {% for team in userDivision.division.team %}
+        {% if team.isTop %}
+            {% if team.id in userTopTeams %}
+                {% if team.shootingGuards|length > 0 %}
+                    {% for sg in team.shootingGuards %}
+                        <option value="{{ sg.id }}">{{ sg.fullname }}</option>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        {% else %}
+            {% if team.shootingGuards|length > 0 %}
+                {% for sg in team.shootingGuards %}
+                    <option value="{{ sg.id }}">{{ sg.fullname }}</option>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    {% endfor %}
+</select>
+{% for userDivision in userDivisions %}
+    <div class="row">
+        {% for team in userDivision.division.team %}
+            <div class="col-md-4 text-center">
+                <img src="{{ asset('images/teams/' ~ team.slugTeam ~ '.svg') }}"
+                     alt="{{ team.name }}" width="100px">
+                {% if team.isTop %}
+                    {% if team.id in userTopTeams %}
+                        {% if team.shootingGuards|length > 0 %}
+                            {% for sg in team.shootingGuards %}
+                                <div>
+                                    #{{ sg.shirtNumber }} - {{ sg.fullname }}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>No Point Guards available for this team</p>
+                        {% endif %}
+                    {% else %}
+                        <p>Lock Team</p>
+                    {% endif %}
+                {% else %}
+                    {% if team.shootingGuards|length > 0 %}
+                        {% for sg in team.shootingGuards %}
+                            <div>
+                                #{{ sg.shirtNumber }} - {{ sg.fullname }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No Shooting Guards available for this team</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}

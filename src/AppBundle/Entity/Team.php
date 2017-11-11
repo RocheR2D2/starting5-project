@@ -84,6 +84,12 @@ class Team
      */
     private $isTop;
 
+    const POINT_GUARD_POSITION_ID = 1;
+    const SHOOTING_GUARD_POSITION_ID = 2;
+    const SMALL_FORWARD_POSITION_ID = 3;
+    const POWER_FORWARD_POSITION_ID = 4;
+    const CENTER_POSITION_ID = 5;
+
     /**
      * Team constructor.
      */
@@ -322,6 +328,61 @@ class Team
     public function setIsTop($isTop)
     {
         $this->isTop = $isTop;
+    }
+
+    public function getPointGuards(){
+        $pointGuards = new ArrayCollection();
+        foreach($this->getPlayers() as $player){
+            if($player->getPosition()->getId() == self::POINT_GUARD_POSITION_ID){
+                $pointGuards[] = $player;
+            };
+        }
+
+        return $pointGuards;
+    }
+
+    public function getShootingGuards(){
+        $shootingGuards = new ArrayCollection();
+        foreach($this->getPlayers() as $player){
+            if($player->getPosition()->getId() == self::SHOOTING_GUARD_POSITION_ID){
+                $shootingGuards[] = $player;
+            };
+        }
+
+        return $shootingGuards;
+    }
+
+    public function getSmallForwards(){
+        $smallForwards = new ArrayCollection();
+        foreach($this->getPlayers() as $player){
+            if($player->getPosition()->getId() == self::SMALL_FORWARD_POSITION_ID){
+                $smallForwards[] = $player;
+            };
+        }
+
+        return $smallForwards;
+    }
+
+    public function getPowerForwards(){
+        $powerForwards = new ArrayCollection();
+        foreach($this->getPlayers() as $player){
+            if($player->getPosition()->getId() == self::POWER_FORWARD_POSITION_ID){
+                $powerForwards[] = $player;
+            };
+        }
+
+        return $powerForwards;
+    }
+
+    public function getCenters(){
+        $centers = new ArrayCollection();
+        foreach($this->getPlayers() as $player){
+            if($player->getPosition()->getId() == self::CENTER_POSITION_ID){
+                $centers[] = $player;
+            };
+        }
+
+        return $centers;
     }
 }
 
