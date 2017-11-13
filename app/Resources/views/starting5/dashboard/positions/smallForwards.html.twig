@@ -1,7 +1,7 @@
 <h1>Small Forwards available</h1>
 <label for="form_smallForward" class="required">Select My Small Forward</label>
 <select id="form_smallForward" name="form[smallForward]">
-{% for userDivision in userDivisions %}
+    {% for userDivision in userDivisions %}
         {% for team in userDivision.division.team %}
             {% if team.isTop %}
                 {% if team.id in userTopTeams %}
@@ -12,15 +12,15 @@
                     {% endif %}
                 {% endif %}
             {% else %}
-                {% if team.smallForwards|length > 0 %}
+                {% if team.pointGuards|length > 0 %}
                     {% for sf in team.smallForwards %}
                         <option value="{{ sf.id }}">{{ sf.fullname }}</option>
                     {% endfor %}
                 {% endif %}
             {% endif %}
         {% endfor %}
-    </select>
-{% endfor %}
+    {% endfor %}
+</select>
 {% for userDivision in userDivisions %}
     <div class="row">
         {% for team in userDivision.division.team %}
@@ -29,7 +29,7 @@
                      alt="{{ team.name }}" width="100px">
                 {% if team.isTop %}
                     {% if team.id in userTopTeams %}
-                        {% if team.smallForwards|length > 0 %}
+                        {% if team.centers|length > 0 %}
                             {% for sf in team.smallForwards %}
                                 <div>
                                     #{{ sf.shirtNumber }} - {{ sf.fullname }}
@@ -42,7 +42,7 @@
                         <p>Lock Team</p>
                     {% endif %}
                 {% else %}
-                    {% if team.smallForwards|length > 0 %}
+                    {% if team.centers|length > 0 %}
                         {% for sf in team.smallForwards %}
                             <div>
                                 #{{ sf.shirtNumber }} - {{ sf.fullname }}

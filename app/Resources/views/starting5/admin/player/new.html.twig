@@ -70,20 +70,6 @@
                 </div>
                 {{ form_end(form) }}
             </div>
-            <hr>
-            <h2>All Players</h2>
-            <div class="row">
-                {% for player in players %}
-                    <div class="col-md-3">
-                        <img src="{{ asset('images/players/' ~ player.slugPlayer ~ '.jpg') }}"
-                             alt="{{ player.slugPlayer }}" width="100%">
-                        <h5>
-                            {{ player.firstname }} {{ player.lastname }}
-                        </h5>
-                        <a href="{{ path('player.edit', {'id': player.id}) }}">Edit Player</a>
-                    </div>
-                {% endfor %}
-            </div>
         </div>
     </section>
 
