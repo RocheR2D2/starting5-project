@@ -26,7 +26,6 @@ class PlayerController extends Controller
         $form = $this->createFormBuilder($player)
             ->add('firstname', TextType::class, array('label' => 'Firstname of Player'))
             ->add('lastname', TextType::class, array('label' => 'Lastname of Player'))
-            ->add('slugPlayer', TextType::class, array('label' => 'Slug of Player'))
             ->add('shirtNumber', NumberType::class, array('label' => '# of Player'))
             ->add('nbaDebut', NumberType::class, array('label' => 'NBA Debut'))
             ->add('born', BirthdayType::class, array(

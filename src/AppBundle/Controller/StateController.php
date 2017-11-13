@@ -23,7 +23,6 @@ class StateController extends Controller
 
         $form = $this->createFormBuilder($state)
             ->add('stateName', TextType::class, array('label' => 'Name of State'))
-            ->add('slugState', TextType::class, array('label' => 'Slug of State'))
             ->add('conference', EntityType::class, array(
                 'label' => 'Select Conference',
                 'class' => 'AppBundle:Conference',

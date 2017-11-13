@@ -31,7 +31,7 @@ class State
     /**
      * @var string
      *
-     * @ORM\Column(name="slug_state", type="string", length=255)
+     * @ORM\Column(name="slug_state", type="string", length=255, nullable=true)
      */
     private $slugState;
 

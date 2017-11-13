@@ -43,7 +43,7 @@ class Player
     /**
      * @var string
      *
-     * @ORM\Column(name="slug_player", type="string", length=255)
+     * @ORM\Column(name="slug_player", type="string", length=255, nullable=true)
      */
     private $slugPlayer;
 
