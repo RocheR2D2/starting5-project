@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\NBAPlayers;
 use AppBundle\Entity\Player;
 use AppBundle\Form\PlayerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -15,6 +16,54 @@ use Symfony\Component\HttpFoundation\Request;
 class PlayerController extends Controller
 {
     /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function indexAction(){
+        $NBAPlayersRepository = $this->getDoctrine()->getRepository(NBAPlayers::class);
+        $guards = $NBAPlayersRepository->getGuards();
+
+        return $this->render('starting5/players/index.html.twig', [
+            'guards' => $guards
+        ]);
+    }
+
+    public function guardsAction(){
+        $NBAPlayersRepository = $this->getDoctrine()->getRepository(NBAPlayers::class);
+        $guards = $NBAPlayersRepository->getGuards();
+
+        return $this->render('starting5/players/guards/index.html.twig', [
+            'guards' => $guards
+        ]);
+    }
+
+    public function forwardsAction(){
+        $NBAPlayersRepository = $this->getDoctrine()->getRepository(NBAPlayers::class);
+        $forwards = $NBAPlayersRepository->getForwards();
+
+        return $this->render('starting5/players/forward/index.html.twig', [
+            'forwards' => $forwards
+        ]);
+    }
+
+    public function centersAction(){
+        $NBAPlayersRepository = $this->getDoctrine()->getRepository(NBAPlayers::class);
+        $centers = $NBAPlayersRepository->getCenters();
+
+        return $this->render('starting5/players/center/index.html.twig', [
+            'centers' => $centers
+        ]);
+    }
+
+    public function playerAction($playerId){
+        $NBAPlayersRepository = $this->getDoctrine()->getRepository(NBAPlayers::class);
+        $player = $NBAPlayersRepository->getProfile($playerId);
+
+        return $this->render('starting5/players/profile.html.twig', [
+            'player' => $player
+        ]);
+    }
+
+    /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -22,6 +71,9 @@ class PlayerController extends Controller
         $playerRepository = $this->getDoctrine()->getRepository(Player::class);
         $players = $playerRepository->findAll();
         $player = new Player();
+
+        $NBAPlayersRepository = $this->getDoctrine()->getRepository(NBAPlayers::class);
+        $guards = $NBAPlayersRepository->getGuards();
 
         $form = $this->createFormBuilder($player)
             ->add('firstname', TextType::class, array('label' => 'Firstname of Player'))
@@ -77,7 +129,8 @@ class PlayerController extends Controller
 
         return $this->render('starting5/admin/player/new.html.twig', array(
             'form' => $form->createView(),
-            'players' => $players
+            'players' => $players,
+            'guards' => $guards
         ));
     }
 
