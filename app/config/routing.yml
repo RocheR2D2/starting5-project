@@ -56,7 +56,7 @@ admin:
     defaults: { _controller: AppBundle:Admin:index }
 
 user.team.new:
-    path:     /teams/new
+    path:     /team/new
     defaults: { _controller: AppBundle:Dashboard:new }
     methods:  [GET, POST]
 
@@ -66,3 +66,23 @@ user.team.edit:
     requirements:
             id: '\d+'
     methods:  [GET, POST]
+
+user.players:
+    path:     /my-players
+    defaults: { _controller: AppBundle:MyPlayers:index }
+    methods:  [GET]
+
+user.players.guard:
+    path:     /my-players/guards
+    defaults: { _controller: AppBundle:MyPlayers:guard }
+    methods:  [GET]
+
+user.players.forward:
+    path:     /my-players/forwards
+    defaults: { _controller: AppBundle:MyPlayers:forward }
+    methods:  [GET]
+
+user.players.center:
+    path:     /my-players/centers
+    defaults: { _controller: AppBundle:MyPlayers:center }
+    methods:  [GET]
