@@ -20,8 +20,14 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
         $playersJson = file_get_contents('http://data.nba.net/10s/prod/v1/2017/players.json');
         $playersDecode = json_decode($playersJson);
         $players = $playersDecode->league->standard;
+        $nbaPlayers = [];
+        foreach ($players as $player) {
+            if($player->nbaDebutYear){
+                $nbaPlayers[] = $player;
+            }
+        }
 
-        return $players;
+        return $nbaPlayers;
     }
 
     /**
@@ -84,6 +90,11 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
         return null;
     }
 
+    /**
+     * @param $players
+     * @param $positionCode
+     * @param $positionArray
+     */
     public function getPlayerPosition($players, $positionCode, $positionArray)
     {
         foreach ($players as $player) {
