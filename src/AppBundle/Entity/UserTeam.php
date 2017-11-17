@@ -28,27 +28,27 @@ class UserTeam
      */
     private $name;
     /**
-     * @ORM\ManyToOne(targetEntity="Player", inversedBy="userTeam")
+     * @ORM\ManyToOne(targetEntity="NBAPlayers", inversedBy="userTeam")
      * @ORM\JoinColumn(name="point_guard", referencedColumnName="id")
      */
     private $pointGuard;
     /**
-     * @ORM\ManyToOne(targetEntity="Player", inversedBy="userTeam")
+     * @ORM\ManyToOne(targetEntity="NBAPlayers", inversedBy="userTeam")
      * @ORM\JoinColumn(name="shooting_guard", referencedColumnName="id")
      */
     private $shootingGuard;
     /**
-     * @ORM\ManyToOne(targetEntity="Player", inversedBy="userTeam")
+     * @ORM\ManyToOne(targetEntity="NBAPlayers", inversedBy="userTeam")
      * @ORM\JoinColumn(name="power_forward", referencedColumnName="id")
      */
     private $powerForward;
     /**
-     * @ORM\ManyToOne(targetEntity="Player", inversedBy="userTeam")
+     * @ORM\ManyToOne(targetEntity="NBAPlayers", inversedBy="userTeam")
      * @ORM\JoinColumn(name="small_forward", referencedColumnName="id")
      */
     private $smallForward;
     /**
-     * @ORM\ManyToOne(targetEntity="Player", inversedBy="userTeam")
+     * @ORM\ManyToOne(targetEntity="NBAPlayers", inversedBy="userTeam")
      * @ORM\JoinColumn(name="center", referencedColumnName="id")
      */
     private $center;
