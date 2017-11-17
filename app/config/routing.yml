@@ -25,6 +25,32 @@ dashboard:
     path:     /dashboard
     defaults: { _controller: AppBundle:Dashboard:index }
 
+team:
+    path:     /team
+    defaults: { _controller: AppBundle:Team:index }
+
+players:
+    path:     /players
+    defaults: { _controller: AppBundle:Player:index }
+
+players.guards:
+    path:     /players/guards
+    defaults: { _controller: AppBundle:Player:guards }
+
+players.forwards:
+    path:     /players/forwards
+    defaults: { _controller: AppBundle:Player:forwards }
+
+players.centers:
+    path:     /players/centers
+    defaults: { _controller: AppBundle:Player:centers }
+
+players.profile:
+    path:     /player/{playerId}
+    defaults: { _controller: AppBundle:Player:player }
+    requirements:
+            id: '\d+'
+
 admin:
     path:     /admin
     defaults: { _controller: AppBundle:Admin:index }
@@ -80,4 +106,11 @@ player.edit:
 user.team.new:
     path:     /teams/new
     defaults: { _controller: AppBundle:Dashboard:new }
+    methods:  [GET, POST]
+
+user.team.edit:
+    path:     /teams/{id}/edit
+    defaults: { _controller: AppBundle:Dashboard:edit }
+    requirements:
+            id: '\d+'
     methods:  [GET, POST]
