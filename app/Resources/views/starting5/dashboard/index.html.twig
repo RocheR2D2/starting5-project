@@ -18,29 +18,42 @@
                     </a>
                 </h2>
             </div>
-            <hr>
-            <div class="row">
-                {% if userTeams|length > 0 %}
-                            {% for team in userTeams %}
-                                <div class="col-md-6">
-                                <h2>{{ team.name }} +{{ team.like }} -{{ team.dislike }}</h2>
-                                <p>Coach: {{ team.trainerId.fullName }}</p>
-                                <p>Stadium: {{ team.stadiumId.name }}</p>
-                                <ul>
-                                    <li>PG: {{ team.pointGuard.fullName }}</li>
-                                    <li>SG: {{ team.shootingGuard.fullName }}</li>
-                                    <li>SF: {{ team.smallForward.fullName }}</li>
-                                    <li>PF: {{ team.powerForward.fullName }}</li>
-                                    <li>C: {{ team.center.fullName }}</li>
-                                </ul>
-                                </div>
-                            {% endfor %}
-                    {% else %}
-                        <p class="alert alert-danger">
-                            NO 5IVE AVAILABLE
-                        </p>
-                    {% endif %}
-            </div>
+            {% if userTeams|length > 0 %}
+                {% for team in teams %}
+                    <h2>{{ team['data']['name'] }} <a href="{{ path('user.team.edit', {'id': team['data']['id'] }) }}" class="btn btn-info">Edit this 5IVE</a></h2>
+                    <p>{{ team['data']['trainer'].fullName }}</p>
+                    <p>{{ team['data']['stadium'].name }}</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            {% set player = team['players']['pointGuard'] %}
+                            {% include 'starting5/players/player.html.twig' with {'player': player} %}
+                        </div>
+                        <div class="col-md-4">
+                            {% set player = team['players']['shootingGuard'] %}
+                            {% include 'starting5/players/player.html.twig' with {'player': player} %}
+                        </div>
+                        <div class="col-md-4">
+                            {% set player = team['players']['smallForward'] %}
+                            {% include 'starting5/players/player.html.twig' with {'player': player} %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            {% set player = team['players']['powerForward'] %}
+                            {% include 'starting5/players/player.html.twig' with {'player': player} %}
+                        </div>
+                        <div class="col-md-5">
+                            {% set player = team['players']['center'] %}
+                            {% include 'starting5/players/player.html.twig' with {'player': player} %}
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+            {% else %}
+                <p class="alert alert-danger">
+                    NO 5IVE AVAILABLE
+                </p>
+            {% endif %}
         </div>
     </section>
 {% endblock %}

@@ -9,30 +9,32 @@
     <section id="about">
         <div class="container">
             <div class="row">
-                {{ form_start(form, { 'action': path('user.team.new')}) }}
-                <div class="form-group">
-                    {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+                <div class="col-md-12">
+                    {{ form_start(form, { 'action': path('user.team.new')}) }}
+                    <div class="form-group">
+                        {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.stadiumId, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.trainerId, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <!-- POINT GUARDS -->
+                    {% include 'starting5/dashboard/positions/pointGuards.html.twig' with {'guards':guards} %}
+                    <!-- SHOOTING GUARDS -->
+                    {% include 'starting5/dashboard/positions/shootingGuards.html.twig' with {'guards':guards} %}
+                    <!-- SMALL FORWARDS -->
+                    {% include 'starting5/dashboard/positions/smallForwards.html.twig' with {'forwards':forwards} %}
+                    <!-- POWER FORWARDS -->
+                    {% include 'starting5/dashboard/positions/powerForwards.html.twig' with {'forwards':forwards} %}
+                    <!-- CENTERS -->
+                    {% include 'starting5/dashboard/positions/centers.html.twig' with {'centers':centers} %}
+                    <div class="form-group">
+                        {{ form_row(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+                    </div>
+                    {{ form_end(form) }}
                 </div>
-                <div class="form-group">
-                    {{ form_row(form.stadiumId, {'attr': {'class': 'form-control'}}) }}
-                </div>
-                <div class="form-group">
-                    {{ form_row(form.trainerId, {'attr': {'class': 'form-control'}}) }}
-                </div>
-                <!-- POINT GUARDS -->
-                {% include 'starting5/dashboard/positions/pointGuards.html.twig' with {'userDivisions':userDivisions} %}
-                <!-- SHOOTING GUARDS -->
-                {% include 'starting5/dashboard/positions/shootingGuards.html.twig' with {'userDivisions':userDivisions} %}
-                <!-- SMALL FORWARDS -->
-                {% include 'starting5/dashboard/positions/smallForwards.html.twig' with {'userDivisions':userDivisions} %}
-                <!-- POWER FORWARDS -->
-                {% include 'starting5/dashboard/positions/powerForwards.html.twig' with {'userDivisions':userDivisions} %}
-                <!-- CENTERS -->
-                {% include 'starting5/dashboard/positions/centers.html.twig' with {'userDivisions':userDivisions} %}
-                <div class="form-group">
-                    {{ form_row(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
-                </div>
-                {{ form_end(form) }}
             </div>
         </div>
     </section>
