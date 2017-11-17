@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+    {% block header %}
+        <h1>Welcome to Starting5</h1>
+        <p class="lead">Viens créer ton 5 majeurs de rêve NBA !</p>
+    {% endblock header %}
+
+{% block body %}
+
+    <section id="about">
+        <div class="container">
+            <div class="col-lg-8 mx-auto text-center">
+                <img src="{{ asset('images/teams/' ~ player.teamId ~ '.svg') }}" alt="{{ player.teamId }}"
+                     width="100px">
+                <h2>{{ player['firstName'] }} {{ player['lastName'] }} //
+                    {{ player['heightMeters'] }}m //
+                    {{ player['weightKilograms'] }}kg //
+                    {{ player['country'] }}
+                </h2>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Points Per Game</th>
+                        <th>Assist Per Game</th>
+                        <th>Rebound Per Game</th>
+                        <th>Block Per Game</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{ player['ppg'] }}</td>
+                        <td>{{ player['apg'] }}</td>
+                        <td>{{ player['rpg'] }}</td>
+                        <td>{{ player['bpg'] }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>FG%</th>
+                        <th>3PG%</th>
+                        <th>FT%</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{ player['fgp'] }}</td>
+                        <td>{{ player['tpp'] }}</td>
+                        <td>{{ player['ftp'] }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+{% endblock %}

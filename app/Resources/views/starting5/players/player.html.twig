@@ -1,0 +1,41 @@
+<p>
+    <img src="{{ asset('images/teams/' ~ player.teamId ~ '.svg') }}" alt="{{ player.teamId }}"
+         width="50px">
+    {{ player['firstName'] }} {{ player['lastName'] }} //
+    {{ player['country'] }}
+</p>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>PPG</th>
+        <th>APG</th>
+        <th>RPG</th>
+        <th>BPG</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ player['ppg'] }}</td>
+        <td>{{ player['apg'] }}</td>
+        <td>{{ player['rpg'] }}</td>
+        <td>{{ player['bpg'] }}</td>
+    </tr>
+    </tbody>
+</table>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>FG%</th>
+        <th>3PG%</th>
+        <th>FT%</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>{{ player['fgp'] }}</td>
+        <td>{{ player['tpp'] }}</td>
+        <td>{{ player['ftp'] }}</td>
+    </tr>
+    </tbody>
+</table>

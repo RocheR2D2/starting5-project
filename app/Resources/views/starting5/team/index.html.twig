@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+    {% block header %}
+        <h1>Welcome to Starting5</h1>
+        <p class="lead">Viens créer ton 5 majeurs de rêve NBA !</p>
+    {% endblock header %}
+
+{% block body %}
+
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h2>NBA FRANCHISES</h2>
+                    <ul>
+                        {% for team in teams %}
+                            {% if team.isNBAFranchise %}
+                                <li>{{ team.fullName }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
