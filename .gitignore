@@ -18,3 +18,4 @@
 .env
 .idea
 docker/logs/nginx/*
+/database-backup/*
