@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+    {% block header %}
+        <h1>Welcome to Starting5</h1>
+        <p class="lead">Viens créer ton 5 majeurs de rêve NBA !</p>
+    {% endblock header %}
+
+{% block body %}
+
+    <section id="about">
+        <div class="container">
+            <h2>NBA CENTERS</h2>
+            <div class="row">
+                {% for player in centers %}
+                    {% if(player.nbaDebutYear) %}
+                        <div class="col-md-4 text-center">
+                            {% set teamId  = player.teamId|split(' ') %}
+                            <h3>
+                                #{{ player.jersey }}
+                                <a href="{{ path('players.profile', {'playerId': player.personId}) }}">
+                                    {{ player.firstName }} {{ player.lastName }}
+                                </a>
+                                <img src="{{ asset('images/teams/' ~ teamId[0] ~ '.svg') }}" alt="{{ teamId[0] }}"
+                                     width="100px">
+                            </h3>
+                            <p>{{ player.pos }} - {{ player.heightMeters }}m -  {{ player.weightKilograms }}kg</p>
+                            <p>From {{ player.country }}</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
