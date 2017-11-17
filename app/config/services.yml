@@ -43,3 +43,9 @@ services:
         class: AppBundle\Form\ProfileFormType
         tags:
             - { name: form.type, alias: app_user_profile_edit }
+
+    app.twig_player_extension:
+        class: AppBundle\Twig\PlayerExtension
+        public: false
+        tags:
+            - { name: twig.playerExt }
