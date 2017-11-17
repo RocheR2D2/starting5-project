@@ -19,7 +19,7 @@ class DashboardController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
         $user = $this->getUser();
         $userTeamDoctrine = $this->getDoctrine()->getRepository(UserTeam::class);
@@ -46,11 +46,13 @@ class DashboardController extends Controller
 
             $userTeamsDatas[] = $teams;
         }
+        $countUserTeam = count($userTeamsDatas);
 
         return $this->render('starting5/dashboard/index.html.twig', [
             'name' => "Starting 5",
             'userTeams' => $userTeams,
-            'teams' => $userTeamsDatas
+            'teams' => $userTeamsDatas,
+            'countTeam' => $countUserTeam
         ]);
     }
 
@@ -100,12 +102,18 @@ class DashboardController extends Controller
             return $this->redirectToRoute('dashboard');
         }
 
+        $countTeam = count($userTeams);
+
+        if($countTeam >= 3){
+            die('ok');
+        }
+
         return $this->render('starting5/dashboard/new.html.twig', array(
             'form' => $form->createView(),
             'userTeams' => $userTeams,
             'guards' => $guards,
             'forwards' => $forwards,
-            'centers' => $centers
+            'centers' => $centers,
         ));
     }
 
