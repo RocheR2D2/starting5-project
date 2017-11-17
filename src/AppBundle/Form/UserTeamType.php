@@ -18,29 +18,14 @@ class UserTeamType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, array('label' => 'Name of team'))
-            ->add('pointGuard', EntityType::class, array(
-                'label' => 'Select Point Guard',
-                'class' => 'AppBundle:Player',
-                'choice_label' => 'name',
+            ->add('trainerId', EntityType::class, array(
+                'label' => 'Select Trainer',
+                'class' => 'AppBundle:Trainer',
+                'choice_label' => 'fullname',
             ))
-            ->add('shootingGuard', EntityType::class, array(
-                'label' => 'Select Shooting Guard',
-                'class' => 'AppBundle:Player',
-                'choice_label' => 'name',
-            ))
-            ->add('powerForward', EntityType::class, array(
-                'label' => 'Select Power Forward',
-                'class' => 'AppBundle:Player',
-                'choice_label' => 'name',
-            ))
-            ->add('smallForward', EntityType::class, array(
-                'label' => 'Select Small Forward',
-                'class' => 'AppBundle:Player',
-                'choice_label' => 'name',
-            ))
-            ->add('center', EntityType::class, array(
-                'label' => 'Select Center',
-                'class' => 'AppBundle:Player',
+            ->add('stadiumId', EntityType::class, array(
+                'label' => 'Select Stadium',
+                'class' => 'AppBundle:Stadium',
                 'choice_label' => 'name',
             ))
         ;

@@ -14,10 +14,25 @@ use Symfony\Component\HttpFoundation\Request;
 class TeamController extends Controller
 {
     /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function indexAction()
+    {
+        $teamsJson = file_get_contents('http://data.nba.net/prod/v1/2017/teams.json');
+        $teamsDecode = json_decode($teamsJson);
+        $teams = $teamsDecode->league->standard;
+        return $this->render('starting5/team/index.html.twig', [
+            'teams' => $teams
+        ]);
+
+    }
+
+    /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function newAction(Request $request){
+    public function newAction(Request $request)
+    {
         $teamRepository = $this->getDoctrine()->getRepository(Team::class);
         $teams = $teamRepository->findAll();
         $team = new Team();
@@ -27,9 +42,9 @@ class TeamController extends Controller
             ->add('slugTeam', TextType::class, array('label' => 'Slug of Team'))
             ->add('isTop', CheckboxType::class, array('label' => 'Is top of the division ?', 'required' => false))
             ->add('conference', EntityType::class, array(
-            'label' => 'Select Conference',
-            'class' => 'AppBundle:Conference',
-            'choice_label' => 'name',
+                'label' => 'Select Conference',
+                'class' => 'AppBundle:Conference',
+                'choice_label' => 'name',
             ))
             ->add('division', EntityType::class, array(
                 'label' => 'Select Division',
@@ -57,12 +72,8 @@ class TeamController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
             $team = $form->getData();
 
-            // ... perform some action, such as saving the task to the database
-            // for example, if Task is a Doctrine entity, save it!
             $em = $this->getDoctrine()->getManager();
             $em->persist($team);
             $em->flush();
@@ -76,6 +87,11 @@ class TeamController extends Controller
         ));
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function editAction(Request $request, $id)
     {
         $teamRepository = $this->getDoctrine()->getRepository(Team::class);
@@ -93,7 +109,7 @@ class TeamController extends Controller
             return $this->redirectToRoute('team.edit', ['id' => $id]);
         }
 
-            return $this->render('starting5/admin/team/edit.html.twig', array(
+        return $this->render('starting5/admin/team/edit.html.twig', array(
             'form' => $form->createView(),
             'team' => $team,
             'id' => $id
