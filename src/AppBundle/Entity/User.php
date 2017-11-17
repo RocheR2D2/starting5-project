@@ -87,7 +87,7 @@ class User extends BaseUser
      */
     protected $quizPoints;
     /**
-     * @ORM\ManyToOne(targetEntity="Team", inversedBy="user")
+     * @ORM\ManyToOne(targetEntity="NBATeams", inversedBy="user")
      * @ORM\JoinColumn(name="team_id", referencedColumnName="id")
      */
     protected $team;

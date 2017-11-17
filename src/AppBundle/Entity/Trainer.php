@@ -36,7 +36,7 @@ class Trainer
     private $lastname;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Team", inversedBy="trainer")
+     * @ORM\ManyToOne(targetEntity="NBATeams", inversedBy="trainer")
      * @ORM\JoinColumn(name="team_id", referencedColumnName="id")
      */
     private $team;
