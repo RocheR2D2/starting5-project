@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+    {% block header %}
+        <h1>Mon 5 Majeur</h1>
+    {% endblock header %}
+
+{% block body %}
+    <section id="about">
+        <div class="container">
+            <p>
+                <a href="{{ path('user.players') }}">Mes joueurs</a>
+            </p>
+            <h1>All My Guards</h1>
+            <div class="row">
+                {% for player in guards %}
+                    <div class="col-md-4">
+                        {% include 'starting5/players/player.html.twig' with {'player': player} %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
