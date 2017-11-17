@@ -1,14 +1,20 @@
 <h1>Centers available</h1>
-<label for="form_center" class="required">Select My Center</label>
-<select id="form_center" name="form[center]">
-    {% for player in centers %}
-        <option value="{{ player.personId }}">{{ player.firstName }} {{ player.lastName }}</option>
-    {% endfor %}
-</select>
-<div class="row">
-    {% for player in centers %}
-        <div class="col-md-4">
-            {% include 'starting5/players/player.html.twig' with {'player': player} %}
-        </div>
-    {% endfor %}
-</div>
+{% if centers|length > 0 %}
+    <label for="form_center" class="required">Select My Center</label>
+    <select id="form_center" name="form[center]">
+        {% for player in centers %}
+            <option value="{{ player.personId }}">{{ player.firstName }} {{ player.lastName }}</option>
+        {% endfor %}
+    </select>
+    <div class="row">
+        {% for player in centers %}
+            <div class="col-md-4">
+                {% include 'starting5/players/player.html.twig' with {'player': player} %}
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-warning">
+        0 Centers Available
+    </div>
+{% endif %}

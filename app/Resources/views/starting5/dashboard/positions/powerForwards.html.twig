@@ -1,14 +1,20 @@
 <h1>Power Forwards available</h1>
-<label for="form_powerForward" class="required">Select My Power Forward</label>
-<select id="form_powerForward" name="form[powerForward]">
-    {% for player in forwards %}
-        <option value="{{ player.personId }}">{{ player.firstName }} {{ player.lastName }}</option>
-    {% endfor %}
-</select>
-<div class="row">
-    {% for player in forwards %}
-        <div class="col-md-4">
-            {% include 'starting5/players/player.html.twig' with {'player': player} %}
-        </div>
-    {% endfor %}
-</div>
+{% if forwards|length > 0 %}
+    <label for="form_powerForward" class="required">Select My Power Forward</label>
+    <select id="form_powerForward" name="form[powerForward]">
+        {% for player in forwards %}
+            <option value="{{ player.personId }}">{{ player.firstName }} {{ player.lastName }}</option>
+        {% endfor %}
+    </select>
+    <div class="row">
+        {% for player in forwards %}
+            <div class="col-md-4">
+                {% include 'starting5/players/player.html.twig' with {'player': player} %}
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-warning">
+        0 Forward Available
+    </div>
+{% endif %}

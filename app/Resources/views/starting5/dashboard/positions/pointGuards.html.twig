@@ -1,14 +1,20 @@
 <h1>Point Guards available</h1>
-<label for="form_pointGuard" class="required">Select My Point Guard</label>
-<select id="form_pointGuard" name="form[pointGuard]">
-    {% for player in guards %}
-        <option value="{{ player.personId }}">{{ player.firstName }} {{ player.lastName }}</option>
-    {% endfor %}
-</select>
-<div class="row">
-    {% for player in guards %}
-        <div class="col-md-4">
-            {% include 'starting5/players/player.html.twig' with {'player': player} %}
-        </div>
-    {% endfor %}
-</div>
+{% if guards|length > 0 %}
+    <label for="form_pointGuard" class="required">Select My Point Guard</label>
+    <select id="form_pointGuard" name="form[pointGuard]">
+        {% for player in guards %}
+            <option value="{{ player.personId }}">{{ player.firstName }} {{ player.lastName }}</option>
+        {% endfor %}
+    </select>
+    <div class="row">
+        {% for player in guards %}
+            <div class="col-md-4">
+                {% include 'starting5/players/player.html.twig' with {'player': player} %}
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-warning">
+        0 Guard Available
+    </div>
+{% endif %}
