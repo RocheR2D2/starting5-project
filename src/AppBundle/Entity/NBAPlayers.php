@@ -43,6 +43,12 @@ class NBAPlayers
      */
     private $lastname;
 
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="rating", type="float", nullable=true)
+     */
+    private $rating;
 
     /**
      * Get id
@@ -107,6 +113,20 @@ class NBAPlayers
     public function setLastname($lastname)
     {
         $this->lastname = $lastname;
+    }
+    /**
+     * @return float
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
+    /**
+     * @param float $rating
+     */
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
     }
 }
 

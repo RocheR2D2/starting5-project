@@ -1,6 +1,8 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\NBATeams;
+use Doctrine\ORM\EntityManager;
 
 /**
  * NBATeamsRepository
@@ -10,4 +12,10 @@ namespace AppBundle\Repository;
  */
 class NBATeamsRepository extends \Doctrine\ORM\EntityRepository
 {
+    private $em;
+    public function __construct(EntityManager $em, NBATeams $class)
+    {
+        parent::__construct($em, $class);
+        $this->em = $em;
+    }
 }

@@ -11,9 +11,8 @@
            <div class="row">
                <div class="col-lg-8 mx-auto">
                    <p>
-                       <a href="{{ path('team.new') }}">Retour</a>
+                       <a href="{{ path('dashboard') }}">Retour</a>
                    </p>
-
                    {{ form_start(form, { 'action': path('user.team.edit', {'id': userTeam.id}) }) }}
                    <div class="form-group">
                        {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
@@ -28,7 +27,6 @@
                        <input type="submit" class="btn btn-primary" value="{{ 'Edit Team'|trans }}"/>
                    </div>
                    {{ form_end(form) }}
-
                </div>
            </div>
        </div>

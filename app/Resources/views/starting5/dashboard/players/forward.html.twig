@@ -12,11 +12,17 @@
             </p>
             <h1>All My Forwards</h1>
             <div class="row">
-                {% for player in forwards %}
+                {% if(forwards|length > 0) %}
+                    {% for player in forwards %}
                     <div class="col-md-4">
                         {% include 'starting5/players/player.html.twig' with {'player': player} %}
                     </div>
                 {% endfor %}
+                {% else %}
+                    <div class="alert alert-danger">
+                        No Forwards Available.
+                    </div>
+                {% endif %}
             </div>
         </div>
     </section>

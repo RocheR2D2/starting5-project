@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+
 use AppBundle\Entity\NBAPlayers;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -20,18 +21,19 @@ class UsersPlayersRepository extends \Doctrine\ORM\EntityRepository
      * @param $user
      * @return array|ArrayCollection
      */
-    public function getGuards($user){
+    public function getGuards($user)
+    {
         $guards = new ArrayCollection();
-        if($user){
+        if ($user) {
             $userPlayers = $this->findBy(['userId' => $user]);
             foreach ($userPlayers as $userPlayer) {
                 $player = $userPlayer->getPlayerId();
-                $playerId = $player->getId();
+                $playerId = $player->getPlayerId();
                 $playerProfile = $this->getProfile($playerId);
                 $positions = explode('-', $playerProfile['pos']);
-                if(isset($positions[0])){
+                if (isset($positions[0])) {
                     $position = $positions[0];
-                    if($position == self::GUARD_POSITION_CODE){
+                    if ($position == self::GUARD_POSITION_CODE) {
                         $guards[] = $playerProfile;
                     }
                 }
@@ -45,18 +47,19 @@ class UsersPlayersRepository extends \Doctrine\ORM\EntityRepository
      * @param $user
      * @return array|ArrayCollection
      */
-    public function getForwards($user){
+    public function getForwards($user)
+    {
         $guards = new ArrayCollection();
-        if($user){
+        if ($user) {
             $userPlayers = $this->findBy(['userId' => $user]);
             foreach ($userPlayers as $userPlayer) {
                 $player = $userPlayer->getPlayerId();
-                $playerId = $player->getId();
+                $playerId = $player->getPlayerId();
                 $playerProfile = $this->getProfile($playerId);
                 $positions = explode('-', $playerProfile['pos']);
-                if(isset($positions[0])){
+                if (isset($positions[0])) {
                     $position = $positions[0];
-                    if($position == self::FORWARD_POSITION_CODE){
+                    if ($position == self::FORWARD_POSITION_CODE) {
                         $guards[] = $playerProfile;
                     }
                 }
@@ -70,18 +73,19 @@ class UsersPlayersRepository extends \Doctrine\ORM\EntityRepository
      * @param $user
      * @return array|ArrayCollection
      */
-    public function getCenters($user){
+    public function getCenters($user)
+    {
         $guards = new ArrayCollection();
-        if($user){
+        if ($user) {
             $userPlayers = $this->findBy(['userId' => $user]);
             foreach ($userPlayers as $userPlayer) {
                 $player = $userPlayer->getPlayerId();
-                $playerId = $player->getId();
+                $playerId = $player->getPlayerId();
                 $playerProfile = $this->getProfile($playerId);
                 $positions = explode('-', $playerProfile['pos']);
-                if(isset($positions[0])){
+                if (isset($positions[0])) {
                     $position = $positions[0];
-                    if($position == self::CENTER_POSITION_CODE){
+                    if ($position == self::CENTER_POSITION_CODE) {
                         $guards[] = $playerProfile;
                     }
                 }
@@ -101,6 +105,7 @@ class UsersPlayersRepository extends \Doctrine\ORM\EntityRepository
         foreach ($this->getPlayers() as $player) {
             if ($player->personId == $playerId) {
                 $profile = $player;
+                continue;
             }
         }
         $playerStatsJson = file_get_contents('http://data.nba.net/data/10s/prod/v1/2017/players/' . $playerId . '_profile.json');
@@ -108,6 +113,7 @@ class UsersPlayersRepository extends \Doctrine\ORM\EntityRepository
         if ($profile->teamId == $playersStats->league->standard->teamId) {
             $stats = $playersStats->league->standard->stats->careerSummary;
             $playerProfile = array_merge((array)$profile, (array)$stats);
+            $playerProfile['rating'] = $this->getPlayerRating($stats);
 
             return $playerProfile;
         }

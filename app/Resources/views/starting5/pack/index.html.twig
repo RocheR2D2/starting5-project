@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+    {% block header %}
+        <h1>Welcome to Starting5</h1>
+        <p class="lead">Viens créer ton 5 majeurs de rêve NBA !</p>
+    {% endblock header %}
+
+{% block body %}
+
+    <section id="about">
+        <div class="container">
+            <h1>ALL PACKS</h1>
+            <div class="row text-center">
+                {% if(count > 50) %}
+                    <p class="alert alert-warning">
+                        This pack is not available for you !
+                    </p>
+                {% else %}
+                    {{ form_start(form, { 'action': path('pack.opening')}) }}
+                    <div class="form-group">
+                        {{ form_row(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+                    </div>
+                    {{ form_end(form) }}
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

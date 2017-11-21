@@ -7,14 +7,82 @@
 {% block body %}
     <section id="about">
         <div class="container">
-            <h1>All My Players</h1>
+            <h1>
+                All My Players
+                <span>
+                <a href="{{ path('user.players.guard') }}" class="btn btn-primary">Guards</a>
+                <a href="{{ path('user.players.forward') }}" class="btn btn-info">Forwards</a>
+                <a href="{{ path('user.players.center') }}" class="btn btn-danger">Centers</a>
+                </span>
+            </h1>
+            <div class="row myPlayers">
+                {{ render(controller('AppBundle:MyPlayers:players')) }}
+            </div>
+            <hr>
             <div class="row">
-                {% for player in myPlayers %}
-                    <div class="col-md-4">
-                        {% include 'starting5/players/player.html.twig' with {'player': player} %}
+                <div class="col-md-12">
+                    <div class="pagination">
+                        <button class="btn btn-info" id="previous-page">Previous</button>
+                        &nbsp
+                        <button class="btn btn-info" id="next-page">Next</button>
                     </div>
-                {% endfor %}
+                </div>
             </div>
         </div>
     </section>
+    <script>
+
+        var currentPage = 0;
+        var previousPage = $("#previous-page");
+        var loading = $('.loading');
+        var allPlayers = {{ count }};
+        var nextPage = $('#next-page');
+        var myPlayers = $('.my-players');
+
+            previousPage.prop("disabled", true);
+        loading.hide();
+
+        nextPage.click(function () {
+            currentPage = currentPage + 1;
+            previousPage.prop("disabled", false);
+            if(allPlayers > currentPage) {
+                nextPage.prop("disabled", true);
+            }
+            $.ajax({
+                url: '{{ path('players.next') }}',
+                type: 'POST',
+                data: 'page=' + currentPage,
+                beforeSend: function () {
+                    loading.show();
+                },
+                complete: function () {
+                    loading.hide();
+                },
+                success: function (success) {
+                    $('.myPlayers').empty().append(success);
+                }
+            });
+        });
+        previousPage.click(function () {
+            currentPage = currentPage - 1;
+            if (currentPage == 0) {
+                previousPage.prop("disabled", true);
+            }
+            nextPage.prop("disabled", false);
+            $.ajax({
+                url: '{{ path('players.previous') }}',
+                type: 'POST',
+                data: 'page=' + currentPage,
+                beforeSend: function () {
+                    loading.show();
+                },
+                complete: function () {
+                    loading.hide();
+                },
+                success: function (success) {
+                    $('.myPlayers').empty().append(success);
+                }
+            });
+        });
+    </script>
 {% endblock %}
