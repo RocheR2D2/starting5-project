@@ -1,9 +1,9 @@
-<h1>Point Guards available</h1>
 {% if guards|length > 0 %}
+    <h1>Point Guards available</h1>
     <label for="form_pointGuard" class="required">Select My Point Guard</label>
     <select id="form_pointGuard" name="form[pointGuard]">
         {% for player in guards %}
-            <option value="{{ player.personId }}">{{ player.firstName }} {{ player.lastName }}</option>
+            <option value="{{ player.playerId }}">{{ player.firstname }} {{ player.lastname }}</option>
         {% endfor %}
     </select>
     <div class="row">
@@ -13,8 +13,62 @@
             </div>
         {% endfor %}
     </div>
+    <div class="col-md-12">
+        <div class="pagination">
+            <span class="btn btn-info" id="pg-previous-page">Previous</span>
+            &nbsp
+            <span class="btn btn-info" id="pg-next-page">Next</span>
+        </div>
+    </div>
 {% else %}
     <div class="alert alert-warning">
         0 Guard Available
     </div>
 {% endif %}
+<script>
+    var loading = $('.loading');
+    var allPlayers = {{ gCount }};
+
+    $("#pg-previous-page").prop("disabled", true);
+
+    $('#pg-next-page').click(function () {
+        currentPagePg += 1;
+        console.log(currentPagePg);
+        $("#pg-previous-page").prop("disabled", false);
+        $.ajax({
+            url: '{{ path('pointGuards.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPagePg,
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.pointGuards').empty().append(success);
+            }
+        });
+    });
+    $("#pg-previous-page").click(function () {
+        currentPagePg -= 1;
+        if (currentPagePg == 0) {
+            $("#pg-previous-page").prop("disabled", true);
+        }
+        $('#pg-next-page').prop("disabled", false);
+        $.ajax({
+            url: '{{ path('pointGuards.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPagePg,
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.pointGuards').empty().append(success);
+            }
+        });
+    });
+</script>

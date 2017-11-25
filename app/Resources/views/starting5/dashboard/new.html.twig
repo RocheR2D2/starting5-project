@@ -20,23 +20,37 @@
                     <div class="form-group">
                         {{ form_row(form.trainerId, {'attr': {'class': 'form-control'}}) }}
                     </div>
-                    <!-- POINT GUARDS -->
-                    {% include 'starting5/dashboard/positions/pointGuards.html.twig' with {'guards':guards} %}
-                    <!-- SHOOTING GUARDS -->
-                    {% include 'starting5/dashboard/positions/shootingGuards.html.twig' with {'guards':guards} %}
-                    <!-- SMALL FORWARDS -->
-                    {% include 'starting5/dashboard/positions/smallForwards.html.twig' with {'forwards':forwards} %}
-                    <!-- POWER FORWARDS -->
-                    {% include 'starting5/dashboard/positions/powerForwards.html.twig' with {'forwards':forwards} %}
-                    <!-- CENTERS -->
-                    {% include 'starting5/dashboard/positions/centers.html.twig' with {'centers':centers} %}
-                    <div class="form-group">
+                    <div class="pointGuards">
+                        {% include 'starting5/dashboard/positions/pointGuards.html.twig' with {'guards':guards} %}
+                    </div>
+                    <div class="shootingGuards">
+                        {% include 'starting5/dashboard/positions/shootingGuards.html.twig' with {'guards':guards} %}
+                    </div>
+                    <div class="smallForwards">
+                        {% include 'starting5/dashboard/positions/smallForwards.html.twig' with {'forwards':forwards} %}
+                    </div>
+                    <div class="powerForwards">
+                        {% include 'starting5/dashboard/positions/powerForwards.html.twig' with {'forwards':forwards} %}
+                    </div>
+                    <div class="centers">
+                        {% include 'starting5/dashboard/positions/centers.html.twig' with {'centers':centers} %}
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                    <div class="form-group col-md-12">
                         {{ form_row(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
                     </div>
                     {{ form_end(form) }}
                 </div>
             </div>
-        </div>
     </section>
-
+    <script>
+        var currentPagePg = 0;
+        var currentPagePf = 0;
+        var currentPageSf = 0;
+        var currentPageSg = 0;
+        var currentPageC = 0;
+    </script>
 {% endblock %}

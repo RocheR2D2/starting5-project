@@ -3,18 +3,75 @@
     <label for="form_center" class="required">Select My Center</label>
     <select id="form_center" name="form[center]">
         {% for player in centers %}
-            <option value="{{ player.personId }}">{{ player.firstName }} {{ player.lastName }}</option>
+            <option value="{{ player.playerId }}">{{ player.firstname }} {{ player.lastname }}</option>
         {% endfor %}
     </select>
-    <div class="row">
+    <div class="row centers">
         {% for player in centers %}
             <div class="col-md-4">
                 {% include 'starting5/players/player.html.twig' with {'player': player} %}
             </div>
         {% endfor %}
     </div>
+    <div class="col-md-12">
+        <div class="pagination">
+            <span class="btn btn-info" id="c-previous-page">Previous</span>
+            &nbsp
+            <span class="btn btn-info" id="c-next-page">Next</span>
+        </div>
+    </div>
 {% else %}
     <div class="alert alert-warning">
         0 Centers Available
     </div>
 {% endif %}
+
+<script>
+    var loading = $('.loading');
+    var allPlayers = {{ cCount }};
+
+    $("#c-previous-page").prop("disabled", true);
+
+    $('#c-next-page').click(function () {
+        currentPageC += 1;
+        $("#c-previous-page").prop("disabled", false);
+        if(allPlayers > currentPageC) {
+            $('#c-next-page').prop("disabled", true);
+        }
+        $.ajax({
+            url: '{{ path('centers.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPageC,
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.centers').empty().append(success);
+            }
+        });
+    });
+    $("#c-previous-page").click(function () {
+        currentPageC -= 1;
+        if (currentPageC == 0) {
+            $('#c-previous-page').prop("disabled", true);
+        }
+        $('#c-next-page').prop("disabled", false);
+        $.ajax({
+            url: '{{ path('centers.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPageC,
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.centers').empty().append(success);
+            }
+        });
+    });
+</script>

@@ -1,9 +1,9 @@
 <div class="text-center">
-    <img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{{ player.personId }}.png" alt="{{ player.teamId }}"
+    <img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{{ player.playerId }}.png" alt="{{ player.teamId.teamId }}"
          width="100px">
 </div>
 <p class="text-center">
-    {{ player['firstName'] }} {{ player['lastName'] }} - {{ player['pos'] }} - {{ player['rating'] }}
-    <img src="{{ asset('images/teams/' ~ player.teamId ~ '.svg') }}" alt="{{ player.teamId }}"
+    {{ player.firstname }} {{ player.lastname }} - {{ player.position }} - {{ player.rating }}
+    <img src="{{ asset('images/teams/' ~ player.teamId.teamId ~ '.svg') }}" alt="{{ player.teamId.teamId }}"
          width="50px">
 </p>

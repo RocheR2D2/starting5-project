@@ -36,11 +36,10 @@ class PackController extends Controller
             }
             $packContent = $player->packOpener($this->getUser());
 
-
             foreach ($packContent as $content) {
                 $em = $this->getDoctrine()->getManager();
                 $userPlayer = new UsersPlayers();
-                $nbaPlayer = $player->findOneBy(['playerId' => $content['personId']]);
+                $nbaPlayer = $player->findOneBy(['playerId' => $content->playerId]);
                 $playerId = $nbaPlayer->getPlayerId();
                 if(in_array($playerId, $playersIds)){
                     $user = $this->getUser();
@@ -51,6 +50,7 @@ class PackController extends Controller
                 }
                 $userPlayer->setPlayerId($nbaPlayer);
                 $userPlayer->setUserId($this->getUser());
+                $userPlayer->setPosition($nbaPlayer->getPosition());
 
                 $em->persist($userPlayer);
                 $em->flush();

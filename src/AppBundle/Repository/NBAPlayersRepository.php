@@ -2,7 +2,6 @@
 
 namespace AppBundle\Repository;
 
-use AppBundle\Entity\UsersPlayers;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -18,11 +17,9 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
      */
     public function getPlayers()
     {
-        $playersJson = file_get_contents('http://data.nba.net/10s/prod/v1/2017/players.json');
-        $playersDecode = json_decode($playersJson);
-        $players = $playersDecode->league->standard;
+        $allPlayers = $this->findAll();
 
-        return $players;
+        return $allPlayers;
     }
 
     /**
@@ -63,34 +60,26 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
 
     /**
      * @param $playerId
-     * @return array|null
+     * @return object|null
      */
     public function getProfile($playerId)
     {
         $profile = null;
         foreach ($this->getPlayers() as $player) {
-            if ($player->personId == $playerId) {
+            if ($player->getPlayerId() == $playerId) {
                 $profile = $player;
             }
         }
         $playerStatsJson = file_get_contents('http://data.nba.net/data/10s/prod/v1/2017/players/' . $playerId . '_profile.json');
         $playersStats = json_decode($playerStatsJson);
-        if ($profile->teamId == $playersStats->league->standard->teamId) {
+        if ($profile->getTeamId()->getTeamId() == $playersStats->league->standard->teamId) {
             $stats = $playersStats->league->standard->stats->careerSummary;
-            $playerProfile = array_merge((array)$profile, (array)$stats);
-            $playerProfile['rating'] = $this->getPlayerRating($stats);
+            $playerProfile = (object) array_merge((array)$profile, (array)$stats);
 
             return $playerProfile;
         }
 
         return null;
-    }
-
-    public function getPlayerRating($stats)
-    {
-        $rating = (int)$stats->ppg + (int)$stats->apg + (int)$stats->rpg + (int)$stats->bpg;
-
-        return $rating;
     }
 
     /**

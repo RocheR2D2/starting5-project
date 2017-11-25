@@ -32,6 +32,27 @@ class UsersPlayers
      * @ORM\JoinColumn(name="player_id", referencedColumnName="id")
      */
     private $playerId;
+    /**
+     * @var string
+     * @ORM\Column(name="position", type="string", nullable=true)
+     */
+    public $position;
+
+    /**
+     * @return string
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param string $position
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+    }
 
 
     /**

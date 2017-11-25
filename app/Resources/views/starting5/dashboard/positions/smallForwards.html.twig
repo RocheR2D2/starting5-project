@@ -3,7 +3,7 @@
     <label for="form_smallForward" class="required">Select My Small Forward</label>
     <select id="form_smallForward" name="form[smallForward]">
         {% for player in forwards %}
-            <option value="{{ player.personId }}">{{ player.firstName }} {{ player.lastName }}</option>
+            <option value="{{ player.playerId }}">{{ player.firstname }} {{ player.lastname }}</option>
         {% endfor %}
     </select>
     <div class="row">
@@ -13,8 +13,65 @@
             </div>
         {% endfor %}
     </div>
+    <div class="col-md-12">
+        <div class="pagination">
+            <span class="btn btn-info" id="sf-previous-page">Previous</span>
+            &nbsp
+            <span class="btn btn-info" id="sf-next-page">Next</span>
+        </div>
+    </div>
 {% else %}
     <div class="alert alert-warning">
         0 Forward Available
     </div>
 {% endif %}
+
+<script>
+    var loading = $('.loading');
+    var allPlayers = {{ fCount }};
+
+    $("#sf-previous-page").prop("disabled", true);
+
+    $('#sf-next-page').click(function () {
+        currentPageSf += 1;
+        $("#sf-previous-page").prop("disabled", false);
+        if(allPlayers > currentPageSf) {
+            $('#sf-next-page').prop("disabled", true);
+        }
+        $.ajax({
+            url: '{{ path('smallForwards.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPageSf,
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.smallForwards').empty().append(success);
+            }
+        });
+    });
+    $("#sf-previous-page").click(function () {
+        currentPageSf -= 1;
+        if (currentPageSf == 0) {
+            $("#sf-previous-page").prop("disabled", true);
+        }
+        $('#sf-next-page').prop("disabled", false);
+        $.ajax({
+            url: '{{ path('smallForwards.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPageSf,
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.smallForwards').empty().append(success);
+            }
+        });
+    });
+</script>

@@ -20,35 +20,80 @@ class NBAPlayers
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    public $id;
 
     /**
      * @var int
      *
      * @ORM\Column(name="player_id", type="integer", unique=true)
      */
-    private $playerId;
+    public $playerId;
 
     /**
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=255)
      */
-    private $firstname;
+    public $firstname;
 
     /**
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=255)
      */
-    private $lastname;
+    public $lastname;
 
     /**
      * @var float
      *
      * @ORM\Column(name="rating", type="float", nullable=true)
      */
-    private $rating;
+    public $rating;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="jersey", type="integer", nullable=true)
+     */
+    public $jersey;
+
+    /**
+     * @var string
+     * @ORM\Column(name="position", type="string", nullable=true)
+     */
+    public $position;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="height", type="float", nullable=true)
+     */
+    public $height;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="weight", type="float", nullable=true)
+     */
+    public $weight;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbaDebutYear", type="integer", nullable=true)
+     */
+    public $nbaDebutYear;
+
+    /**
+     * @var string
+     * @ORM\Column(name="country", type="string", nullable=true)
+     */
+    public $country;
+    /**
+     * @ORM\ManyToOne(targetEntity="NBATeams", inversedBy="NBAPlayers")
+     * @ORM\JoinColumn(name="team_id", referencedColumnName="id")
+     */
+    public $teamId;
 
     /**
      * Get id
@@ -127,6 +172,117 @@ class NBAPlayers
     public function setRating($rating)
     {
         $this->rating = $rating;
+    }
+    /**
+     * @return int
+     */
+    public function getJersey()
+    {
+        return $this->jersey;
+    }
+
+    /**
+     * @param int $jersey
+     */
+    public function setJersey($jersey)
+    {
+        $this->jersey = $jersey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param string $position
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+    }
+
+    /**
+     * @return float
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    /**
+     * @param float $height
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
+    }
+
+    /**
+     * @return float
+     */
+    public function getWeight()
+    {
+        return $this->weight;
+    }
+
+    /**
+     * @param float $weight
+     */
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNbaDebutYear()
+    {
+        return $this->nbaDebutYear;
+    }
+
+    /**
+     * @param int $nbaDebutYear
+     */
+    public function setNbaDebutYear($nbaDebutYear)
+    {
+        $this->nbaDebutYear = $nbaDebutYear;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param string $country
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTeamId()
+    {
+        return $this->teamId;
+    }
+
+    /**
+     * @param mixed $teamId
+     */
+    public function setTeamId($teamId)
+    {
+        $this->teamId = $teamId;
     }
 }
 

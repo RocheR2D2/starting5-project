@@ -106,3 +106,29 @@ players.previous:
     path:     /next
     defaults: { _controller: AppBundle:MyPlayers:playersPrevious }
     methods:  [POST]
+
+pointGuards.next:
+    path:     /nextPointGuards
+    defaults: { _controller: AppBundle:Dashboard:pgNext }
+    methods:  [POST]
+
+shootingGuards.next:
+    path:     /nextShootingGuards
+    defaults: { _controller: AppBundle:Dashboard:sgNext }
+    methods:  [POST]
+
+smallForwards.next:
+    path:     /nextSmallForwards
+    defaults: { _controller: AppBundle:Dashboard:sfNext }
+    methods:  [POST]
+
+
+powerForwards.next:
+    path:     /nextPowerForwards
+    defaults: { _controller: AppBundle:Dashboard:pfNext }
+    methods:  [POST]
+
+centers.next:
+    path:     /nextCenters
+    defaults: { _controller: AppBundle:Dashboard:cNext }
+    methods:  [POST]

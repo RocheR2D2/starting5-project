@@ -21,7 +21,7 @@ class MyPlayersController extends Controller
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         $playersView = $this->playersAction();
-        $count = count($userPlayers->findAll());
+        $count = count($userPlayers->findBy(['userId' => $this->getUser()]));
 
             return $this->render('starting5/dashboard/players/index.html.twig', [
             'name' => "Starting 5",
@@ -37,17 +37,6 @@ class MyPlayersController extends Controller
         $myPlayers = $this->getMyPlayers($this->getUser(), $userPlayers, $nbaPlayers, 0);
 
         return $this->render('starting5/dashboard/players/players.html.twig', [
-            'myPlayers' => $myPlayers,
-        ]);
-    }
-
-    public function playersAjax($page = 1)
-    {
-        $userPlayers = $this->getDoctrine()->getRepository(UsersPlayers::class);
-        $nbaPlayers = $this->getDoctrine()->getRepository(NBAPlayers::class);
-        $myPlayers = $this->getMyPlayers($this->getUser(), $userPlayers, $nbaPlayers, $page);
-
-        return $this->renderView('starting5/dashboard/players/players.html.twig', [
             'myPlayers' => $myPlayers,
         ]);
     }
@@ -101,7 +90,6 @@ class MyPlayersController extends Controller
             $isDuplicate = $userTeamRepository->findBy(['playerId' => $personId]);
             $this->checkDuplicatedPlayers(count($isDuplicate), $personId, $userTeamRepository);
             $player = $playerRepository->getProfile($playerId);
-            $player['userPlayerId'] = $myPlayer->getId();
             $myPlayers[] = $player;
         }
 
@@ -179,7 +167,7 @@ class MyPlayersController extends Controller
     {
         $nbaPlayers = $this->getDoctrine()->getRepository(UsersPlayers::class);
         $playerId = $data = $request->request->get('userPlayerId');
-        $player = $nbaPlayers->find($playerId);
+        $player = $nbaPlayers->findOneBy(['playerId' => $playerId]);
 
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -192,6 +180,17 @@ class MyPlayersController extends Controller
         $response = new Response($this->playersAjax());
 
         return $response;
+    }
+
+    public function playersAjax($page = 1)
+    {
+        $userPlayers = $this->getDoctrine()->getRepository(UsersPlayers::class);
+        $nbaPlayers = $this->getDoctrine()->getRepository(NBAPlayers::class);
+        $myPlayers = $this->getMyPlayers($this->getUser(), $userPlayers, $nbaPlayers, $page);
+
+        return $this->renderView('starting5/dashboard/players/players.html.twig', [
+            'myPlayers' => $myPlayers,
+        ]);
     }
 
     public function playersNextAction(Request $request)

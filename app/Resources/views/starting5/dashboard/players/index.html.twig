@@ -31,21 +31,18 @@
         </div>
     </section>
     <script>
-
         var currentPage = 0;
         var previousPage = $("#previous-page");
         var loading = $('.loading');
         var allPlayers = {{ count }};
         var nextPage = $('#next-page');
-        var myPlayers = $('.my-players');
 
-            previousPage.prop("disabled", true);
-        loading.hide();
+        previousPage.prop("disabled", true);
 
         nextPage.click(function () {
             currentPage = currentPage + 1;
             previousPage.prop("disabled", false);
-            if(allPlayers > currentPage) {
+            if(currentPage > allPlayers) {
                 nextPage.prop("disabled", true);
             }
             $.ajax({

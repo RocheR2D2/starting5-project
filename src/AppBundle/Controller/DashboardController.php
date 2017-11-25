@@ -9,6 +9,7 @@ use AppBundle\Form\UserTeamType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,8 +66,11 @@ class DashboardController extends Controller
         $playerDoctrine = $this->getDoctrine()->getRepository(NBAPlayers::class);
 
         $guards = $userRepository->getGuards($user);
+        $gCount = $userRepository->allGuards;
         $forwards = $userRepository->getForwards($user);
+        $fCount = $userRepository->allForwards;
         $centers = $userRepository->getCenters($user);
+        $cCount = $userRepository->allCenters;
         $userTeams = $userTeamRepository->findBy(['user' => $user]);
 
         $userTeam = new UserTeam();
@@ -104,16 +108,18 @@ class DashboardController extends Controller
 
         $countTeam = count($userTeams);
 
-        if($countTeam >= 3){
+        /*if($countTeam >= 3){
             die('ok');
-        }
+        }*/
 
         return $this->render('starting5/dashboard/new.html.twig', array(
             'form' => $form->createView(),
-            'userTeams' => $userTeams,
             'guards' => $guards,
+            'gCount' => $gCount,
             'forwards' => $forwards,
             'centers' => $centers,
+            'fCount' => $fCount,
+            'cCount' => $cCount,
         ));
     }
 
@@ -218,5 +224,65 @@ class DashboardController extends Controller
         $userTeam->setCenter($playerDoctrine->findOneBy(['playerId' => $data['center']]));
 
         return $userTeam;
+    }
+
+    public function pgNextAction(Request $request)
+    {
+        $userRepository = $this->getDoctrine()->getRepository(UsersPlayers::class);
+        $page = $data = $request->request->get('page');
+        if($page < 0){
+            $page = 0;
+        }
+        $pg = $userRepository->getGuards($this->getUser(), $page);
+
+        return new Response($this->renderView('starting5/dashboard/positions/pointGuards.html.twig', ['guards' => $pg, 'gCount' => $userRepository->allGuards]));
+    }
+
+    public function sgNextAction(Request $request)
+    {
+        $userRepository = $this->getDoctrine()->getRepository(UsersPlayers::class);
+        $page = $data = $request->request->get('page');
+        if($page < 0){
+            $page = 0;
+        }
+        $sg = $userRepository->getGuards($this->getUser(), $page);
+
+        return new Response($this->renderView('starting5/dashboard/positions/shootingGuards.html.twig', ['guards' => $sg, 'gCount' => $userRepository->allGuards]));
+    }
+
+    public function sfNextAction(Request $request)
+    {
+        $userRepository = $this->getDoctrine()->getRepository(UsersPlayers::class);
+        $page = $data = $request->request->get('page');
+        if($page < 0){
+            $page = 0;
+        }
+        $sf = $userRepository->getForwards($this->getUser(), $page);
+
+        return new Response($this->renderView('starting5/dashboard/positions/smallForwards.html.twig', ['forwards' => $sf, 'fCount' => $userRepository->allForwards]));
+    }
+
+    public function pfNextAction(Request $request)
+    {
+        $userRepository = $this->getDoctrine()->getRepository(UsersPlayers::class);
+        $page = $data = $request->request->get('page');
+        if($page < 0){
+            $page = 0;
+        }
+        $pf = $userRepository->getForwards($this->getUser(), $page);
+
+        return new Response($this->renderView('starting5/dashboard/positions/powerForwards.html.twig', ['forwards' => $pf, 'fCount' => $userRepository->allForwards]));
+    }
+
+    public function cNextAction(Request $request)
+    {
+        $userRepository = $this->getDoctrine()->getRepository(UsersPlayers::class);
+        $page = $data = $request->request->get('page');
+        if($page < 0){
+            $page = 0;
+        }
+        $c = $userRepository->getCenters($this->getUser(), $page);
+
+        return new Response($this->renderView('starting5/dashboard/positions/centers.html.twig', ['centers' => $c, 'cCount' => $userRepository->allCenters]));
     }
 }

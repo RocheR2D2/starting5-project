@@ -4,6 +4,8 @@ namespace AppBundle\Repository;
 
 use AppBundle\Entity\NBAPlayers;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping;
 
 /**
  * UsersPlayersRepository
@@ -16,119 +18,67 @@ class UsersPlayersRepository extends \Doctrine\ORM\EntityRepository
     const GUARD_POSITION_CODE = 'G';
     const FORWARD_POSITION_CODE = 'F';
     const CENTER_POSITION_CODE = 'C';
+    private $nbaPlayer;
+    public $allGuards;
+    public $allForwards;
+    public $allCenters;
 
-    /**
-     * @param $user
-     * @return array|ArrayCollection
-     */
-    public function getGuards($user)
+    public function __construct(EntityManager $em, Mapping\ClassMetadata $class)
     {
-        $guards = new ArrayCollection();
-        if ($user) {
-            $userPlayers = $this->findBy(['userId' => $user]);
-            foreach ($userPlayers as $userPlayer) {
-                $player = $userPlayer->getPlayerId();
-                $playerId = $player->getPlayerId();
-                $playerProfile = $this->getProfile($playerId);
-                $positions = explode('-', $playerProfile['pos']);
-                if (isset($positions[0])) {
-                    $position = $positions[0];
-                    if ($position == self::GUARD_POSITION_CODE) {
-                        $guards[] = $playerProfile;
-                    }
-                }
-            }
-
-            return $guards;
-        }
+        parent::__construct($em, $class);
+        $this->nbaPlayer = $this->getEntityManager()->getRepository('AppBundle:NBAPlayers');
     }
 
     /**
      * @param $user
      * @return array|ArrayCollection
      */
-    public function getForwards($user)
+    public function getGuards($user, $page = 0)
     {
-        $guards = new ArrayCollection();
+        $players = [];
         if ($user) {
-            $userPlayers = $this->findBy(['userId' => $user]);
-            foreach ($userPlayers as $userPlayer) {
-                $player = $userPlayer->getPlayerId();
-                $playerId = $player->getPlayerId();
-                $playerProfile = $this->getProfile($playerId);
-                $positions = explode('-', $playerProfile['pos']);
-                if (isset($positions[0])) {
-                    $position = $positions[0];
-                    if ($position == self::FORWARD_POSITION_CODE) {
-                        $guards[] = $playerProfile;
-                    }
-                }
+            $guards = $this->findBy(['userId' => $user, 'position' => ['G', 'G-F','F-G']],  null, 9, 9 * $page);
+            foreach ($guards as $guard) {
+                $players[] = $guard->getPlayerId();
             }
-
-            return $guards;
+            $this->allGuards = count($this->findBy(['userId' => $user,  'position' => ['G', 'G-F','F-G']]));
         }
+
+        return $players;
     }
 
     /**
      * @param $user
      * @return array|ArrayCollection
      */
-    public function getCenters($user)
+    public function getForwards($user, $page = 0)
     {
-        $guards = new ArrayCollection();
+        $players = [];
         if ($user) {
-            $userPlayers = $this->findBy(['userId' => $user]);
-            foreach ($userPlayers as $userPlayer) {
-                $player = $userPlayer->getPlayerId();
-                $playerId = $player->getPlayerId();
-                $playerProfile = $this->getProfile($playerId);
-                $positions = explode('-', $playerProfile['pos']);
-                if (isset($positions[0])) {
-                    $position = $positions[0];
-                    if ($position == self::CENTER_POSITION_CODE) {
-                        $guards[] = $playerProfile;
-                    }
-                }
+            $guards = $this->findBy(['userId' => $user, 'position' => ['F', 'F-G','G-F', 'F-C', 'C-F']],  null, 9, 9 * $page);
+            foreach ($guards as $guard) {
+                $players[] = $guard->getPlayerId();
             }
-
-            return $guards;
+            $this->allForwards = count($this->findBy(['userId' => $user,  'position' => ['F', 'F-G','G-F', 'F-C', 'C-F']]));
         }
+
+        return $players;
     }
 
     /**
-     * @param $playerId
-     * @return array|null
+     * @param $user
+     * @return array|ArrayCollection
      */
-    public function getProfile($playerId)
+    public function getCenters($user, $page = 0)
     {
-        $profile = null;
-        foreach ($this->getPlayers() as $player) {
-            if ($player->personId == $playerId) {
-                $profile = $player;
-                continue;
+        $players = [];
+        if ($user) {
+            $guards = $this->findBy(['userId' => $user, 'position' => ['C', 'F-C','C-F']],  null, 9, 9 * $page);
+            foreach ($guards as $guard) {
+                $players[] = $guard->getPlayerId();
             }
+            $this->allCenters = count($this->findBy(['userId' => $user,  'position' => ['C', 'F-C','C-F']]));
         }
-        $playerStatsJson = file_get_contents('http://data.nba.net/data/10s/prod/v1/2017/players/' . $playerId . '_profile.json');
-        $playersStats = json_decode($playerStatsJson);
-        if ($profile->teamId == $playersStats->league->standard->teamId) {
-            $stats = $playersStats->league->standard->stats->careerSummary;
-            $playerProfile = array_merge((array)$profile, (array)$stats);
-            $playerProfile['rating'] = $this->getPlayerRating($stats);
-
-            return $playerProfile;
-        }
-
-        return null;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPlayers()
-    {
-        $playersJson = file_get_contents('http://data.nba.net/10s/prod/v1/2017/players.json');
-        $playersDecode = json_decode($playersJson);
-        $players = $playersDecode->league->standard;
 
         return $players;
     }
