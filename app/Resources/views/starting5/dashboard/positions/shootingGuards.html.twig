@@ -1,10 +1,9 @@
-<h1>Point Guards available</h1>
 {% if guards|length > 0 %}
     <h1>Shooting Guards available</h1>
     <label for="form_shootingGuard" class="required">Select My Shooting Guard</label>
     <select id="form_shootingGuard" name="form[shootingGuard]">
         {% for player in guards %}
-            <option value="{{ player.personId }}">{{ player.firstName }} {{ player.lastName }}</option>
+            <option value="{{ player.playerId }}">{{ player.firstname }} {{ player.lastname }}</option>
         {% endfor %}
     </select>
     <div class="row">
@@ -14,8 +13,64 @@
             </div>
         {% endfor %}
     </div>
+    <div class="col-md-12">
+        <div class="pagination">
+            <span class="btn btn-info" id="sg-previous-page">Previous</span>
+            &nbsp
+            <span class="btn btn-info" id="sg-next-page">Next</span>
+        </div>
+    </div>
 {% else %}
     <div class="alert alert-warning">
         0 Guard Available
     </div>
 {% endif %}
+<script>
+    var loading = $('.loading');
+    var allPlayers = {{ gCount }};
+
+    $("#sg-previous-page").prop("disabled", true);
+
+    $('#sg-next-page').click(function () {
+        currentPageSg += 1;
+        $("#sg-previous-page").prop("disabled", false);
+        if(allPlayers > currentPageSg) {
+            $('#sg-next-page').prop("disabled", true);
+        }
+        $.ajax({
+            url: '{{ path('shootingGuards.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPageSg,
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.shootingGuards').empty().append(success);
+            }
+        });
+    });
+    $("#sg-previous-page").click(function () {
+        currentPageSg -= 1;
+        if (currentPageSg == 0) {
+            $("#sg-previous-page").prop("disabled", true);
+        }
+        $('#sg-next-page').prop("disabled", false);
+        $.ajax({
+            url: '{{ path('shootingGuards.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPageSg,
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.shootingGuards').empty().append(success);
+            }
+        });
+    });
+</script>

@@ -1,6 +1,8 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\NBATeams;
+use Doctrine\ORM\EntityManager;
 
 /**
  * NBATeamsRepository

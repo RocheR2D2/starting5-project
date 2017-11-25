@@ -12,11 +12,17 @@
             </p>
             <h1>All My Centers</h1>
             <div class="row">
-                {% for player in centers %}
-                    <div class="col-md-4">
-                        {% include 'starting5/players/player.html.twig' with {'player': player} %}
+                {% if(centers|length > 0) %}
+                    {% for player in centers %}
+                        <div class="col-md-4">
+                            {% include 'starting5/players/player.html.twig' with {'player': player} %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-danger">
+                        No Centers Available.
                     </div>
-                {% endfor %}
+                {% endif %}
             </div>
         </div>
     </section>

@@ -11,7 +11,7 @@
             <div class="row">
                 <h2>My 5IVE
                     {% if(countTeam < 3) %}
-                    <a href="{% if(countTeam < 2) %}{{ path('user.team.new') }}{% endif %}" class="btn btn-primary">
+                    <a href="{% if(countTeam < 3) %}{{ path('user.team.new') }}{% endif %}" class="btn btn-primary">
                             {% if userTeams|length > 0 %}
                                 Create Another 5IVE
                             {% else %}

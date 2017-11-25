@@ -1,6 +1,8 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Trainer;
+use Doctrine\ORM\EntityManager;
 
 /**
  * TrainerRepository

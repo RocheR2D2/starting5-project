@@ -3,7 +3,7 @@
     <label for="form_powerForward" class="required">Select My Power Forward</label>
     <select id="form_powerForward" name="form[powerForward]">
         {% for player in forwards %}
-            <option value="{{ player.personId }}">{{ player.firstName }} {{ player.lastName }}</option>
+            <option value="{{ player.playerId }}">{{ player.firstname }} {{ player.lastname }}</option>
         {% endfor %}
     </select>
     <div class="row">
@@ -13,8 +13,67 @@
             </div>
         {% endfor %}
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pagination">
+                <span class="btn btn-info" id="pf-previous-page">Previous</span>
+                &nbsp
+                <span class="btn btn-info" id="pf-next-page">Next</span>
+            </div>
+        </div>
+    </div>
 {% else %}
     <div class="alert alert-warning">
         0 Forward Available
     </div>
 {% endif %}
+<script>
+    var previousPage = $("#pf-previous-page");
+    var loading = $('.loading');
+    var allPlayers = {{ fCount }};
+    var nextPage = $('#pf-next-page');
+    previousPage.prop("disabled", true);
+
+    nextPage.click(function () {
+        currentPagePf += 1;
+        previousPage.prop("disabled", false);
+        if(allPlayers > currentPagePf) {
+            nextPage.prop("disabled", true);
+        }
+        $.ajax({
+            url: '{{ path('powerForwards.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPagePf,
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.powerForwards').empty().append(success);
+            }
+        });
+    });
+    previousPage.click(function () {
+        currentPagePf -= 1;
+        if (currentPagePf == 0) {
+            previousPage.prop("disabled", true);
+        }
+        nextPage.prop("disabled", false);
+        $.ajax({
+            url: '{{ path('powerForwards.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPagePf,
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.powerForwards').empty().append(success);
+            }
+        });
+    });
+</script>

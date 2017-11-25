@@ -1,6 +1,8 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Stadium;
+use Doctrine\ORM\EntityManager;
 
 /**
  * StadiumRepository

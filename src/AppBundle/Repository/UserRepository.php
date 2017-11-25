@@ -1,6 +1,8 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\User;
+use Doctrine\ORM\EntityManager;
 
 /**
  * UserRepository
@@ -10,4 +12,10 @@ namespace AppBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    private $em;
+    public function __construct(EntityManager $em, User $class)
+    {
+        parent::__construct($em, $class);
+        $this->em = $em;
+    }
 }

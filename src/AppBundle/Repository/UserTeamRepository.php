@@ -1,6 +1,8 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\UserTeam;
+use Doctrine\ORM\EntityManager;
 
 /**
  * UserTeamRepository

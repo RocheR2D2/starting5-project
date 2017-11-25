@@ -28,3 +28,4 @@ security:
         - { path: ^/team/new, role: ROLE_USER }
         - { path: ^/team/\d+/edit, role: ROLE_USER }
         - { path: ^/my-players, role: ROLE_USER }
+        - { path: ^/pack, role: ROLE_USER }

@@ -70,7 +70,7 @@ user.team.edit:
 user.players:
     path:     /my-players
     defaults: { _controller: AppBundle:MyPlayers:index }
-    methods:  [GET]
+    methods:  [GET, POST]
 
 user.players.guard:
     path:     /my-players/guards
@@ -86,3 +86,49 @@ user.players.center:
     path:     /my-players/centers
     defaults: { _controller: AppBundle:MyPlayers:center }
     methods:  [GET]
+
+pack.opening:
+    path:     /pack
+    defaults: { _controller: AppBundle:Pack:packOpening }
+    methods:  [GET, POST]
+
+discard.player:
+    path:     /discard
+    defaults: { _controller: AppBundle:MyPlayers:discardPlayer }
+    methods:  [POST]
+
+players.next:
+    path:     /next
+    defaults: { _controller: AppBundle:MyPlayers:playersNext }
+    methods:  [POST]
+
+players.previous:
+    path:     /next
+    defaults: { _controller: AppBundle:MyPlayers:playersPrevious }
+    methods:  [POST]
+
+pointGuards.next:
+    path:     /nextPointGuards
+    defaults: { _controller: AppBundle:Dashboard:pgNext }
+    methods:  [POST]
+
+shootingGuards.next:
+    path:     /nextShootingGuards
+    defaults: { _controller: AppBundle:Dashboard:sgNext }
+    methods:  [POST]
+
+smallForwards.next:
+    path:     /nextSmallForwards
+    defaults: { _controller: AppBundle:Dashboard:sfNext }
+    methods:  [POST]
+
+
+powerForwards.next:
+    path:     /nextPowerForwards
+    defaults: { _controller: AppBundle:Dashboard:pfNext }
+    methods:  [POST]
+
+centers.next:
+    path:     /nextCenters
+    defaults: { _controller: AppBundle:Dashboard:cNext }
+    methods:  [POST]
