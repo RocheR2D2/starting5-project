@@ -56,7 +56,7 @@
                     loading.hide();
                 },
                 success: function (success) {
-                    $('.myPlayers').empty().append(success);
+                    $('.myPlayers').append(success);
                 }
             });
         });
@@ -80,6 +80,47 @@
                     $('.myPlayers').empty().append(success);
                 }
             });
+        });
+    </script>
+
+    <script>
+        is_processing = false;
+        last_page = false;
+        var currentPage = 0;
+        function addMoreElements() {
+            currentPage = currentPage + 1;
+            is_processing = true;
+            $.ajax({
+                type: "POST",
+                //FOS Routing
+                url: '{{ path('players.next') }}',
+                data: 'page=' + currentPage,
+                beforeSend: function () {
+                    loading.show();
+                },
+                complete: function () {
+                    loading.hide();
+                },
+                success: function(data) {
+                    $('.myPlayers').append(data);
+                    is_processing = false;
+                    if(currentPage * 9 > {{ count }}) {
+                        last_page = true;
+                    }
+                }
+            });
+        }
+
+        $(window).scroll(function() {
+            var wintop = $(window).scrollTop(), docheight = $(document).height(), winheight = $(window).height();
+            //Modify this parameter to establish how far down do you want to make the ajax call
+            var scrolltrigger = 1;
+            if ((wintop / (docheight - winheight)) >= scrolltrigger) {
+                //I added the is_processing variable to keep the ajax asynchronous but avoiding making the same call multiple times
+                if (last_page === false && is_processing === false) {
+                    addMoreElements();
+                }
+            }
         });
     </script>
 {% endblock %}
