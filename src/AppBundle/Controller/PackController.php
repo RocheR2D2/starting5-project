@@ -51,6 +51,7 @@ class PackController extends Controller
                 $userPlayer->setPlayerId($nbaPlayer);
                 $userPlayer->setUserId($this->getUser());
                 $userPlayer->setPosition($nbaPlayer->getPosition());
+                $userPlayer->setRating($nbaPlayer->getRating());
 
                 $em->persist($user);
                 $em->persist($userPlayer);
