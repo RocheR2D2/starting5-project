@@ -79,7 +79,7 @@ class MyPlayersController extends Controller
 
     public function getMyPlayers($user, $userTeamRepository, $playerRepository, $current = 1)
     {
-        $userPlayers = $userTeamRepository->findBy(['userId' => $user], null, 9, 0);
+        $userPlayers = $userTeamRepository->findBy(['userId' => $user], ['rating' => 'DESC'], 9, 0);
         if($current > 0){
             $userPlayers = $userTeamRepository->findBy(['userId' => $user], null, 9, 9 * $current);
         }
