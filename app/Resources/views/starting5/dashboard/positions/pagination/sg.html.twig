@@ -9,7 +9,6 @@
     var currentPageSg = 0;
     var loading = $('.loading');
     var allGuards = {{ gCount }};
-    var selectedSg = {{ selectedSg }};
     $('#sg-next-page').click(function () {
         currentPageSg += 1;
         if((currentPageSg + 1) * 9 >= allGuards){
