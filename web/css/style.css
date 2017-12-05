@@ -137,3 +137,12 @@
     height:100%;
     animation-fill-mode: forwards;
 }
+
+.active {
+    border: 1px solid red !important;
+}
+
+.disable {
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+}
