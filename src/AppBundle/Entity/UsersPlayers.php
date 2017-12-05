@@ -37,6 +37,27 @@ class UsersPlayers
      * @ORM\Column(name="position", type="string", nullable=true)
      */
     public $position;
+    /**
+     * @var float
+     * @ORM\Column(name="rating", type="float")
+     */
+    private $rating;
+
+    /**
+     * @return float
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
+
+    /**
+     * @param float $rating
+     */
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
+    }
 
     /**
      * @return string
