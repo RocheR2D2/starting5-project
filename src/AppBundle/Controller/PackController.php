@@ -37,6 +37,8 @@ class PackController extends Controller
             $packContent = $player->packOpener($this->getUser());
 
             foreach ($packContent as $content) {
+                $user = $this->getUser();
+                $user->setQuizPoints($user->getQuizPoints() - 50);
                 $em = $this->getDoctrine()->getManager();
                 $userPlayer = new UsersPlayers();
                 $nbaPlayer = $player->findOneBy(['playerId' => $content->playerId]);
@@ -44,14 +46,13 @@ class PackController extends Controller
                 if(in_array($playerId, $playersIds)){
                     $user = $this->getUser();
                     $user->setQuizPoints($user->getQuizPoints() + 50);
-                    $em->persist($user);
-                    $em->flush();
                     continue;
                 }
                 $userPlayer->setPlayerId($nbaPlayer);
                 $userPlayer->setUserId($this->getUser());
                 $userPlayer->setPosition($nbaPlayer->getPosition());
 
+                $em->persist($user);
                 $em->persist($userPlayer);
                 $em->flush();
             }
