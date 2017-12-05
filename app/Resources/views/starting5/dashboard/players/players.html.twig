@@ -8,7 +8,7 @@
             $.ajax({
                 url: '{{ path('discard.player') }}',
                 type: 'POST',
-                data: 'userPlayerId=' + {{ player.id }},
+                data: 'userPlayerId=' + {{ player.id }} + '&page='+ currentPage,
                 beforeSend: function () {
                     loading.show();
                 },
@@ -16,7 +16,6 @@
                     loading.hide();
                 },
                 success: function (success) {
-                    console.log(status);
                     $('.myPlayers').empty().append(success);
                 }
             });
