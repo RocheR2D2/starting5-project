@@ -1,0 +1,60 @@
+<div class="col-md-12">
+    <div class="pagination">
+        <button type="button" class="btn btn-info" id="pg-previous-page" disabled="disabled">Previous</button>
+        &nbsp
+        <button type="button" class="btn btn-info" id="pg-next-page">Next</button>
+    </div>
+</div>
+<script>
+    var currentPagePg = 0;
+    var loading = $('.loading');
+    var allGuards = {{ gCount }};
+    var selectedPg = $("#form_powerForward").val();
+
+    $('#pg-next-page').click(function () {
+        currentPagePg += 1;
+        if((currentPagePg + 1) * 9 >= allGuards){
+            $(this).prop("disabled", true);
+        }
+        $("#pg-previous-page").prop("disabled", false);
+        $.ajax({
+            url: '{{ path('pointGuards.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPagePg +
+            '&selectedPg=' + $("#form_pointGuard option:selected").val() +
+            '&selectedSg=' + $("#form_shootingGuard option:selected").val(),
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.pointGuards').append(success);
+            }
+        });
+    });
+    $("#pg-previous-page").click(function () {
+        currentPagePg -= 1;
+        if (currentPagePg == 0) {
+            $("#pg-previous-page").prop("disabled", true);
+        }
+        $('#pg-next-page').prop("disabled", false);
+        $.ajax({
+            url: '{{ path('pointGuards.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPagePg +
+            '&selectedPg=' + $("#form_pointGuard option:selected").val() +
+            '&selectedSg=' + $("#form_shootingGuard option:selected").val(),
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.pointGuards').append(success);
+            }
+        });
+    });
+</script>

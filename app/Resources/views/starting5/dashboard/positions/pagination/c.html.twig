@@ -1,0 +1,58 @@
+<div class="col-md-12">
+    <div class="pagination">
+        <button type="button" class="btn btn-info" id="c-previous-page" disabled="disabled">Previous</button>
+        &nbsp
+        <button type="button" class="btn btn-info" id="c-next-page">Next</button>
+    </div>
+</div>
+<script>
+    var currentPageC = 0;
+    var loading = $('.loading');
+    var allCenters = {{ cCount }};
+
+    if((currentPageC + 1) * 9 >= allCenters){
+        $('#c-next-page').prop("disabled", true);
+    }
+    $('#c-next-page').click(function () {
+        currentPageC += 1;
+        if((currentPageC + 1) * 9 > allCenters){
+            $(this).prop("disabled", true);
+        }
+        $("#c-previous-page").prop("disabled", false);
+        $.ajax({
+            url: '{{ path('centers.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPageC + '&selectedC=' + $("#form_center option:selected").val(),
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.centers').append(success);
+            }
+        });
+    });
+    $("#c-previous-page").click(function () {
+        currentPageC -= 1;
+        if (currentPageC == 0) {
+            $("#c-previous-page").prop("disabled", true);
+        }
+        $('#c-next-page').prop("disabled", false);
+        $.ajax({
+            url: '{{ path('centers.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPageC + '&selectedC=' + $("#form_center option:selected").val(),
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.centers').append(success);
+            }
+        });
+    });
+</script>

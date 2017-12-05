@@ -1,0 +1,56 @@
+<div class="col-md-12">
+    <div class="pagination">
+        <button type="button" class="btn btn-info" id="pf-previous-page" disabled="disabled">Previous</button>
+        &nbsp
+        <button type="button" class="btn btn-info" id="pf-next-page">Next</button>
+    </div>
+</div>
+<script>
+    var currentPagePf = 0;
+    var loading = $('.loading');
+    var allForwards = {{ fCount }};
+    var selectedPf = $("#form_powerForward option:selected").val();
+
+    $('#pf-next-page').click(function () {
+        currentPagePf += 1;
+        if((currentPagePf + 1) * 9 >= allForwards){
+            $(this).prop("disabled", true);
+        }
+        $("#pf-previous-page").prop("disabled", false);
+        $.ajax({
+            url: '{{ path('powerForwards.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPagePf + '&selectedPf=' + $("#form_powerForward option:selected").val() ,
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.powerForwards').append(success);
+            }
+        });
+    });
+    $("#pf-previous-page").click(function () {
+        currentPagePf -= 1;
+        if (currentPagePf == 0) {
+            $("#pf-previous-page").prop("disabled", true);
+        }
+        $('#pf-next-page').prop("disabled", false);
+        $.ajax({
+            url: '{{ path('powerForwards.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPagePf  + '&selectedPf=' + $("#form_powerForward option:selected").val(),
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.powerForwards').append(success);
+            }
+        });
+    });
+</script>
