@@ -51,9 +51,29 @@ players.profile:
     requirements:
             id: '\d+'
 
+quizz:
+  path: /quizz
+  defaults: {_controller:AppBundle:Quizz:index}
+
+quizz.getRandomQuizz:
+  path: /quizz/getRandomQuizz
+  defaults: {_controller: AppBundle:Quizz:getRandomQuizz}
+
 admin:
     path:     /admin
     defaults: { _controller: AppBundle:Admin:index }
+
+admin.quizz:
+  path: /admin/quizz
+  defaults: {_controller: AppBundle:Admin:quizz}
+
+admin.quizzForm:
+  path: /admin/quizzForm
+  defaults: {_controller: AppBundle:Admin:quizzForm}
+
+admin.getAllQuizz:
+  path: /admin/getAllQuizz
+  defaults: {_controller: AppBundle:Admin:getAllQuizz}
 
 user.team.new:
     path:     /team/new

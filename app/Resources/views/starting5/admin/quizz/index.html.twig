@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="container" ng-controller="adminQuizz">
+    <article>
+        <h2>{[{title}]}</h2>
+        <p>Proposez vos questions/réponses ici.</p>
+    </article>
+    {{ render(url('admin.quizzForm')) }}
+    {{ render(url('admin.getAllQuizz')) }}
+</section>
+
+{%  endblock %}

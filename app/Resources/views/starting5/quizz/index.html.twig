@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+   <section class="container" ng-controller="Quizz">
+       <h1>QUIZZ</h1>
+       <div ng-if="!started">
+           <button class="btn btn-primary" ng-click="startQuizz()">Commencer</button>
+       </div>
+       <div ng-if="started">
+            <div ng-show="loadingQuizz">Loading ...</div>
+           <div ng-cloak>
+               <h2><strong>{[{quizz.question}]}</strong></h2>
+               <div ng-if="quizz.type == 'QCM'">
+                   <ul>
+                       <li>
+                           <input type="button" value="{[{quizz.answer1}]}">
+                       </li>
+                       <li>
+                           <input type="button" value="{[{quizz.answer2}]}">
+                       </li>
+                       <li>
+                           <input type="button" value="{[{quizz.answer3}]}">
+                       </li>
+                       <li>
+                           <input type="button" value="{[{quizz.answer4}]}">
+                       </li>
+                   </ul>
+               </div>
+               <div ng-if="quizz.type == 'Question'">
+                   <input type="text" placeholder="Votre réponse ici.">
+                   <input type="submit" placeholder="Valider">
+               </div>
+           </div>
+       </div>
+   </section>
+{% endblock %}
