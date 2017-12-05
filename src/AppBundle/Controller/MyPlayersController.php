@@ -167,6 +167,7 @@ class MyPlayersController extends Controller
     {
         $nbaPlayers = $this->getDoctrine()->getRepository(UsersPlayers::class);
         $playerId = $data = $request->request->get('userPlayerId');
+        $page = $data = $request->request->get('page');
         $player = $nbaPlayers->findOneBy(['playerId' => $playerId]);
 
         $em = $this->getDoctrine()->getManager();
@@ -177,7 +178,7 @@ class MyPlayersController extends Controller
         $em->flush();
         $em->clear();
 
-        $response = new Response($this->playersAjax());
+        $response = new Response($this->playersAjax($page));
 
         return $response;
     }
@@ -195,7 +196,7 @@ class MyPlayersController extends Controller
 
     public function playersNextAction(Request $request)
     {
-        $page = $data = $request->request->get('page');
+        $page = $request->request->get('page');
         $response = new Response($this->playersAjax($page));
 
         return $response;
