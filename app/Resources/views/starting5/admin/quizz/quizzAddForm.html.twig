@@ -1,0 +1,68 @@
+<article>
+{{ form_start(form,  {'action': path('admin.quizzForm'), 'method': 'POST'}) }}
+   {{ form_errors(form) }}
+
+
+<!--TYPE-->
+<div class="form-group">
+    {{ form_label(form.type, "type", {'label_attr': {'class': ''}}) }}
+
+    {{ form_errors(form.type) }}
+
+    {{ form_widget(form.type, {'attr': {'class': 'form-control', 'ng-model':'quizz.type'}}) }}
+</div>
+
+<!--QUESTION-->
+<div class="form-group">
+    {{ form_label(form.question, "question", {'label_attr': {'class': ''}}) }}
+
+    {{ form_errors(form.question) }}
+
+    {{ form_widget(form.question, {'attr': {'class': 'form-control','ng-model': 'quizz.question'}}) }}
+</div>
+
+<!--ANSWER1-->
+<div class="form-group">
+    {{ form_label(form.answer1, "answer1", {'label_attr': {'class': ''}}) }}
+
+    {{ form_errors(form.answer1) }}
+
+    {{ form_widget(form.answer1, {'attr': {'class': 'form-control', 'ng-model': 'quizz.answer1'}}) }}
+</div>
+
+<!--ANSWER2-->
+<div class="form-group" ng-if="quizz.type == 'QCM'">
+    {{ form_label(form.answer2, "answer2", {'label_attr': {'class': ''}}) }}
+
+    {{ form_errors(form.answer2) }}
+
+    {{ form_widget(form.answer2, {'attr': {'class': 'form-control', 'ng-model': 'quizz.answer2'}}) }}
+</div>
+
+<!--ANSWER3-->
+<div class="form-group" ng-if="quizz.type == 'QCM'">
+    {{ form_label(form.answer3, "answer3", {'label_attr': {'class': ''}}) }}
+
+    {{ form_errors(form.answer3) }}
+
+    {{ form_widget(form.answer3, {'attr': {'class': 'form-control', 'ng-model': 'quizz.answer3'}}) }}
+</div>
+
+<!--ANSWER4-->
+<div class="form-group" ng-if="quizz.type == 'QCM'">
+    {{ form_label(form.answer4, "answer4", {'label_attr': {'class': ''}}) }}
+
+    {{ form_errors(form.answer4) }}
+
+    {{ form_widget(form.answer4, {'attr': {'class': 'form-control', 'ng-model': 'quizz.answer4'}}) }}
+</div>
+    <div class="form-group" ng-if="quizz.type == 'QCM'">
+        {{ form_label(form.QCM_answer, "Vraie réponse?", {'label_attr': {'name': 'qcm_answer'}}) }}
+
+        {{ form_errors(form.QCM_answer) }}
+
+        {{ form_widget(form.QCM_answer, {'attr': {'class': 'form-control', 'ng-model': 'quizz.QCMAnswer'}}) }}
+    </div>
+
+{{ form_end(form) }}
+</article>
