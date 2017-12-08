@@ -56,6 +56,13 @@
 
     {{ form_widget(form.answer4, {'attr': {'class': 'form-control', 'ng-model': 'quizz.answer4'}}) }}
 </div>
+    <div class="form-group" ng-if="quizz.type == 'QCM'">
+        {{ form_label(form.QCM_answer, "Vraie réponse?", {'label_attr': {'name': 'qcm_answer'}}) }}
+
+        {{ form_errors(form.QCM_answer) }}
+
+        {{ form_widget(form.QCM_answer, {'attr': {'class': 'form-control', 'ng-model': 'quizz.QCMAnswer'}}) }}
+    </div>
 
 {{ form_end(form) }}
 </article>

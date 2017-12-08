@@ -6,31 +6,40 @@
        <div ng-if="!started">
            <button class="btn btn-primary" ng-click="startQuizz()">Commencer</button>
        </div>
-       <div ng-if="started">
+       <div ng-if="!quizzEnd" ng-cloak>
+       <div ng-if="started && !validatingQuizz">
             <div ng-show="loadingQuizz">Loading ...</div>
-           <div ng-cloak>
+           <div ng-hide="loadingQuizz">
                <h2><strong>{[{quizz.question}]}</strong></h2>
                <div ng-if="quizz.type == 'QCM'">
                    <ul>
                        <li>
-                           <input type="button" value="{[{quizz.answer1}]}">
+                           <input type="button" ng-click="bindSelectedQCM(1)" value="{[{quizz.answer1}]}">
                        </li>
                        <li>
-                           <input type="button" value="{[{quizz.answer2}]}">
+                           <input type="button" ng-click="bindSelectedQCM(2)" value="{[{quizz.answer2}]}">
                        </li>
                        <li>
-                           <input type="button" value="{[{quizz.answer3}]}">
+                           <input type="button" ng-click="bindSelectedQCM(3)" value="{[{quizz.answer3}]}">
                        </li>
                        <li>
-                           <input type="button" value="{[{quizz.answer4}]}">
+                           <input type="button" ng-click="bindSelectedQCM(4)" value="{[{quizz.answer4}]}">
                        </li>
                    </ul>
                </div>
                <div ng-if="quizz.type == 'Question'">
-                   <input type="text" placeholder="Votre réponse ici.">
-                   <input type="submit" placeholder="Valider">
+                   <input type="text" ng-model="quizz.QuestionAnswer">
                </div>
+               <input ng-if="started" type="submit" placeholder="Valider" ng-click="validate()">
            </div>
+       </div>
+       <div ng-if="validatingQuizz">
+           <p>En cours de validation ...</p>
+       </div>
+       </div>
+       <div ng-if="quizzEnd" ng-cloak>
+        <div ng-if="validQuizz"><h1>BRAVO !</h1></div>
+           <div ng-if="!validQuizz"><h1>DOMMAGE :(</h1></div>
        </div>
    </section>
 {% endblock %}

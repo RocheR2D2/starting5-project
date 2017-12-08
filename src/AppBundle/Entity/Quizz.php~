@@ -64,6 +64,13 @@ class Quizz
     private $type;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="QCM_answer", type="string", length=255, nullable=true)
+     */
+    private $QCMAnswer;
+
+    /**
      * Get id
      *
      * @return int
@@ -217,5 +224,30 @@ class Quizz
     public function getType()
     {
         return $this->type;
+    }
+
+
+    /**
+     * Set qCMAnswer
+     *
+     * @param string $qCMAnswer
+     *
+     * @return Quizz
+     */
+    public function setQCMAnswer($qCMAnswer)
+    {
+        $this->QCMAnswer = $qCMAnswer;
+
+        return $this;
+    }
+
+    /**
+     * Get qCMAnswer
+     *
+     * @return string
+     */
+    public function getQCMAnswer()
+    {
+        return $this->QCMAnswer;
     }
 }

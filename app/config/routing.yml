@@ -59,6 +59,10 @@ quizz.getRandomQuizz:
   path: /quizz/getRandomQuizz
   defaults: {_controller: AppBundle:Quizz:getRandomQuizz}
 
+quizz.validateQuizz:
+  path: /quizz/validateQuizz
+  defaults: {_controller: AppBundle:Quizz:validateQuizz}
+
 admin:
     path:     /admin
     defaults: { _controller: AppBundle:Admin:index }

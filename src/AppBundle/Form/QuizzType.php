@@ -23,6 +23,18 @@ class QuizzType extends AbstractType
             ->add('answer2',TextType::class, array('required'=>true))
             ->add('answer3',TextType::class, array('required'=>true))
             ->add('answer4',TextType::class, array('required'=>true))
+            ->add('QCM_answer',ChoiceType::class, array(
+                'choices' => array(
+                    "answer1" => 1,
+                    "answer2" => 2,
+                    "answer3" => 3,
+                    "answer4" => 4
+                ),
+                'required'=>true,
+                'expanded' => true,
+                'multiple' => false,
+                'data' => 1
+            ))
             ->add('type',ChoiceType::class, array(
                 'choices' => array(
                     'QCM' => 'QCM',
