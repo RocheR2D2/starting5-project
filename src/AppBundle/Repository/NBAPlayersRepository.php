@@ -74,7 +74,7 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
         $playersStats = json_decode($playerStatsJson);
         if ($profile->getTeamId()->getTeamId() == $playersStats->league->standard->teamId) {
             $stats = $playersStats->league->standard->stats->careerSummary;
-            $playerProfile = (object) array_merge((array)$profile, (array)$stats);
+            $playerProfile = (object)array_merge((array)$profile, (array)$stats);
 
             return $playerProfile;
         }
@@ -103,7 +103,7 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
     {
         $query = $this->createQueryBuilder('p')
             ->where('p.rating > :rating')
-            ->setParameter('rating', 35)
+            ->setParameter('rating', 95)
             ->getQuery();
 
         $players = $query->getResult();
@@ -119,7 +119,7 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
         $qb = $em->createQueryBuilder();
         $query = $qb->select('u')
             ->from('AppBundle:NBAPlayers', 'u')
-            ->andWhere($qb->expr()->between('u.rating', 30, 35))
+            ->andWhere($qb->expr()->between('u.rating', 89, 95))
             ->getQuery();
 
         $players = $query->getResult();
@@ -135,7 +135,7 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
         $qb = $em->createQueryBuilder();
         $query = $qb->select('u')
             ->from('AppBundle:NBAPlayers', 'u')
-            ->andWhere($qb->expr()->between('u.rating', 25, 30))
+            ->andWhere($qb->expr()->between('u.rating', 84, 88))
             ->getQuery();
 
         $players = $query->getResult();
@@ -151,7 +151,7 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
         $qb = $em->createQueryBuilder();
         $query = $qb->select('u')
             ->from('AppBundle:NBAPlayers', 'u')
-            ->andWhere($qb->expr()->between('u.rating', 20, 25))
+            ->andWhere($qb->expr()->between('u.rating', 80, 83))
             ->getQuery();
 
         $players = $query->getResult();
@@ -167,7 +167,7 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
         $qb = $em->createQueryBuilder();
         $query = $qb->select('u')
             ->from('AppBundle:NBAPlayers', 'u')
-            ->andWhere($qb->expr()->between('u.rating', 15, 20))
+            ->andWhere($qb->expr()->between('u.rating', 75, 80))
             ->getQuery();
 
         $players = $query->getResult();
@@ -183,7 +183,7 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
         $qb = $em->createQueryBuilder();
         $query = $qb->select('u')
             ->from('AppBundle:NBAPlayers', 'u')
-            ->andWhere($qb->expr()->between('u.rating', 10, 15))
+            ->andWhere($qb->expr()->between('u.rating', 65, 75))
             ->getQuery();
 
         $players = $query->getResult();
@@ -199,7 +199,7 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
         $qb = $em->createQueryBuilder();
         $query = $qb->select('u')
             ->from('AppBundle:NBAPlayers', 'u')
-            ->andWhere($qb->expr()->between('u.rating', 0, 15))
+            ->andWhere($qb->expr()->between('u.rating', 0, 65))
             ->getQuery();
 
         $players = $query->getResult();
@@ -209,12 +209,15 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
         return $nbaPlayer;
     }
 
-    public function packOpener($user){
+    public function packOpener($type)
+    {
         $popPlayer = $this->getRandomPlayers();
-
+        if($type == 'golden'){
+            $popPlayer = $this->getRandomGoldenPlayers(); //20% chance increased to get a very rare player
+        }
         $packContent = new ArrayCollection();
 
-        for ($i=0; $i < 3; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $result = $popPlayer[array_rand($popPlayer)];
             switch ($result) {
                 case 1:
@@ -249,27 +252,61 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
     {
         $popPlayer = [];
 
-        for ($i=0; $i < 5; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $popPlayer[] = 2;
         }
 
-        for ($i=0; $i < 50; $i++) {
+        for ($i = 0; $i < 25; $i++) {
             $popPlayer[] = 3;
         }
 
-        for ($i=0; $i < 500; $i++) {
+        for ($i = 0; $i < 500; $i++) {
             $popPlayer[] = 4;
         }
 
-        for ($i=0; $i < 500; $i++) {
+        for ($i = 0; $i < 500; $i++) {
             $popPlayer[] = 5;
         }
 
-        for ($i=0; $i < 435; $i++) {
+        for ($i = 0; $i < 435; $i++) {
             $popPlayer[] = 6;
         }
 
-        for ($i=0; $i < 300; $i++) {
+        for ($i = 0; $i < 300; $i++) {
+            $popPlayer[] = 7;
+        }
+        $popPlayer[] = 1;
+
+        shuffle($popPlayer);
+
+        return $popPlayer;
+    }
+
+    public function getRandomGoldenPlayers()
+    {
+        $popPlayer = [];
+
+        for ($i = 0; $i < 8; $i++) {
+            $popPlayer[] = 2;
+        }
+
+        for ($i = 0; $i < 33; $i++) {
+            $popPlayer[] = 3;
+        }
+
+        for ($i = 0; $i < 500; $i++) {
+            $popPlayer[] = 4;
+        }
+
+        for ($i = 0; $i < 500; $i++) {
+            $popPlayer[] = 5;
+        }
+
+        for ($i = 0; $i < 435; $i++) {
+            $popPlayer[] = 6;
+        }
+
+        for ($i = 0; $i < 300; $i++) {
             $popPlayer[] = 7;
         }
         $popPlayer[] = 1;
