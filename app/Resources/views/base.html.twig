@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" ng-app="starting5">
 <meta charset="UTF-8"/>
 <title>{% block title %}Welcome!{% endblock %}</title>
 {% block stylesheets %}{% endblock %}
@@ -29,6 +29,13 @@
 
     <!-- Custom JavaScript for this theme -->
     <script src="{{ asset('js/scrolling-nav.js') }}"></script>
+
+    <!-- AngularJs CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <!-- Main angular app -->
+    <script src="{{ asset('js/app.js') }}"></script>
+
 </head>
 <body id="page-top">
 
@@ -102,6 +109,8 @@
     </div>
     <!-- /.container -->
 </footer>
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
 <script type="text/javascript">
     new WOW().init();

@@ -1,0 +1,28 @@
+<div>
+    <ul class="list-unstyled">
+        {% for quizz in allQuizz %}
+            <hr/>
+        <li>
+            <p><u>Type:</u> {{quizz.type}}</p>
+            <p><u>Question:</u> {{quizz.question}}</p>
+            <ul>
+                <li>
+                    <p><span>Réponse 1:</span> {{quizz.answer1}}</p>
+                </li>
+            {% if(quizz.type == 'QCM') %}
+                   <li>
+                        <p><span>Réponse 2:</span> {{quizz.answer2}}</p>
+                   </li>
+                   <li>
+                       <p><span>Réponse 3:</span> {{quizz.answer3}}</p>
+                   </li>
+                   <li>
+                       <p><span>Réponse 4:</span> {{quizz.answer4}}</p>
+                   </li>
+                <p>Vraie réponse: {{quizz.QCMAnswer}}</p>
+            {% endif %}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
