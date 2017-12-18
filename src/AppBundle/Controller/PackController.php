@@ -34,11 +34,25 @@ class PackController extends Controller
                 'data' => 'golden',
             ))
             ->getForm();
+        $gigaForm = $this->createFormBuilder()
+            ->add('save', SubmitType::class, array('label' => 'Giga Pack'))
+            ->add('type', HiddenType::class, array(
+                'data' => 'giga',
+            ))
+            ->getForm();
+        $superRareForm = $this->createFormBuilder()
+            ->add('save', SubmitType::class, array('label' => 'Super Rare Pack'))
+            ->add('type', HiddenType::class, array(
+                'data' => 'super-rare',
+            ))
+            ->getForm();
 
         $silverForm->handleRequest($request);
         $goldenForm->handleRequest($request);
+        $gigaForm->handleRequest($request);
+        $superRareForm->handleRequest($request);
 
-        if ($silverForm->isSubmitted() || $goldenForm->isSubmitted()) {
+        if ($silverForm->isSubmitted() || $goldenForm->isSubmitted() || $gigaForm->isSubmitted() || $superRareForm->isSubmitted()) {
             $hint = [];
             $userPlayers = $userPlayerRepository->findBy(['userId' => $this->getUser()->getId()]);
             $playersIds = [];
@@ -54,42 +68,56 @@ class PackController extends Controller
                 if(isset($goldenForm->getData()['type'])){
                     $type = $goldenForm->getData()['type'];
                 }
+            } elseif($gigaForm->isSubmitted()){
+                if(isset($gigaForm->getData()['type'])){
+                    $type = $gigaForm->getData()['type'];
+                }
+            } elseif($superRareForm->isSubmitted()){
+                if(isset($superRareForm->getData()['type'])){
+                    $type = $superRareForm->getData()['type'];
+                }
             }
             $packContent = $player->packOpener($type);
 
             foreach ($packContent as $content) {
                 $user = $this->getUser();
                 if($type == 'golden'){
-                    $user->setQuizPoints($user->getQuizPoints() - 50);
+                    $user->setQuizPoints($user->getQuizPoints() - 500); // 1500
                 } elseif($type == 'silver'){
-                    $user->setQuizPoints($user->getQuizPoints() - 60);
+                    $user->setQuizPoints($user->getQuizPoints() - 100); // 300
+                } elseif($type == 'giga'){
+                    $user->setQuizPoints($user->getQuizPoints() - 1500); // 3500
+                } elseif($type == 'super-rare'){
+                    $user->setQuizPoints($user->getQuizPoints() - 3500); // 10500
                 }
                 $em = $this->getDoctrine()->getManager();
                 $userPlayer = new UsersPlayers();
                 $nbaPlayer = $player->findOneBy(['playerId' => $content->playerId]);
-                $playerId = $nbaPlayer->getPlayerId();
-                if(in_array($playerId, $playersIds)){
-                    $user = $this->getUser();
-                    $user->setQuizPoints($user->getQuizPoints() + 50);
-                    continue;
-                }
-                $userPlayer->setPlayerId($nbaPlayer);
-                $userPlayer->setUserId($this->getUser());
-                $userPlayer->setPosition($nbaPlayer->getPosition());
-                $userPlayer->setRating($nbaPlayer->getRating());
-                if($nbaPlayer->getRating() > 85 && $nbaPlayer->getRating() <= 87){
-                    $hint['rare'] = $nbaPlayer;
-                } else if ($nbaPlayer->getRating() > 87 && $nbaPlayer->getRating() <= 92) {
-                    $hint['very_rare'] = $nbaPlayer;
-                } else if ($nbaPlayer->getRating() > 92 && $nbaPlayer->getRating() <= 94) {
-                    $hint['ultra_rare'] = $nbaPlayer;
-                } else if ($nbaPlayer->getRating() >= 95) {
-                    $hint['epic'] = $nbaPlayer;
-                }
+                if($nbaPlayer){
+                    $playerId = $nbaPlayer->getPlayerId();
+                    if(in_array($playerId, $playersIds)){
+                        $user = $this->getUser();
+                        $user->setQuizPoints($user->getQuizPoints() + 50);
+                        continue;
+                    }
+                    $userPlayer->setPlayerId($nbaPlayer);
+                    $userPlayer->setUserId($this->getUser());
+                    $userPlayer->setPosition($nbaPlayer->getPosition());
+                    $userPlayer->setRating($nbaPlayer->getRating());
+                    if($nbaPlayer->getRating() > 85 && $nbaPlayer->getRating() <= 87){
+                        $hint['rare'] = $nbaPlayer;
+                    } else if ($nbaPlayer->getRating() > 87 && $nbaPlayer->getRating() <= 90) {
+                        $hint['very_rare'] = $nbaPlayer;
+                    } else if ($nbaPlayer->getRating() > 90 && $nbaPlayer->getRating() <= 94) {
+                        $hint['ultra_rare'] = $nbaPlayer;
+                    } else if ($nbaPlayer->getRating() >= 95) {
+                        $hint['epic'] = $nbaPlayer;
+                    }
 
-                $em->persist($user);
-                $em->persist($userPlayer);
-                $em->flush();
+                    $em->persist($user);
+                    $em->persist($userPlayer);
+                    $em->flush();
+                }
             }
 
             return $this->render('starting5/pack/pack.html.twig', [
@@ -102,6 +130,8 @@ class PackController extends Controller
         return $this->render('starting5/pack/index.html.twig', [
             'silverForm' => $silverForm->createView(),
             'goldenForm' => $goldenForm->createView(),
+            'gigaForm' => $gigaForm->createView(),
+            'superRareForm' => $superRareForm->createView(),
             'count' => $countPlayers
         ]);
     }
