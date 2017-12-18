@@ -7,26 +7,35 @@
 {% block body %}
     <section id="about">
         <div class="container">
-            <h1>
-                All My Players
-                <span>
+            <div class="col-lg-8 mx-auto">
+                <h1>
+                    All My Players
+                    <span>
                 <a href="{{ path('user.players.guard') }}" class="btn btn-primary">Guards</a>
                 <a href="{{ path('user.players.forward') }}" class="btn btn-info">Forwards</a>
                 <a href="{{ path('user.players.center') }}" class="btn btn-danger">Centers</a>
                 </span>
-            </h1>
-            <div class="row myPlayers">
-                {{ render(controller('AppBundle:MyPlayers:players')) }}
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="pagination">
-                        <button class="btn btn-info" id="previous-page">Previous</button>
-                        &nbsp
-                        <button class="btn btn-info" id="next-page">Next</button>
+                </h1>
+                {% if count > 0 %}
+                    <div class="row myPlayers">
+                        {{ render(controller('AppBundle:MyPlayers:players')) }}
                     </div>
-                </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pagination">
+                                <button class="btn btn-info" id="previous-page">Previous</button>
+                                &nbsp
+                                <button class="btn btn-info" id="next-page">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="row myPlayers">
+                        NO PLAYERS AVAILABLE.
+                        GO OPEN SOME PACK !
+                    </div>
+                {% endif %}
             </div>
         </div>
     </section>
@@ -42,7 +51,7 @@
         nextPage.click(function () {
             currentPage = currentPage + 1;
             previousPage.prop("disabled", false);
-            if(currentPage > allPlayers) {
+            if (currentPage > allPlayers) {
                 nextPage.prop("disabled", true);
             }
             $.ajax({
@@ -101,17 +110,17 @@
                 complete: function () {
                     loading.hide();
                 },
-                success: function(data) {
+                success: function (data) {
                     $('.myPlayers').append(data);
                     is_processing = false;
-                    if(currentPage * 9 > {{ count }}) {
+                    if (currentPage * 9 > {{ count }}) {
                         last_page = true;
                     }
                 }
             });
         }
 
-        $(window).scroll(function() {
+        $(window).scroll(function () {
             var wintop = $(window).scrollTop(), docheight = $(document).height(), winheight = $(window).height();
             //Modify this parameter to establish how far down do you want to make the ajax call
             var scrolltrigger = 1;
