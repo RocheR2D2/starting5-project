@@ -119,7 +119,7 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
         $qb = $em->createQueryBuilder();
         $query = $qb->select('u')
             ->from('AppBundle:NBAPlayers', 'u')
-            ->andWhere($qb->expr()->between('u.rating', 89, 95))
+            ->andWhere($qb->expr()->between('u.rating', 88, 96))
             ->getQuery();
 
         $players = $query->getResult();
@@ -135,7 +135,7 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
         $qb = $em->createQueryBuilder();
         $query = $qb->select('u')
             ->from('AppBundle:NBAPlayers', 'u')
-            ->andWhere($qb->expr()->between('u.rating', 84, 88))
+            ->andWhere($qb->expr()->between('u.rating', 84, 89))
             ->getQuery();
 
         $players = $query->getResult();
@@ -211,13 +211,21 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
 
     public function packOpener($type)
     {
+        $numberOfPlayers = 3;
+        if($type == 'giga'){
+            $popPlayer = $this->getRandomGoldenPlayers(); //20% chance increased to get a very rare player
+            $numberOfPlayers = 9;
+        }
         $popPlayer = $this->getRandomPlayers();
         if($type == 'golden'){
-            $popPlayer = $this->getRandomGoldenPlayers(); //20% chance increased to get a very rare player
+            $popPlayer = $this->getRandomGoldenPlayers(); //40% chance increased to get a very rare player
+        }
+        if($type == 'super-rare'){
+            $popPlayer = $this->getRandomSuperRarePlayers(); //chance of getting super rare player are multiplied by 2.5 based of golden chances
         }
         $packContent = new ArrayCollection();
 
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < $numberOfPlayers; $i++) {
             $result = $popPlayer[array_rand($popPlayer)];
             switch ($result) {
                 case 1:
@@ -286,11 +294,11 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
     {
         $popPlayer = [];
 
-        for ($i = 0; $i < 8; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $popPlayer[] = 2;
         }
 
-        for ($i = 0; $i < 33; $i++) {
+        for ($i = 0; $i < 40; $i++) {
             $popPlayer[] = 3;
         }
 
@@ -307,6 +315,40 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
         }
 
         for ($i = 0; $i < 300; $i++) {
+            $popPlayer[] = 7;
+        }
+        $popPlayer[] = 1;
+
+        shuffle($popPlayer);
+
+        return $popPlayer;
+    }
+
+    public function getRandomSuperRarePlayers()
+    {
+        $popPlayer = [];
+
+        for ($i = 0; $i < 10; $i++) {
+            $popPlayer[] = 2;
+        }
+
+        for ($i = 0; $i < 500; $i++) {
+            $popPlayer[] = 3;
+        }
+
+        for ($i = 0; $i < 200; $i++) {
+            $popPlayer[] = 4;
+        }
+
+        for ($i = 0; $i < 100; $i++) {
+            $popPlayer[] = 5;
+        }
+
+        for ($i = 0; $i < 100; $i++) {
+            $popPlayer[] = 6;
+        }
+
+        for ($i = 0; $i < 100; $i++) {
             $popPlayer[] = 7;
         }
         $popPlayer[] = 1;
