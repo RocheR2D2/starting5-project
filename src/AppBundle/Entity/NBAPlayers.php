@@ -159,6 +159,9 @@ class NBAPlayers
     {
         $this->lastname = $lastname;
     }
+    public function getFullName(){
+        return $this->firstname.' '.$this->lastname;
+    }
     /**
      * @return float
      */
