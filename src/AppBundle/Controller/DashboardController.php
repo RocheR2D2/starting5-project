@@ -73,6 +73,12 @@ class DashboardController extends Controller
         $cCount = $userRepository->allCenters;
         $userTeams = $userTeamRepository->findBy(['user' => $user]);
 
+        $pg = 'No Player Selected';
+        $sg = 'No Player Selected';
+        $sf = 'No Player Selected';
+        $pf = 'No Player Selected';
+        $c = 'No Player Selected';
+
         $userTeam = new UserTeam();
 
         $form = $this->createFormBuilder($userTeam)
@@ -120,18 +126,41 @@ class DashboardController extends Controller
             'centers' => $centers,
             'fCount' => $fCount,
             'cCount' => $cCount,
+            'pg' => $pg,
+            'sg' => $sg,
+            'sf' => $sf,
+            'pf' => $pf,
+            'c' => $c,
         ));
     }
 
     public function editAction(Request $request, $id)
     {
+        $user = $this->getUser();
+        $userRepository = $this->getDoctrine()->getRepository(UsersPlayers::class);
         $userTeamRepository = $this->getDoctrine()->getRepository(UserTeam::class);
+        $playerDoctrine = $this->getDoctrine()->getRepository(NBAPlayers::class);
         $userTeam = $userTeamRepository->find($id);
         $form = $this->createForm(UserTeamType::class, $userTeam);
+
+        $pg = $userTeamRepository->find($id)->getPointGuard()->getFullName();
+        $sg = $userTeamRepository->find($id)->getShootingGuard()->getFullName();
+        $sf = $userTeamRepository->find($id)->getSmallForward()->getFullName();
+        $pf = $userTeamRepository->find($id)->getPowerForward()->getFullName();
+        $c = $userTeamRepository->find($id)->getCenter()->getFullName();
+
+        $guards = $userRepository->getGuards($user);
+        $gCount = $userRepository->allGuards;
+        $forwards = $userRepository->getForwards($user);
+        $fCount = $userRepository->allForwards;
+        $centers = $userRepository->getCenters($user);
+        $cCount = $userRepository->allCenters;
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = $request->request->get('form');
+            $this->setNewPlayers($userTeam, $playerDoctrine, $data);
             $em = $this->getDoctrine()->getManager();
             $userTeam = $form->getData();
             $em->persist($userTeam);
@@ -143,7 +172,18 @@ class DashboardController extends Controller
         return $this->render('starting5/dashboard/teams/edit.html.twig', array(
             'form' => $form->createView(),
             'userTeam' => $userTeam,
-            'id' => $id
+            'id' => $id,
+            'guards' => $guards,
+            'gCount' => $gCount,
+            'forwards' => $forwards,
+            'centers' => $centers,
+            'fCount' => $fCount,
+            'cCount' => $cCount,
+            'pg' => $pg,
+            'sg' => $sg,
+            'sf' => $sf,
+            'pf' => $pf,
+            'c' => $c,
         ));
     }
 
