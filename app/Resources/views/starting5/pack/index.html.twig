@@ -27,6 +27,18 @@
                         {{ form_row(goldenForm.save, {'attr': {'class': 'btn btn-info'}}) }}
                     </div>
                     {{ form_end(goldenForm) }}
+
+                    {{ form_start(gigaForm, { 'action': path('pack.opening')}) }}
+                    <div class="form-group">
+                        {{ form_row(gigaForm.save, {'attr': {'class': 'btn btn-danger'}}) }}
+                    </div>
+                    {{ form_end(gigaForm) }}
+
+                    {{ form_start(superRareForm, { 'action': path('pack.opening')}) }}
+                    <div class="form-group">
+                        {{ form_row(superRareForm.save, {'attr': {'class': 'btn btn-success'}}) }}
+                    </div>
+                    {{ form_end(superRareForm) }}
                 {% endif %}
             </div>
         </div>
