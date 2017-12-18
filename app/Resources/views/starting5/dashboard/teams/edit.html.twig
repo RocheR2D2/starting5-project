@@ -26,6 +26,8 @@
                    <div>
                        <input type="submit" class="btn btn-primary" value="{{ 'Edit Team'|trans }}"/>
                    </div>
+                   {% include 'starting5/dashboard/teams/select.html.twig'
+                   with {'guards': guards, 'forwards': forwards, 'centers': centers, 'gCount': gCount, 'fCount': fCount, 'cCount': cCount} %}
                    {{ form_end(form) }}
                </div>
            </div>
