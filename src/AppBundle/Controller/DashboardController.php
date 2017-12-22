@@ -64,12 +64,16 @@ class DashboardController extends Controller
         $userTeamRepository = $this->getDoctrine()->getRepository(UserTeam::class);
         $userRepository = $this->getDoctrine()->getRepository(UsersPlayers::class);
         $playerDoctrine = $this->getDoctrine()->getRepository(NBAPlayers::class);
+        $serializer = $this->container->get('serializer');
 
         $guards = $userRepository->getGuards($user);
+        $guardsJson = $serializer->serialize($guards, 'json');
         $gCount = $userRepository->allGuards;
         $forwards = $userRepository->getForwards($user);
+        $forwardsJson = $serializer->serialize($forwards, 'json');
         $fCount = $userRepository->allForwards;
         $centers = $userRepository->getCenters($user);
+        $centersJson = $serializer->serialize($centers, 'json');
         $cCount = $userRepository->allCenters;
         $userTeams = $userTeamRepository->findBy(['user' => $user]);
 
@@ -126,6 +130,9 @@ class DashboardController extends Controller
             'centers' => $centers,
             'fCount' => $fCount,
             'cCount' => $cCount,
+            'guardsJson' => $guardsJson,
+            'forwardsJson' => $forwardsJson,
+            'centersJson' => $centersJson,
             'pg' => $pg,
             'sg' => $sg,
             'sf' => $sf,
