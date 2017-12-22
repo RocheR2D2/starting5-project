@@ -12,9 +12,6 @@ Selected Player : <span id="pg-selected">{{ pg }}</span>
     {% include 'starting5/dashboard/positions/pointGuards.html.twig' with {'guards':guards} %}
 </div>
 {% include 'starting5/dashboard/positions/pagination/pg.html.twig' with {'gCount':gCount} %}
-<script>
-    console.log($("#form_pointGuard option:selected").val());
-</script>
 
 <h1>Shooting Guards available</h1>
 Selected Player : <span id="sg-selected">{{ sg }}</span>
@@ -80,6 +77,4 @@ Selected Player : <span id="c-selected">{{ c }}</span>
     {% include 'starting5/dashboard/positions/centers.html.twig' with {'centers':centers} %}
 </div>
 {% include 'starting5/dashboard/positions/pagination/c.html.twig' with {'cCount':cCount} %}
-</div>
-</div>
 <hr>
