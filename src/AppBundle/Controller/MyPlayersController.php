@@ -129,7 +129,6 @@ class MyPlayersController extends Controller
 
     public function discardPlayerAction(Request $request)
     {
-        //$nbaPlayers = $this->getDoctrine()->getRepository(UsersPlayers::class);
         $playerId = $data = $request->request->get('userPlayerId');
         $page = $data = $request->request->get('page');
         $player = $this->userPlayers->findOneBy(['playerId' => $playerId]);
