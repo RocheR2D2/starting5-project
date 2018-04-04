@@ -1,6 +1,6 @@
 {% for player in myPlayers %}
     <div class="col-md-4 my-players wow bounceIn">
-        {% include 'starting5/players/player.html.twig' with {'player': player} %}
+        {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
         <button class="btn btn-danger discard discard-{{ player.id }}">Discard</button>
     </div>
     <script type="text/javascript">
