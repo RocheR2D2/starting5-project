@@ -15,7 +15,7 @@
                 {% if(forwards|length > 0) %}
                     {% for player in forwards %}
                     <div class="col-md-4">
-                        {% include 'starting5/players/player.html.twig' with {'player': player} %}
+                        {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
                     </div>
                 {% endfor %}
                 {% else %}
