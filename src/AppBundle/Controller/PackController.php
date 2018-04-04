@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\NBAPlayers;
 use AppBundle\Entity\UsersPlayers;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\DBAL\Types\TextType;
 use AppBundle\Helper\Pack;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,6 +14,17 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PackController extends Controller
 {
+    private $em;
+    private $player;
+    private $userPlayerRepository;
+
+    public function __construct(ObjectManager $em)
+    {
+        $this->em = $em;
+        $this->player = $this->em->getRepository(NBAPlayers::class);
+        $this->userPlayerRepository = $this->em->getRepository(UsersPlayers::class);
+    }
+
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -20,9 +32,7 @@ class PackController extends Controller
     public function packOpeningAction(Request $request)
     {
         $user = $this->getUser();
-        $player = $this->getDoctrine()->getRepository(NBAPlayers::class);
-        $userPlayerRepository = $this->getDoctrine()->getRepository(UsersPlayers::class);
-        $userPlayers = $userPlayerRepository->findBy(['userId' => $this->getUser()]);
+        $userPlayers = $this->userPlayerRepository->findBy(['userId' => $this->getUser()]);
         $countPlayers = count($userPlayers) + 3;
         $silverForm = $this->createFormBuilder()
             ->add('save', SubmitType::class, array('label' => 'Silver Pack'))
@@ -56,7 +66,7 @@ class PackController extends Controller
 
         if ($silverForm->isSubmitted() || $goldenForm->isSubmitted() || $gigaForm->isSubmitted() || $superRareForm->isSubmitted()) {
             $hint = [];
-            $userPlayers = $userPlayerRepository->findBy(['userId' => $this->getUser()->getId()]);
+            $userPlayers = $this->userPlayerRepository->findBy(['userId' => $this->getUser()->getId()]);
             $playersIds = [];
             foreach ($userPlayers as $userPlayer) {
                 $playersIds[] = $userPlayer->getPlayerId()->getPlayerId();
@@ -79,7 +89,7 @@ class PackController extends Controller
                     $type = $superRareForm->getData()['type'];
                 }
             }
-            $packContent = $player->packOpener($type);
+            $packContent = $this->player->packOpener($type);
 
             foreach ($packContent as $content) {
                 if($content && $user){
@@ -106,7 +116,7 @@ class PackController extends Controller
                     }
                     $em = $this->getDoctrine()->getManager();
                     $userPlayer = new UsersPlayers();
-                    $nbaPlayer = $player->findOneBy(['playerId' => $content->playerId]);
+                    $nbaPlayer = $this->player->findOneBy(['playerId' => $content->playerId]);
                     if($nbaPlayer){
                         $playerId = $nbaPlayer->getPlayerId();
                         if(in_array($playerId, $playersIds)){
