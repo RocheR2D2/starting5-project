@@ -106,61 +106,25 @@ class MyPlayersController extends Controller
         }
     }
 
-    public function getMyGuards($user, $userTeamRepository, $playerRepository)
+    public function getMyGuards($user, $userTeamRepository)
     {
-        $userPlayers = $userTeamRepository->findBy(['userId' => $user]);
-        $myPlayers = new ArrayCollection();
-        foreach ($userPlayers as $myPlayer) {
-            $playerId = $myPlayer->getPlayerId()->getPlayerId();
-            $player = $playerRepository->getProfile($playerId);
-            $playerPosition = $player->pos;
-            if($playerPosition == 'G') {
-                $myPlayers[] = $player;
-            }
-            if (isset($playerPosition[0]) && $playerPosition[0] == 'G') {
-                $myPlayers[] = $player;
-            } elseif (isset($playerPosition[0]) && isset($playerPosition[1]) && $playerPosition[1] == 'G') {
-                $myPlayers[] = $player;
-            }
-        }
+        $userPlayers = $userTeamRepository->findBy(['userId' => $user, 'position' => ['G' ,'F-G','G-F']]);
 
-        return $myPlayers;
+        return $userPlayers;
     }
 
-    public function getMyForwards($user, $userTeamRepository, $playerRepository)
+    public function getMyForwards($user, $userTeamRepository)
     {
-        $userPlayers = $userTeamRepository->findBy(['userId' => $user]);
-        $myPlayers = new ArrayCollection();
-        foreach ($userPlayers as $myPlayer) {
-            $playerId = $myPlayer->getPlayerId()->getPlayerId();
-            $player = $playerRepository->getProfile($playerId);
-            $playerPosition = explode('-', $player['pos']);
-            if (isset($playerPosition[0]) && $playerPosition[0] == 'F') {
-                $myPlayers[] = $player;
-            } elseif (isset($playerPosition[0]) && isset($playerPosition[1]) && $playerPosition[1] == 'F') {
-                $myPlayers[] = $player;
-            }
-        }
+        $userPlayers = $userTeamRepository->findBy(['userId' => $user, 'position' => ['F' ,'F-C','C-F']]);
 
-        return $myPlayers;
+        return $userPlayers;
     }
 
-    public function getMyCenters($user, $userTeamRepository, $playerRepository)
+    public function getMyCenters($user, $userTeamRepository)
     {
-        $userPlayers = $userTeamRepository->findBy(['userId' => $user]);
-        $myPlayers = new ArrayCollection();
-        foreach ($userPlayers as $myPlayer) {
-            $playerId = $myPlayer->getPlayerId()->getPlayerId();
-            $player = $playerRepository->getProfile($playerId);
-            $playerPosition = explode('-', $player['pos']);
-            if (isset($playerPosition[0]) && $playerPosition[0] == 'C') {
-                $myPlayers[] = $player;
-            } elseif (isset($playerPosition[0]) && isset($playerPosition[1]) && $playerPosition[1] == 'C') {
-                $myPlayers[] = $player;
-            }
-        }
+        $userPlayers = $userTeamRepository->findBy(['userId' => $user, 'position' => ['C' ,'F-C','C-F']]);
 
-        return $myPlayers;
+        return $userPlayers;
     }
 
     public function discardPlayerAction(Request $request)
