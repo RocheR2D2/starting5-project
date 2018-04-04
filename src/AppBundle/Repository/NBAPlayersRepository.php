@@ -70,16 +70,14 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
                 $profile = $player;
             }
         }
-        $playerStatsJson = file_get_contents('http://data.nba.net/data/10s/prod/v1/2017/players/' . $playerId . '_profile.json');
-        $playersStats = json_decode($playerStatsJson);
-        if ($profile->getTeamId()->getTeamId() == $playersStats->league->standard->teamId) {
+        if ($profile !== null) {
+            $playerStatsJson = file_get_contents('http://data.nba.net/data/10s/prod/v1/2017/players/' . $playerId . '_profile.json');
+            $playersStats = json_decode($playerStatsJson);
             $stats = $playersStats->league->standard->stats->careerSummary;
             $playerProfile = (object)array_merge((array)$profile, (array)$stats);
 
             return $playerProfile;
         }
-
-        return null;
     }
 
     /**
@@ -87,7 +85,7 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
      * @param $positionCode
      * @param $positionArray
      */
-    public function getPlayerPosition($players, $positionCode, $positionArray)
+    public function getPlayerPosition($players, $positionCode)
     {
         foreach ($players as $player) {
             $playerPosition = explode('-', $player->position);
