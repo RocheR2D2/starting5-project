@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+    {% block header %}
+        <h1>Dashboard</h1>
+    {% endblock header %}
+
+{% block body %}
+
+    <section id="about">
+        <div class="container">
+            <h2>Last Players Packed</h2>
+            <div class="row">
+                {% for player in lastPlayers %}
+                    {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

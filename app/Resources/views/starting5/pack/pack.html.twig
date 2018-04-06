@@ -4,7 +4,7 @@
         <h1>YOU GOT ...</h1>
         <div class="row text-center">
             {% for player in packContent %}
-                <div class="col-md-4 wow fadeInUpBig" data-wow-duration="1s" data-wow-delay="2s">
+                <div class="col-md-4" data-wow-duration="1s" data-wow-delay="2s">
                     {% include 'starting5/players/player.html.twig' with {'player': player} %}
                 </div>
             {% endfor %}

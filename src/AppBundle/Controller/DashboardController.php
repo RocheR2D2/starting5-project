@@ -31,6 +31,16 @@ class DashboardController extends Controller
         $this->userPlayers = $this->em->getRepository(UsersPlayers::class);
     }
 
+    public function homeAction() {
+        $lastPlayers = $this->userPlayers->findBy([], ['id' => 'DESC'], 5);
+
+        return $this->render('starting5/dashboard/home.html.twig',
+            [
+                'lastPlayers' => $lastPlayers
+            ]
+        );
+    }
+
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response

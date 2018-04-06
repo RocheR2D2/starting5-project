@@ -22,7 +22,11 @@ fos_user_change_password:
     prefix: /profile
 
 dashboard:
-    path:     /dashboard
+    path: /dashboard
+    defaults: { _controller: AppBundle:Dashboard:home }
+
+my-teams:
+    path: /my-teams
     defaults: { _controller: AppBundle:Dashboard:index }
 
 team:

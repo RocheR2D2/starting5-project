@@ -44,7 +44,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">Starting5</a>
+        <a class="navbar-brand js-scroll-trigger" href="/">Starting5</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -53,7 +53,7 @@
             <ul class="navbar-nav ml-auto">
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{{ path('dashboard') }}">5IVE</a>
+                        <a class="nav-link js-scroll-trigger" href="{{ path('my-teams') }}">5IVE</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="{{ path('user.players') }}">My Players</a>
