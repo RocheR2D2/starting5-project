@@ -116,6 +116,16 @@ pack.opening:
     defaults: { _controller: AppBundle:Pack:packOpening }
     methods:  [GET, POST]
 
+ajax.pack.opening:
+    path:     /packopening
+    defaults: { _controller: AppBundle:Pack:packContent }
+    methods:  [POST]
+
+pack.opener:
+    path:     /pack-content
+    defaults: { _controller: AppBundle:Pack:opener }
+    methods:  [GET]
+
 discard.player:
     path:     /discard
     defaults: { _controller: AppBundle:MyPlayers:discardPlayer }

@@ -1,50 +1,13 @@
-{% extends 'base.html.twig' %}
-
-{% block body %}
-
-
-    <div class="leftshit wow fadeOutLeft"
-         data-wow-duration="1s"
-         data-wow-delay="1s"
-         style="background: {% if hint['epic'] is defined %}
-                 red
-                 {% elseif hint['ultra_rare'] is defined %}
-                 blue
-                 {% elseif hint['very_rare'] is defined %}
-                 green
-                 {% elseif hint['rare'] is defined %}
-                 yellow
-                 {% else %}
-                 gray
-         {% endif %};">
-    </div>
-    <div class="rightshit wow fadeOutRight"
-         data-wow-duration="1s"
-         data-wow-delay="1s"
-         style="background: {% if hint['epic'] is defined %}
-                 red
-                 {% elseif hint['ultra_rare'] is defined %}
-                 blue
-                 {% elseif hint['very_rare'] is defined %}
-                 green
-                 {% elseif hint['rare'] is defined %}
-                 yellow
-                 {% else %}
-                 white
-         {% endif %};">
-    </div>
-    <section id="about">
-        <div class="container">
-            <p>{{ type }} pack</p>
-            <h1>YOU GOT ...</h1>
-            <div class="row text-center">
-                {% for player in packContent %}
-                    <div class="col-md-4 wow fadeIn" data-wow-duration="1s" data-wow-delay="2s">
-                        <!-- -->
-                        {% include 'starting5/players/player.html.twig' with {'player': player} %}
-                    </div>
-                {% endfor %}
-            </div>
+<div id="about" class="wow fadeInUpBig">
+    <div class="container">
+        <p>{{ type }} pack</p>
+        <h1>YOU GOT ...</h1>
+        <div class="row text-center">
+            {% for player in packContent %}
+                <div class="col-md-4 wow fadeInUpBig" data-wow-duration="1s" data-wow-delay="2s">
+                    {% include 'starting5/players/player.html.twig' with {'player': player} %}
+                </div>
+            {% endfor %}
         </div>
-    </section>
-{% endblock %}
+    </div>
+</div>
