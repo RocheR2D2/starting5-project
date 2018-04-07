@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\NBAPlayers;
 use AppBundle\Entity\UsersPlayers;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Helper\Pack;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,71 +28,10 @@ class PackController extends Controller
 
     public function packOpeningAction(Request $request)
     {
-        $user = $this->getUser();
         $userPlayers = $this->userPlayerRepository->findBy(['userId' => $this->getUser()]);
         $countPlayers = count($userPlayers) + 3;
-        $silverForm = $this->createFormBuilder()
-            ->add('save', SubmitType::class, array('label' => 'Silver Pack'))
-            ->add('type', HiddenType::class, array(
-                'data' => Pack::SILVER_PACK_LABEL,
-            ))
-            ->getForm();
-        $goldenForm = $this->createFormBuilder()
-            ->add('save', SubmitType::class, array('label' => 'Golden Pack'))
-            ->add('type', HiddenType::class, array(
-                'data' => Pack::GOLDEN_PACK_LABEL,
-            ))
-            ->getForm();
-        $gigaForm = $this->createFormBuilder()
-            ->add('save', SubmitType::class, array('label' => 'Giga Pack'))
-            ->add('type', HiddenType::class, array(
-                'data' => Pack::GIGA_PACK_LABEL,
-            ))
-            ->getForm();
-        $superRareForm = $this->createFormBuilder()
-            ->add('save', SubmitType::class, array('label' => 'Super Rare Pack'))
-            ->add('type', HiddenType::class, array(
-                'data' => Pack::SUPER_RARE_PACK_LABEL,
-            ))
-            ->getForm();
-
-        $silverForm->handleRequest($request);
-        $goldenForm->handleRequest($request);
-        $gigaForm->handleRequest($request);
-        $superRareForm->handleRequest($request);
-
-        if ($silverForm->isSubmitted() || $goldenForm->isSubmitted() || $gigaForm->isSubmitted() || $superRareForm->isSubmitted()) {
-            $hint = [];
-            $userPlayers = $this->userPlayerRepository->findBy(['userId' => $this->getUser()->getId()]);
-            $playersIds = [];
-            foreach ($userPlayers as $userPlayer) {
-                $playersIds[] = $userPlayer->getPlayerId()->getPlayerId();
-            }
-            $type = null;
-            if($silverForm->isSubmitted()){
-                if(isset($silverForm->getData()['type'])){
-                    $type = $silverForm->getData()['type'];
-                }
-            } elseif($goldenForm->isSubmitted()){
-                if(isset($goldenForm->getData()['type'])){
-                    $type = $goldenForm->getData()['type'];
-                }
-            } elseif($gigaForm->isSubmitted()){
-                if(isset($gigaForm->getData()['type'])){
-                    $type = $gigaForm->getData()['type'];
-                }
-            } elseif($superRareForm->isSubmitted()){
-                if(isset($superRareForm->getData()['type'])){
-                    $type = $superRareForm->getData()['type'];
-                }
-            }
-        }
 
         return $this->render('starting5/pack/index.html.twig', [
-            'silverForm' => $silverForm->createView(),
-            'goldenForm' => $goldenForm->createView(),
-            'gigaForm' => $gigaForm->createView(),
-            'superRareForm' => $superRareForm->createView(),
             'count' => $countPlayers
         ]);
     }
@@ -162,8 +102,11 @@ class PackController extends Controller
                 }
             }
         }
+        $responseContent['points'] = $user->getQuizPoints().' Pts';
+        $responseContent['packContent'] = $this->packContentView($packContent, $hint, $type);
 
-        $response = new Response($this->packContentView($packContent, $hint, $type));
+        $response = new Response(json_encode($responseContent));
+        $response->headers->set('Content-Type', 'application/json');
 
         return $response;
     }

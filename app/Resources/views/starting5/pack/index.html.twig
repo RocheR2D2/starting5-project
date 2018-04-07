@@ -58,8 +58,11 @@
                 },
                 success: function (success) {
                     var packContent = $('.pack-content');
+                    var userPoints = $('#user_points');
                     packContent.empty();
-                    packContent.append(success);
+                    userPoints.empty();
+                    packContent.append(success.packContent);
+                    userPoints.append(success.points);
                 }
             });
         });
