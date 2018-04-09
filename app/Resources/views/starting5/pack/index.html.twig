@@ -7,64 +7,11 @@
 
 {% block body %}
 
-    <section id="about">
-        <div class="container">
-            <h1>ALL PACKS</h1>
-            <div class="row text-center">
-                {% if(count > 5000) %}
-                    <p class="alert alert-warning">
-                        This pack is not available for you !
-                    </p>
-                {% else %}
-                    <div class="form-group">
-                        <button class="pack btn btn-primary" id="silver">
-                            SILVER PACK
-                        </button>
-                    </div>
-                    <div class="form-group">
-                        <button class="pack btn btn-primary" id="golden">
-                            GOLDEN PACK
-                        </button>
-                    </div>
-                    <div class="form-group">
-                        <button class="pack btn btn-primary" id="giga">
-                            GIGA PACK
-                        </button>
-                    </div>
-                    <div class="form-group">
-                        <button class="pack btn btn-primary" id="super-rare">
-                            SUPER RARE PACK
-                        </button>
-                    </div>
-                {% endif %}
-            </div>
-
-            <div class="pack-content"></div>
+    <div class="container">
+        <div class="pack-list text-center" style="margin: 100px;">
+            {% include 'starting5/pack/packs.html.twig' with {'packs': packs} %}
         </div>
-    </section>
-    <script>
-        var loading = $('.loading');
 
-        $('.pack').click(function () {
-            $.ajax({
-                url: '{{ path('ajax.pack.opening') }}',
-                type: 'POST',
-                data: 'type=' + $(this).attr('id'),
-                beforeSend: function () {
-                    loading.show();
-                },
-                complete: function () {
-                    loading.hide();
-                },
-                success: function (success) {
-                    var packContent = $('.pack-content');
-                    var userPoints = $('#user_points');
-                    packContent.empty();
-                    userPoints.empty();
-                    packContent.append(success.packContent);
-                    userPoints.append(success.points);
-                }
-            });
-        });
-    </script>
+        <div class="pack-content"></div>
+    </div>
 {% endblock %}

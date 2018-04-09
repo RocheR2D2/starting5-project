@@ -1,0 +1,45 @@
+<h1>ALL PACKS</h1>
+<div class="row">
+    {% for key,pack in packs %}
+        <div class="{{ pack.class }} col-md-3"
+             style="background-image: url({{ asset('images/packs/' ~ key ~'.jpg') }});
+                     background-size: cover;
+                     background-position: center;
+                     height: 350px;
+                     width:200px;"
+             id="{{ key }}">
+                        <span style="color:white;">
+                            {{ pack.name }}
+                        </span>
+        </div>
+    {% endfor %}
+</div>
+<script>
+    var loading = $('.loading');
+
+    $('.pack').click(function () {
+        $.ajax({
+            url: '{{ path('ajax.pack.opening') }}',
+            type: 'POST',
+            data: 'type=' + $(this).attr('id'),
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                var packContent = $('.pack-content');
+                var userPoints = $('#user_points');
+                var packList = $('.pack-list');
+                packContent.empty(); userPoints.empty(); packList.empty();
+                packContent.append(success.packContent); userPoints.append(success.points); packList.append(success.packList);
+                $('html, body').animate({
+                        scrollTop: $(document).height()-$(window).height()},
+                    1000,
+                    "swing"
+                );
+            }
+        });
+    });
+</script>

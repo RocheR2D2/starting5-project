@@ -4,12 +4,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\NBAPlayers;
 use AppBundle\Entity\UsersPlayers;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Helper\Pack;
+use FOS\UserBundle\Model\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,21 +16,41 @@ class PackController extends Controller
     private $em;
     private $player;
     private $userPlayerRepository;
+    private $packs;
 
     public function __construct(ObjectManager $em)
     {
         $this->em = $em;
         $this->player = $this->em->getRepository(NBAPlayers::class);
         $this->userPlayerRepository = $this->em->getRepository(UsersPlayers::class);
+
+        $this->packs = $packs = [];
+
+        $silverPack = 'pack';
+        //if ($user->getQuizPoints() < Pack::SILVER_PACK_PRICE) { $silverPack = 'pack-disable'; };
+        $this->packs['silver'] = ["class" => $silverPack, "name" => "SILVER PACK"];
+
+        $goldenPack = 'pack';
+        //if ($user->getQuizPoints() < Pack::GOLDEN_PACK_PRICE) { $goldenPack = 'pack-disable'; };
+        $this->packs['golden'] = ["class" => $goldenPack, "name" =>"GOLDEN PACK"];
+
+        $gigaPack = 'pack';
+        //if ($user->getQuizPoints() < Pack::GIGA_PACK_PRICE) { $gigaPack = 'pack-disable'; };
+        $this->packs['giga'] = ["class" => $gigaPack, "name" =>"GIGA PACK"];
+
+        $superRarePack = 'pack';
+        //if ($user->getQuizPoints() < Pack::SUPER_RARE_PACK_PRICE) { $superRarePack = 'pack-disable'; };
+        $this->packs['super-rare'] = ["class" => $superRarePack, "name" =>"SUPER RARE PACK"];
     }
 
-    public function packOpeningAction(Request $request)
+    public function packOpeningAction()
     {
         $userPlayers = $this->userPlayerRepository->findBy(['userId' => $this->getUser()]);
         $countPlayers = count($userPlayers) + 3;
 
         return $this->render('starting5/pack/index.html.twig', [
-            'count' => $countPlayers
+            'count' => $countPlayers,
+            'packs' => $this->packs
         ]);
     }
 
@@ -102,8 +120,9 @@ class PackController extends Controller
                 }
             }
         }
-        $responseContent['points'] = $user->getQuizPoints().' Pts';
+        $responseContent['points'] = $user->getQuizPoints();
         $responseContent['packContent'] = $this->packContentView($packContent, $hint, $type);
+        $responseContent['packList'] = $this->packList();
 
         $response = new Response(json_encode($responseContent));
         $response->headers->set('Content-Type', 'application/json');
@@ -116,6 +135,12 @@ class PackController extends Controller
             'packContent' => $packContent,
             'hint' => $hint,
             'type' => $type
+        ]);
+    }
+
+    public function packList() {
+        return $this->renderView('starting5/pack/packs.html.twig', [
+            'packs' => $this->packs
         ]);
     }
 }

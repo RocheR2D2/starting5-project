@@ -62,7 +62,7 @@
                         <a class="nav-link js-scroll-trigger" href="{{ path('pack.opening') }}">My Packs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" id="user_points" href="#">{{ app.user.quizPoints }} Pts</a>
+                        <a class="nav-link js-scroll-trigger" href="#"><span id="user_points">{{ app.user.quizPoints }}</span> Pts</a>
                     </li>
                 {% endif %}
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
