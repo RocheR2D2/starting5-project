@@ -9,8 +9,8 @@ class Pack {
     const GOLDEN_PACK_PRICE = 1500;
     const UNIQ_GOLDEN_PLAYER = 500;
 
-    const GIGA_PACK_PRICE = 3500;
-    const UNIQ_GIGA_PLAYER = 1500;
+    const GIGA_PACK_PRICE = 4500;
+    const UNIQ_GIGA_PLAYER = 500;
 
     const SUPER_RARE_PACK_PRICE = 10500;
     const UNIQ_SUPER_RARE_PLAYER = 3500;
@@ -22,6 +22,9 @@ class Pack {
     const SUPER_RARE_PACK_LABEL = 'super-rare';
     const GIGA_PACK_LABEL = 'giga';
 
+    const PACK_LABEL = 'pack';
+    const PACK_DISABLE_LABEL = 'pack-disable';
+
     const MINIMUM_RARE_RATING = 85;
     const MAXIMUM_RARE_RATING = 87;
     const MINIMUM_ULTRA_RARE_RATING = 90;
@@ -29,4 +32,59 @@ class Pack {
     const EPIC_RATING = 95;
 
     const UNIQ_REFUND_PLAYER = 50;
+
+    private $packs;
+
+    public function __construct()
+    {
+        $this->packs = [];
+
+        $this->packs['silver'] = ["name" => "SILVER PACK"];
+        $this->packs['golden'] = ["name" =>"GOLDEN PACK"];
+        $this->packs['giga'] = ["name" =>"GIGA PACK"];
+        $this->packs['super-rare'] = ["name" =>"SUPER RARE PACK"];
+    }
+
+    /**
+     * Create Pack List
+     *
+     * @return array
+     */
+    public function getPackList($user) {
+
+        $silverPack = Pack::PACK_LABEL;
+        $goldenPack = Pack::PACK_LABEL;
+        $gigaPack = Pack::PACK_LABEL;
+        $superRarePack = Pack::PACK_LABEL;
+
+        $packs = $this->disablePack($user, $silverPack, $goldenPack, $gigaPack, $superRarePack);
+
+        return $packs;
+    }
+
+    /**
+     * Disable pack if not enough points
+     *
+     * @param $user
+     * @param $silverPack
+     * @param $goldenPack
+     * @param $gigaPack
+     * @param $superRarePack
+     * @return array
+     */
+    public function disablePack($user, $silverPack, $goldenPack, $gigaPack, $superRarePack) {
+        if ($user->getQuizPoints() < Pack::SILVER_PACK_PRICE) { $silverPack = Pack::PACK_DISABLE_LABEL; };
+        $this->packs['silver']['class'] = $silverPack;
+
+        if ($user->getQuizPoints() < Pack::GOLDEN_PACK_PRICE) { $goldenPack = Pack::PACK_DISABLE_LABEL; };
+        $this->packs['golden']['class'] = $goldenPack;
+
+        if ($user->getQuizPoints() < Pack::GIGA_PACK_PRICE) { $gigaPack = Pack::PACK_DISABLE_LABEL; };
+        $this->packs['giga']['class'] = $gigaPack;
+
+        if ($user->getQuizPoints() < Pack::SUPER_RARE_PACK_PRICE) { $superRarePack = Pack::PACK_DISABLE_LABEL; };
+        $this->packs['super-rare']['class'] = $superRarePack;
+
+        return $this->packs;
+    }
 }
