@@ -1,8 +1,10 @@
-var app = angular.module("starting5",[]);
+var app = angular.module("starting5",['ngDragDrop']);
 
 app.config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 })
+
+/* ### ADMIN QUIZZ ### */
 
 app.controller('adminQuizz', [ '$scope', function($scope){
     $scope.title = "Admin quizz";
@@ -10,6 +12,9 @@ app.controller('adminQuizz', [ '$scope', function($scope){
     $scope.quizz.type = "QCM";
     $scope.quizz.question = "";
 }]);
+
+
+/* ### QUIZZ ### */
 
 app.factory("ServiceQuizz", function ($http) {
         var getRandomQuizz = function () {
@@ -67,5 +72,73 @@ app.controller('Quizz', [ '$scope', '$http', 'ServiceQuizz' , function($scope, $
         $scope.selectedQCM = newVal;
     }
 
+}]);
+
+/* ### CREATE FIVE TEAM ### */
+
+app.factory("ServiceFive", function ($http) {
+    var getPlayer = function () {
+        return $http.get("/app_dev.php/team/getPlayers", {responseType: "json"});
+    };
+
+    return {
+        getPlayer: getPlayer
+    };
+
+});
+
+app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, ServiceFive, $timeout){
+
+    $scope.player1 = {};
+    $scope.player2 = {};
+    $scope.player3 = {};
+    $scope.player4 = {};
+    $scope.player5 = {};
+
+    $scope.players = [];
+    $scope.loadingPlayers = true;
+
+    $scope.selectedPlayer = {};
+    $scope.selectedPoste = '';
+
+    getPlayers();
+
+    $scope.getPlayers = getPlayers();
+
+    function getPlayers(){
+
+        ServiceFive.getPlayer().then(function(res){
+            $scope.players = res.data;
+            $scope.loadingPlayers = false;
+        }, function(err){
+            console.log(err);
+        })
+
+    }
+
+    $scope.clearPlayer1 = function(){
+        $scope.players.push($scope.player1);
+        $scope.player1 = {};
+    }
+
+    $scope.dropCallback = function (evt, ui) {
+        // the model
+        var obj = ui.draggable.scope().dndDragItem;
+
+        console.log(obj);
+
+        for(var j=0;j<$scope.players.length;j++){
+            if($scope.players[j].playerId == obj.playerId){
+                $scope.players.splice(j,1);
+                return false;
+            }
+        }
+    };
+
+    $scope.dragCallback = function(evt, ui, player){
+        $scope.selectedPlayer = player;
+        $scope.selectedPoste = player.position;
+        $scope.$apply();
+    }
 
 }]);

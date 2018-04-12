@@ -59,15 +59,22 @@ class DashboardController extends Controller
 
     public function newAction(Request $request)
     {
+        return $this->render('starting5/dashboard/new.html.twig');
+    }
+
+    public function getPlayerAction(Request $request){
+
         $user = $this->getUser();
 
         $userTeamRepository = $this->getDoctrine()->getRepository(UserTeam::class);
         $userRepository = $this->getDoctrine()->getRepository(UsersPlayers::class);
+        $MyPlayers = $userRepository->getMyPlayers($user);
         $playerDoctrine = $this->getDoctrine()->getRepository(NBAPlayers::class);
         $serializer = $this->container->get('serializer');
 
         $guards = $userRepository->getGuards($user);
-        $guardsJson = $serializer->serialize($guards, 'json');
+        $guardsJson = $serializer->serialize($MyPlayers, 'json');
+
         $gCount = $userRepository->allGuards;
         $forwards = $userRepository->getForwards($user);
         $forwardsJson = $serializer->serialize($forwards, 'json');
@@ -83,62 +90,10 @@ class DashboardController extends Controller
         $pf = 'No Player Selected';
         $c = 'No Player Selected';
 
-        $userTeam = new UserTeam();
+        $allPLayers = array_merge($guards, $forwards, $centers);
+        $result = $serializer->serialize($allPLayers, 'json');
+        return new Response($result);
 
-        $form = $this->createFormBuilder($userTeam)
-            ->add('name', TextType::class, array('label' => 'Name of team'))
-            ->add('stadiumId', EntityType::class, array(
-                'label' => 'Select Stadium',
-                'class' => 'AppBundle:Stadium',
-                'choice_label' => 'name',
-            ))
-            ->add('trainerId', EntityType::class, array(
-                'label' => 'Select Trainer',
-                'class' => 'AppBundle:Trainer',
-                'choice_label' => 'fullName',
-            ))
-            ->add('save', SubmitType::class, array('label' => 'Create My Team'))
-            ->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            $data = $request->request->get('form');
-            $userTeam = $form->getData();
-            $this->setNewPlayers($userTeam, $playerDoctrine, $data);
-            $userTeam->setUser($user);
-            $userTeam->setLike(0);
-            $userTeam->setDislike(0);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($userTeam);
-            $em->flush();
-
-            return $this->redirectToRoute('dashboard');
-        }
-
-        $countTeam = count($userTeams);
-
-        /*if($countTeam >= 3){
-            die('ok');
-        }*/
-
-        return $this->render('starting5/dashboard/new.html.twig', array(
-            'form' => $form->createView(),
-            'guards' => $guards,
-            'gCount' => $gCount,
-            'forwards' => $forwards,
-            'centers' => $centers,
-            'fCount' => $fCount,
-            'cCount' => $cCount,
-            'guardsJson' => $guardsJson,
-            'forwardsJson' => $forwardsJson,
-            'centersJson' => $centersJson,
-            'pg' => $pg,
-            'sg' => $sg,
-            'sf' => $sf,
-            'pf' => $pf,
-            'c' => $c,
-        ));
     }
 
     public function editAction(Request $request, $id)

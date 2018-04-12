@@ -1,37 +1,85 @@
 {% extends 'base.html.twig' %}
 
-    {% block header %}
-        <h1>Create My Team</h1>
-    {% endblock header %}
-
 {% block body %}
-
-    <section id="about">
-        <div class="container">
+    <section class="create-team"  ng-controller="Five">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    {{ form_start(form, { 'action': path('user.team.new')}) }}
-                    <div class="form-group">
-                        {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_row(form.stadiumId, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_row(form.trainerId, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    {% include 'starting5/dashboard/teams/select.html.twig'
-                    with {'guards': guards, 'forwards': forwards, 'centers': centers, 'gCount': gCount, 'fCount': fCount, 'cCount': cCount} %}
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            {{ form_row(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+                <div class="col-lg-8 col-md-8">
+
+                    <p>My Team Comp</p>
+
+                    <!-- player1 -->
+                    <div class="col-md-3">
+                        <div class="alert" ng-class="player1.fullName ? 'alert-success': 'alert-secondary'" data-drop="{[{ (selectedPoste == 'C' || selectedPoste == 'F-C' || selectedPoste == 'C-F') ? true : false }]}"
+                             ng-model="player1" jqyoui-droppable="{onDrop: 'dropCallback'}">
+                            <p>forwards/center</p>
+                            <div class="btn btn-light" data-drag="false" jqyoui-draggable="{animate:true}" ng-model="player1" ng-show="player1.fullName">{[{player1.fullName}]}</div>
                         </div>
-                        {{ form_end(form) }}
+                        <button ng-if="player1.fullName" class="btn btn-light" ng-click="clearPlayer1()"><i class="fa fa-trash" aria-hidden="true"></i></button>
                     </div>
+
+                    <!-- player2 -->
+                    <div class="col-md-3">
+                        <div class="alert" ng-class="player2.fullName ? 'alert-success': 'alert-secondary'" data-drop="{[{ (selectedPoste == 'F' || selectedPoste == 'G-F' || selectedPoste == 'F-G' || selectedPoste == 'F-C' || selectedPoste == 'C-F') ? true : false }]}"
+                             data-jqyoui-options ng-model="player2" jqyoui-droppable="{onDrop: 'dropCallback'}">
+                            <p>forwards/center</p>
+                            <div class="btn btn-light" data-drag="false" data-jqyoui-options ng-model="player2" ng-show="player2.fullName">{[{player2.fullName}]}</div>
+                        </div>
+                        <button ng-if="player2.fullName" class="btn btn-light" ng-click="clearPlayer2()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </div>
+
+                    <!-- player3 -->
+                    <div class="col-md-3">
+                        <div class="alert" ng-class="player3.fullName ? 'alert-success': 'alert-secondary'" data-drop="{[{ (selectedPoste == 'F' || selectedPoste == 'G-F' || selectedPoste == 'F-G' || selectedPoste == 'F-C' || selectedPoste == 'C-F') ? true : false }]}"
+                             data-jqyoui-options ng-model="player3" jqyoui-droppable="{onDrop: 'dropCallback'}">
+                            <p>forwards/center</p>
+                            <div class="btn btn-light" data-drag="false" data-jqyoui-options ng-model="player3" ng-show="player3.fullName">{[{player3.fullName}]}</div>
+                        </div>
+                        <button ng-if="player3.fullName" class="btn btn-light" ng-click="clearPlayer3()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </div>
+
+                    <!-- player4 -->
+                    <div class="col-md-3">
+                        <div class="alert" ng-class="player4.fullName ? 'alert-success': 'alert-secondary'" data-drop="{[{ (selectedPoste == 'G' || selectedPoste == 'F-G' || selectedPoste == 'G-F') ? true : false }]}"
+                             data-jqyoui-options ng-model="player4" jqyoui-droppable="{onDrop: 'dropCallback'}">
+                            <p>guards</p>
+                            <div class="btn btn-light" data-drag="false" data-jqyoui-options ng-model="player4" ng-show="player4.fullName">{[{player4.fullName}]}</div>
+                        </div>
+                        <button ng-if="player4.fullName" class="btn btn-light" ng-click="clearPlayer4()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </div>
+
+                    <!-- player5 -->
+                    <div class="col-md-3">
+                        <div class="alert" ng-class="player5.fullName ? 'alert-success': 'alert-secondary'" data-drop="{[{ (selectedPoste == 'G' || selectedPoste == 'F-G' || selectedPoste == 'G-F') ? true : false }]}"
+                             data-jqyoui-options ng-model="player5" jqyoui-droppable="{onDrop: 'dropCallback'}">
+                            <p>guards</p>
+                            <div class="btn btn-light" data-drag="false" data-jqyoui-options ng-model="player5" ng-show="player5.fullName">{[{player5.fullName}]}</div>
+                        </div>
+                        <button ng-if="player5.fullName" class="btn btn-light" ng-click="clearPlayer5()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </div>
+
+
+                </div>
+
+                <div class="col-lg-4 col-md-4" ng-if="!loadingPlayers">
+                    <div class="row list-player">
+                        <div class="" ng-repeat="player in players track by $index" data-drop="true" ng-model='players' data-jqyoui-options="{accept:'.btn-draggable:not([ng-model=players])'}"  jqyoui-droppable="{index: {[{$index}]}}">
+                            <div class="btn btn-light" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="players" jqyoui-draggable="{index: {[{$index}]},placeholder:true,animate:true, onDrag: 'dragCallback(player)'}" ng-hide="!player.fullName">
+                                <p>{[{player.fullName}]} - {[{player.position}]}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div ng-if="loadingPlayers">
+                    Chargement ...
                 </div>
             </div>
         </div>
     </section>
+    <script src="{{ asset('assets/vendor/jquery-ui/jquery-ui.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/vendor/angular-dragdrop/src/angular-dragdrop.js') }}" type="text/javascript"></script>
     <script>
         var currentPagePg = 0;
         var currentPagePf = 0;
