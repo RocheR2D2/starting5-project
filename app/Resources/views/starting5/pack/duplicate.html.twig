@@ -1,0 +1,12 @@
+<div class="wow fadeInUpBig" style="margin:10px;">
+    <div class="row text-center">
+        {% if duplicatePlayers|length > 0 %}
+            {% for player in duplicatePlayers %}
+                <div class="col-md-4">
+                    {% include 'starting5/players/player.html.twig' with {'player': player.player } %}
+                    <span>+ {{ player.refund }}</span>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
