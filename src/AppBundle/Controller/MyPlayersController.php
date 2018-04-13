@@ -30,7 +30,7 @@ class MyPlayersController extends Controller
         $playersView = $this->playersAction();
         $count = count($this->userPlayers->findBy(['userId' => $this->getUser()]));
 
-            return $this->render('starting5/dashboard/players/index.html.twig', [
+        return $this->render('starting5/dashboard/players/index.html.twig', [
             'name' => "Starting 5",
             'players' => $playersView,
             'count' => $count
@@ -78,17 +78,8 @@ class MyPlayersController extends Controller
     {
         $userPlayers = $this->userPlayers->findBy(['userId' => $this->getUser()], ['rating' => 'DESC'], 9, 0);
         if($current > 0){
-            $userPlayers = $this->userPlayers->findBy(['userId' => $this->getUser()], null, 9, 9 * $current);
+            $userPlayers = $this->userPlayers->findBy(['userId' => $this->getUser()], ['rating' => 'DESC'], 9, 9 * $current);
         }
-        /*$myPlayers = new ArrayCollection();
-        foreach ($userPlayers as $myPlayer) {
-            $playerId = $myPlayer->getPlayerId()->getPlayerId();
-            $personId = $myPlayer->getPlayerId()->getId();
-            $isDuplicate = $this->userPlayers->findBy(['playerId' => $personId]);
-            $this->checkDuplicatedPlayers(count($isDuplicate), $personId, $this->userPlayers);
-            $player = $this->nbaPlayers->getProfile($playerId);
-            $myPlayers[] = $player;
-        }*/
 
         return $userPlayers;
     }

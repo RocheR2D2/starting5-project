@@ -3,6 +3,9 @@
 namespace AppBundle\Helper;
 
 class Pack {
+    const DEFAULT_NUMBER_OF_PLAYERS = 3;
+    const GIGA_NUMBER_OF_PLAYERS = 9;
+
     const SILVER_PACK_PRICE = 300;
     const UNIQ_SILVER_PLAYER = 100;
 
@@ -31,7 +34,11 @@ class Pack {
     const MAXIMUM_ULTRA_RARE_RATING = 94;
     const EPIC_RATING = 95;
 
-    const UNIQ_REFUND_PLAYER = 50;
+    const UNIQ_REFUND_SILVER_PLAYER = 100;
+    const UNIQ_REFUND_GOLDEN_PLAYER = 500;
+    const UNIQ_REFUND_SUPER_RARE_PLAYER = 1000;
+    const UNIQ_REFUND_EPIC_PLAYER = 2000;
+    const UNIQ_REFUND_ULTRA_RARE_PLAYER = 5000;
 
     private $packs;
 

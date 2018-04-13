@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\NBAPlayers;
 use AppBundle\Entity\UsersPlayers;
+use AppBundle\Helper\Player;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Helper\Pack;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -20,13 +21,22 @@ class PackController extends Controller
     private $player;
     private $userPlayerRepository;
     protected $pack;
+    private $duplicatePlayers;
+    public $refund;
+    private $playerHelper;
+    private $playerMapping;
+    private $test;
 
     public function __construct(ObjectManager $em)
     {
         $this->em = $em;
         $this->player = $this->em->getRepository(NBAPlayers::class);
         $this->userPlayerRepository = $this->em->getRepository(UsersPlayers::class);
+        $this->playerHelper = new Player();
         $this->pack = new Pack();
+        $this->duplicatePlayers = [];
+        $this->playerMapping = $this->playerHelper->mapping;
+
     }
 
     /**
@@ -54,16 +64,17 @@ class PackController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function packContentAction(Request $request) {
+    public function packContentAction(Request $request)
+    {
         /** @var string $type */
         $type = $request->request->get('type');
         $user = $this->getUser();
         /** @var array $playersIds */
         $playersIds = $this->getMyPlayersIds();
         $packContent = $this->player->packOpener($type); // get Pack Content
-        $this->fillPack($packContent, $user, $type, $playersIds);
+        $this->fillPack($packContent, $user, $type);
 
-        $response = $this->packResponse($user, $packContent, $type);
+        $response = $this->packResponse($user, $packContent, $type, $this->duplicatePlayers);
 
         return $response;
     }
@@ -76,14 +87,24 @@ class PackController extends Controller
      * @param $type
      * @param $playersIds
      */
-    public function fillPack($packContent, $user, $type, $playersIds) {
+    public function fillPack($packContent, $user, $type)
+    {
         foreach ($packContent as $content) {
-            if($content && $user){
+            if (isset($content['player']) && isset($content['level']) && $user) {
+                $this->getRefundPlayers($content['player'], $content['level']);
                 $this->debitPoints($type, $user);
                 $userPlayer = new UsersPlayers();
-                $nbaPlayer = $this->player->findOneBy(['playerId' => $content->playerId]);
-                if($nbaPlayer){
-                    $this->addPlayerToUser($nbaPlayer, $playersIds, $userPlayer, $user);
+                $nbaPlayer = $this->player->findOneBy(['playerId' => $content['player']->playerId]);
+                if ($nbaPlayer) {
+                    /** @var array $playerId */
+                    $playerId = $nbaPlayer->getPlayerId();
+                    if(in_array($playerId, $this->getMyPlayersIds())){
+                        $user->setQuizPoints($user->getQuizPoints() + $this->playerMapping[$content['level']]);
+                        $this->em->persist($user);
+                        $this->em->flush();
+                    } else {
+                        $this->addPlayerToUser($nbaPlayer, $userPlayer, $user);
+                    }
                 }
             }
         }
@@ -94,7 +115,8 @@ class PackController extends Controller
      *
      * @return array
      */
-    public function getMyPlayersIds() {
+    public function getMyPlayersIds()
+    {
         /** @var array $playersIds */
         $playersIds = [];
         $userPlayers = $this->userPlayerRepository->findBy(['userId' => $this->getUser()->getId()]);
@@ -111,16 +133,24 @@ class PackController extends Controller
      * @param $type
      * @param $user
      */
-    public function debitPoints($type, $user) {
-        if($type == Pack::GOLDEN_PACK_LABEL){
+    public function debitPoints($type, $user)
+    {
+        if ($type == Pack::GOLDEN_PACK_LABEL) {
             $user->setQuizPoints($user->getQuizPoints() - Pack::UNIQ_GOLDEN_PLAYER); // 1500
-        } elseif($type == Pack::SILVER_PACK_LABEL){
+        } elseif ($type == Pack::SILVER_PACK_LABEL) {
             $user->setQuizPoints($user->getQuizPoints() - Pack::UNIQ_SILVER_PLAYER); // 300
-        } elseif($type == Pack::GIGA_PACK_LABEL){
+        } elseif ($type == Pack::GIGA_PACK_LABEL) {
             $user->setQuizPoints($user->getQuizPoints() - Pack::UNIQ_GIGA_PLAYER); // 3500
-        } elseif($type == Pack::SUPER_RARE_PACK_LABEL){
+        } elseif ($type == Pack::SUPER_RARE_PACK_LABEL) {
             $user->setQuizPoints($user->getQuizPoints() - Pack::UNIQ_SUPER_RARE_PLAYER); // 10500
         }
+    }
+
+    private function getRefundPlayers($player, $level)
+    {
+        if (in_array($player->playerId, $this->getMyPlayersIds())) {
+            $this->duplicatePlayers[] = ['player' => $player, 'refund' => $this->playerMapping[$level]];
+        };
     }
 
     /**
@@ -130,22 +160,18 @@ class PackController extends Controller
      * @param $playersIds
      * @param $userPlayer
      * @param $user
+     * @param $level
      */
-    public function addPlayerToUser($nbaPlayer, $playersIds, $userPlayer, $user) {
-        /** @var array $playerId */
-        $playerId = $nbaPlayer->getPlayerId();
-        if(in_array($playerId, $playersIds)){
-            $user->setQuizPoints($user->getQuizPoints() + Pack::UNIQ_REFUND_PLAYER);
-        } else {
-            $userPlayer->setPlayerId($nbaPlayer);
-            $userPlayer->setUserId($this->getUser());
-            $userPlayer->setPosition($nbaPlayer->getPosition());
-            $userPlayer->setRating($nbaPlayer->getRating());
+    public function addPlayerToUser($nbaPlayer, $userPlayer, $user)
+    {
+        $userPlayer->setPlayerId($nbaPlayer);
+        $userPlayer->setUserId($this->getUser());
+        $userPlayer->setPosition($nbaPlayer->getPosition());
+        $userPlayer->setRating($nbaPlayer->getRating());
 
-            $this->em->persist($user);
-            $this->em->persist($userPlayer);
-            $this->em->flush();
-        }
+        $this->em->persist($user);
+        $this->em->persist($userPlayer);
+        $this->em->flush();
     }
 
     /**
@@ -156,13 +182,15 @@ class PackController extends Controller
      * @param $type
      * @return Response
      */
-    public function packResponse($user, $packContent, $type) {
+    public function packResponse($user, $packContent, $type, $duplicatePlayers)
+    {
         /** @var array $responseContent */
         $responseContent = [];
 
         $responseContent['points'] = $user->getQuizPoints();
         $responseContent['packContent'] = $this->packContentView($packContent, $type);
         $responseContent['packList'] = $this->packList();
+        $responseContent['duplicatePlayers'] = $this->duplicateView($duplicatePlayers);
 
         $response = new Response(json_encode($responseContent));
         $response->headers->set('Content-Type', 'application/json');
@@ -177,10 +205,18 @@ class PackController extends Controller
      * @param $type
      * @return string
      */
-    public function packContentView($packContent, $type) {
+    public function packContentView($packContent, $type)
+    {
         return $this->renderView('starting5/pack/pack.html.twig', [
             'packContent' => $packContent,
             'type' => $type
+        ]);
+    }
+
+    public function duplicateView($duplicatePlayers)
+    {
+        return $this->renderView('starting5/pack/duplicate.html.twig', [
+            'duplicatePlayers' => $duplicatePlayers,
         ]);
     }
 
@@ -189,7 +225,8 @@ class PackController extends Controller
      *
      * @return string
      */
-    public function packList() {
+    public function packList()
+    {
         /** @var array $packs */
         $packs = $this->pack->getPackList($this->getUser());
 

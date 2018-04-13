@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Helper\Pack;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -245,18 +246,28 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
 
     public function packOpener($type)
     {
-        $numberOfPlayers = 3;
+        $numberOfPlayers = Pack::DEFAULT_NUMBER_OF_PLAYERS;
         $popPlayer = $this->getRandomPlayers();
-        if($type == 'giga'){
-            $popPlayer = $this->getRandomGoldenPlayers(); //20% chance increased to get a very rare player
-            $numberOfPlayers = 9;
+
+        switch($type) {
+            case Pack::GIGA_PACK_LABEL:
+                $popPlayer = $this->getRandomGoldenPlayers(); //20% chance increased to get a very rare player
+                $numberOfPlayers = Pack::GIGA_PACK_LABEL;
+                break;
+            case Pack::GOLDEN_PACK_LABEL:
+                $popPlayer = $this->getRandomGoldenPlayers(); //40% chance increased to get a very rare player
+                break;
+            case Pack::SUPER_RARE_PACK_LABEL:
+                $popPlayer = $this->getRandomSuperRarePlayers(); //chance of getting super rare player are multiplied by 2.5 based of golden chances
+                break;
         }
-        if($type == 'golden'){
-            $popPlayer = $this->getRandomGoldenPlayers(); //40% chance increased to get a very rare player
-        }
-        if($type == 'super-rare'){
-            $popPlayer = $this->getRandomSuperRarePlayers(); //chance of getting super rare player are multiplied by 2.5 based of golden chances
-        }
+
+        $packContent = $this->createPackContent($numberOfPlayers, $popPlayer);
+
+        return $packContent;
+    }
+
+    public function createPackContent($numberOfPlayers, $popPlayer) {
         $packContent = new ArrayCollection();
 
         for ($i = 0; $i < $numberOfPlayers; $i++) {
@@ -284,7 +295,7 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
                     ${"nbaPlayer" . $i} = $this->getLevelSevenPlayer();
                     break;
             }
-            $packContent[] = ${"nbaPlayer" . $i};
+            $packContent[] = ['player' => ${"nbaPlayer" . $i}, 'level' => $result];
         }
 
         return $packContent;
