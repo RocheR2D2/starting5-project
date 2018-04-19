@@ -87,30 +87,30 @@
                             <span> Packs</span>
                         </a>
                         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                            <a href="{{ path('fos_user_profile_show') }}" class="waves-effect">
-                                <i class="ti-home"></i>
-                                <span> {{ app.user.username }} </span>
-                            </a>
-                            <a href="{{ path('fos_user_security_logout') }}" class="waves-effect">
-                                <i class="ti-home"></i>
-                                <span> {{ 'Logout'|trans({}, 'FOSUserBundle') }}</span>
-                            </a>
-                        {% else %}
-                            <a href="{{ path('fos_user_security_login') }}" class="waves-effect">
-                                <i class="ti-home"></i>
-                                <span> {{ 'Log in'|trans({}, 'FOSUserBundle') }}</span>
-                            </a>
-                            <a href="{{ path('fos_user_registration_register') }}" class="waves-effect">
-                                <i class="ti-home"></i>
-                                <span> {{ 'Sign up'|trans({}, 'FOSUserBundle') }}</span>
-                            </a>
-                        {% endif %}
-                        {% if is_granted("ROLE_ADMIN") %}
-                            <a href="{{ path('admin') }}" class="waves-effect">
-                                <i class="ti-home"></i>
-                                <span> {{ 'Admin'|trans({}, 'FOSUserBundle') }}</span>
-                            </a>
-                        {% endif %}
+                        <a href="{{ path('fos_user_profile_show') }}" class="waves-effect">
+                            <i class="ti-home"></i>
+                            <span> {{ app.user.username }} </span>
+                        </a>
+                        <a href="{{ path('fos_user_security_logout') }}" class="waves-effect">
+                            <i class="ti-home"></i>
+                            <span> {{ 'Logout'|trans({}, 'FOSUserBundle') }}</span>
+                        </a>
+                    {% else %}
+                        <a href="{{ path('fos_user_security_login') }}" class="waves-effect">
+                            <i class="ti-home"></i>
+                            <span> {{ 'Log in'|trans({}, 'FOSUserBundle') }}</span>
+                        </a>
+                        <a href="{{ path('fos_user_registration_register') }}" class="waves-effect">
+                            <i class="ti-home"></i>
+                            <span> {{ 'Sign up'|trans({}, 'FOSUserBundle') }}</span>
+                        </a>
+                    {% endif %}
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('admin') }}" class="waves-effect">
+                            <i class="ti-home"></i>
+                            <span> {{ 'Admin'|trans({}, 'FOSUserBundle') }}</span>
+                        </a>
+                    {% endif %}
 
                     </li>
 

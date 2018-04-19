@@ -70,7 +70,6 @@ class PackController extends Controller
         $type = $request->request->get('type');
         $user = $this->getUser();
         /** @var array $playersIds */
-        $playersIds = $this->getMyPlayersIds();
         $packContent = $this->player->packOpener($type); // get Pack Content
         $this->fillPack($packContent, $user, $type);
 
@@ -186,7 +185,6 @@ class PackController extends Controller
     {
         /** @var array $responseContent */
         $responseContent = [];
-
         $responseContent['points'] = $user->getQuizPoints();
         $responseContent['packContent'] = $this->packContentView($packContent, $type);
         $responseContent['packList'] = $this->packList();
