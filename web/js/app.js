@@ -81,21 +81,26 @@ app.factory("ServiceFive", function ($http) {
         return $http.get("/app_dev.php/team/getPlayers", {responseType: "json"});
     };
 
+    var sendTeam = function(players){
+        return $http.post("/app_dev.php/team/createTeam", players);
+    };
+
     return {
-        getPlayer: getPlayer
+        getPlayer: getPlayer,
+        sendTeam: sendTeam
     };
 
 });
 
 app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, ServiceFive, $timeout){
 
-    $scope.player1 = {};
-    $scope.player2 = {};
-    $scope.player3 = {};
-    $scope.player4 = {};
-    $scope.player5 = {};
+    $scope.center = {};
+    $scope.smallForward = {};
+    $scope.powerForward = {};
+    $scope.shootingGuard = {};
+    $scope.pointGuard = {};
 
-    $scope.players = [];
+    $scope.players = {};
     $scope.loadingPlayers = true;
 
     $scope.selectedPlayer = {};
@@ -116,16 +121,34 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
 
     }
 
-    $scope.clearPlayer1 = function(){
-        $scope.players.push($scope.player1);
-        $scope.player1 = {};
+    $scope.clearcenter = function(){
+        $scope.players.push($scope.center);
+        $scope.center = {};
+    }
+
+    $scope.clearsmallForward = function(){
+        $scope.players.push($scope.smallForward);
+        $scope.smallForward = {};
+    }
+
+    $scope.clearpowerForward = function(){
+        $scope.players.push($scope.powerForward);
+        $scope.powerForward = {};
+    }
+
+    $scope.clearshootingGuard = function(){
+        $scope.players.push($scope.shootingGuard);
+        $scope.shootingGuard = {};
+    }
+
+    $scope.clearpointGuard = function(){
+        $scope.players.push($scope.pointGuard);
+        $scope.pointGuard = {};
     }
 
     $scope.dropCallback = function (evt, ui) {
         // the model
         var obj = ui.draggable.scope().dndDragItem;
-
-        console.log(obj);
 
         for(var j=0;j<$scope.players.length;j++){
             if($scope.players[j].playerId == obj.playerId){
@@ -139,6 +162,30 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
         $scope.selectedPlayer = player;
         $scope.selectedPoste = player.position;
         $scope.$apply();
+    }
+
+    $scope.dragStopCallback = function(){
+        $scope.selectedPlayer = {};
+        $scope.selectedPoste = "";
+        $scope.$apply();
+    }
+
+    $scope.sendTeam = function(){
+
+        var players = {
+            "center": $scope.center,
+            "smallForward": $scope.smallForward,
+            "powerForward": $scope.powerForward,
+            "shootingGuard": $scope.shootingGuard,
+            "pointGuard": $scope.pointGuard
+        };
+
+        ServiceFive.sendTeam(players).then(function(res){
+            console.log(res);
+
+        }, function(err){
+            console.log(err);
+        })
     }
 
 }]);

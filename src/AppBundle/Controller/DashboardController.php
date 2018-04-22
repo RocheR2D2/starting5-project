@@ -62,7 +62,8 @@ class DashboardController extends Controller
         return $this->render('starting5/dashboard/new.html.twig');
     }
 
-    public function getPlayerAction(Request $request){
+    public function getPlayerAction(Request $request)
+    {
 
         $user = $this->getUser();
 
@@ -93,6 +94,26 @@ class DashboardController extends Controller
         $allPLayers = array_merge($guards, $forwards, $centers);
         $result = $serializer->serialize($allPLayers, 'json');
         return new Response($result);
+
+    }
+
+
+    public function createTeamAction(Request $request)
+    {
+        $players = $request->getContent();
+        $players = json_decode($players, true);
+        $user = $this->getUser();
+        $userTeam = new UserTeam();
+        $playerDoctrine = $this->getDoctrine()->getRepository(NBAPlayers::class);
+        $this->setNewPlayers($userTeam, $playerDoctrine, $players);
+        $userTeam->setUser($user);
+        $userTeam->setLike(0);
+        $userTeam->setDislike(0);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($userTeam);
+        $em->flush();
+
+        return new Response("done");
 
     }
 

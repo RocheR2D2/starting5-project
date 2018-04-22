@@ -165,6 +165,12 @@
     justify-content: center;
 }
 
-.create-team .btn-player{
+.create-team .input-player{
+    border:1px solid #ccc;
+    height: 200px;
+    width: 200px;
+}
 
+.create-team .input-player.disabled{
+    background-color: #ccc;
 }
