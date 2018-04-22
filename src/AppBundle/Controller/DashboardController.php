@@ -109,6 +109,7 @@ class DashboardController extends Controller
         $userTeam->setUser($user);
         $userTeam->setLike(0);
         $userTeam->setDislike(0);
+        //Set trainder + stadium here
         $em = $this->getDoctrine()->getManager();
         $em->persist($userTeam);
         $em->flush();
@@ -240,11 +241,11 @@ class DashboardController extends Controller
 
     public function setNewPlayers($userTeam, $playerDoctrine, $data)
     {
-        $userTeam->setPointGuard($playerDoctrine->findOneBy(['playerId' => $data['pointGuard']]));
-        $userTeam->setShootingGuard($playerDoctrine->findOneBy(['playerId' => $data['shootingGuard']]));
-        $userTeam->setSmallForward($playerDoctrine->findOneBy(['playerId' => $data['smallForward']]));
-        $userTeam->setPowerForward($playerDoctrine->findOneBy(['playerId' => $data['powerForward']]));
-        $userTeam->setCenter($playerDoctrine->findOneBy(['playerId' => $data['center']]));
+        $userTeam->setPointGuard($playerDoctrine->findOneBy(['playerId' => $data['pointGuard']["playerId"]]));
+        $userTeam->setShootingGuard($playerDoctrine->findOneBy(['playerId' => $data['shootingGuard']["playerId"]]));
+        $userTeam->setSmallForward($playerDoctrine->findOneBy(['playerId' => $data['smallForward']["playerId"]]));
+        $userTeam->setPowerForward($playerDoctrine->findOneBy(['playerId' => $data['powerForward']["playerId"]]));
+        $userTeam->setCenter($playerDoctrine->findOneBy(['playerId' => $data['center']["playerId"]]));
 
         return $userTeam;
     }
