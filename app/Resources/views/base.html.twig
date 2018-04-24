@@ -4,9 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <title>Upcube - Responsive Flat Admin Dashboard</title>
-    <meta content="Admin Dashboard" name="description" />
-    <meta content="ThemeDesign" name="author" />
+    <title>Starting5</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
@@ -53,8 +51,7 @@
         <!-- LOGO -->
         <div class="topbar-left">
             <div class="text-center">
-                <!--<a href="index.html" class="logo">Admiry</a>-->
-                <a href="index.html" class="logo"><img src="" height="24" alt="logo"></a>
+                <h2 class="ti-basketball"></h2>
             </div>
         </div>
 
@@ -64,8 +61,12 @@
                 <div class="text-center">
                     <img src="" alt="" class="rounded-circle">
                 </div>
-                <div class="user-info">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                     <h4 class="font-16">{{ app.user.username }}</h4>
+                {% else %}
+                    <h4 class="font-16">Welcome</h4>
+                {% endif %}
+                <div class="user-info">
                 </div>
             </div>
 
@@ -75,29 +76,33 @@
 
                     <li>
                         <a href="{{ path('my-teams') }}" class="waves-effect">
-                            <i class="ti-home"></i>
+                            <i class="ti-basketball"></i>
                             <span> 5IVE <span class="badge badge-primary pull-right">3</span></span>
                         </a>
-                        <a href="{{ path('user.players') }}" class="waves-effect">
-                            <i class="ti-home"></i>
-                            <span> My Players </span>
-                        </a>
-                        <a href="{{ path('pack.opening') }}" class="waves-effect">
-                            <i class="ti-home"></i>
-                            <span> Packs</span>
-                        </a>
                         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            <a href="{{ path('user.players') }}" class="waves-effect">
+                                <i class="ti-user"></i>
+                                <span> My Players </span>
+                            </a>
+                            <a href="{{ path('pack.opening') }}" class="waves-effect">
+                                <i class="ti-package"></i>
+                                <span> Packs</span>
+                            </a>
+                            <a href="#" class="waves-effect">
+                                <i class="ti-cup"></i>
+                                <span><span id="user_points">{{ app.user.quizPoints }}</span> Pts</span>
+                            </a>
                             <a href="{{ path('fos_user_profile_show') }}" class="waves-effect">
                                 <i class="ti-home"></i>
                                 <span> {{ app.user.username }} </span>
                             </a>
                             <a href="{{ path('fos_user_security_logout') }}" class="waves-effect">
-                                <i class="ti-home"></i>
+                                <i class="ti-power-off"></i>
                                 <span> {{ 'Logout'|trans({}, 'FOSUserBundle') }}</span>
                             </a>
                         {% else %}
                             <a href="{{ path('fos_user_security_login') }}" class="waves-effect">
-                                <i class="ti-home"></i>
+                                <i class="ti-key"></i>
                                 <span> {{ 'Log in'|trans({}, 'FOSUserBundle') }}</span>
                             </a>
                             <a href="{{ path('fos_user_registration_register') }}" class="waves-effect">
@@ -107,7 +112,7 @@
                         {% endif %}
                         {% if is_granted("ROLE_ADMIN") %}
                             <a href="{{ path('admin') }}" class="waves-effect">
-                                <i class="ti-home"></i>
+                                <i class="ti-crown"></i>
                                 <span> {{ 'Admin'|trans({}, 'FOSUserBundle') }}</span>
                             </a>
                         {% endif %}
@@ -219,7 +224,7 @@
                             </button>
                         </li>
                         <li class="hide-phone list-inline-item app-search">
-                            <h3 class="page-title">Dashboard</h3>
+                            <h3 class="page-title">{% block header %} {% endblock %}</h3>
                         </li>
                     </ul>
 
