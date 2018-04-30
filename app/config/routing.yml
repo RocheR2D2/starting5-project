@@ -170,3 +170,13 @@ centers.next:
     path:     /nextCenters
     defaults: { _controller: AppBundle:Dashboard:cNext }
     methods:  [POST]
+
+shopPlayers:
+    path:     /shopPlayers
+    defaults: { _controller: AppBundle:Shop:shopPlayers }
+    methods:  [GET]
+
+shopPlayers.buy:
+    path:     /shopPlayers
+    defaults: { _controller: AppBundle:Shop:buyPlayers }
+    methods:  [POST]

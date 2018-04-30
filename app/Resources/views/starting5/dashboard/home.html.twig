@@ -6,11 +6,24 @@
 
 {% block body %}
         <div class="container">
-            <h2>Last Players Packed</h2>
             <div class="row">
-                {% for player in lastPlayers %}
-                    {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
-                {% endfor %}
+                <div class="col-md-6">
+                    <h2>Last Players Packed</h2>
+                    <div class="row">
+                        {% for player in lastPlayers %}
+                            {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h2>Players in your shop</h2>
+                    <div class="row">
+                        {% for shopPlayer in shopPlayers %}
+                            {% include 'starting5/players/shop.html.twig' with
+                            {'player': shopPlayer.playerId, 'price': shopPlayer.price, 'isMyPlayer' : shopPlayer.isMyPlayer} %}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
 {% endblock %}

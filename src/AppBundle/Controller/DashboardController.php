@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\NBAPlayers;
+use AppBundle\Entity\Shop;
 use AppBundle\Entity\UsersPlayers;
 use AppBundle\Entity\UserTeam;
 use AppBundle\Form\UserTeamType;
@@ -22,6 +23,7 @@ class DashboardController extends Controller
     protected $playerRepository;
     protected $userTeamDoctrine;
     protected $userPlayers;
+    protected $shopRepository;
 
     public function __construct(ObjectManager $entityManager)
     {
@@ -29,14 +31,17 @@ class DashboardController extends Controller
         $this->nbaPlayers = $this->em->getRepository(NBAPlayers::class);
         $this->userTeamDoctrine = $this->em->getRepository(UserTeam::class);
         $this->userPlayers = $this->em->getRepository(UsersPlayers::class);
+        $this->shopRepository = $this->em->getRepository(Shop::class);
     }
 
     public function homeAction() {
         $lastPlayers = $this->userPlayers->findBy([], ['id' => 'DESC'], 5);
+        $shopPlayers = $this->shopRepository->getShopPlayers($this->getUser());
 
         return $this->render('starting5/dashboard/home.html.twig',
             [
-                'lastPlayers' => $lastPlayers
+                'lastPlayers' => $lastPlayers,
+                'shopPlayers' => $shopPlayers
             ]
         );
     }

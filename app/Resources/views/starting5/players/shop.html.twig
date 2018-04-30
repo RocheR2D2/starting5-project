@@ -1,4 +1,4 @@
-<div id="player-{{ player.playerId }}">
+<div id="shop-player-{{ player.playerId }}">
     <div class="text-center">
         <img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{{ player.playerId }}.png"
              alt="{{ player.teamId.teamId }}"
@@ -28,4 +28,31 @@
              width="50px"
              class="wow fadeInUp">
     </p>
+    <div class="text-center">
+        {% if(isMyPlayer) %}
+            <button class="btn btn-primary" id="shop-{{ player.id }}">{{ price }}$</button>
+        {% else %}
+            <button class="btn btn-danger" disabled>Unavailable</button>
+        {% endif %}
+    </div>
+    <script type="text/javascript">
+        var loading = $('.loading');
+        $("#shop-{{ player.id }}").click(function () {
+            $.ajax({
+                url: '{{ path('shopPlayers.buy') }}',
+                type: 'POST',
+                data: 'playerId=' + {{ player.id }},
+                beforeSend: function () {
+                    loading.show();
+                },
+                complete: function () {
+                    loading.hide();
+                },
+                success: function (success) {
+                    $("#shop-player-{{ player.playerId }}").empty();
+                    $("#shop-player-{{ player.playerId }}").append(success);
+                }
+            });
+        });
+    </script>
 </div>

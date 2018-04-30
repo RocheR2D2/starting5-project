@@ -275,27 +275,41 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
             switch ($result) {
                 case 1:
                     ${"nbaPlayer" . $i} = $this->getLevelOnePlayer();
+                    ${"price" . $i} = 100000;
+                    ${"type" . $i} = 'Epic';
                     break;
                 case 2:
                     ${"nbaPlayer" . $i} = $this->getLevelTwoPlayer();
+                    ${"price" . $i} = 80000;
+                    ${"type" . $i} = 'Ultra';
                     break;
                 case 3:
                     ${"nbaPlayer" . $i} = $this->getLevelThreePlayer();
+                    ${"price" . $i} = 50000;
+                    ${"type" . $i} = 'Super';
                     break;
                 case 4:
                     ${"nbaPlayer" . $i} = $this->getLevelFourPlayer();
+                    ${"price" . $i} = 20000;
+                    ${"type" . $i} = 'Rare';
                     break;
                 case 5:
                     ${"nbaPlayer" . $i} = $this->getLevelFivePlayer();
+                    ${"price" . $i} = 10000;
+                    ${"type" . $i} = 'Normal';
                     break;
                 case 6:
                     ${"nbaPlayer" . $i} = $this->getLevelSixPlayer();
+                    ${"price" . $i} = 5000;
+                    ${"type" . $i} = 'Normal';
                     break;
                 case 7:
                     ${"nbaPlayer" . $i} = $this->getLevelSevenPlayer();
+                    ${"price" . $i} = 1000;
+                    ${"type" . $i} = 'Normal';
                     break;
             }
-            $packContent[] = ['player' => ${"nbaPlayer" . $i}, 'level' => $result];
+            $packContent[] = ['player' => ${"nbaPlayer" . $i}, 'level' => $result, 'price' => ${"price" . $i}, 'type' => ${"type" . $i}];
         }
 
         return $packContent;
@@ -401,5 +415,13 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
         shuffle($popPlayer);
 
         return $popPlayer;
+    }
+
+    public function getShopPlayers()
+    {
+        $popPlayer = $this->getRandomPlayers();
+        $shopPlayers = $this->createPackContent(5, $popPlayer);
+
+        return $shopPlayers;
     }
 }
