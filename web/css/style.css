@@ -207,7 +207,7 @@
 }
 
 .create-team .sendTeam{
-    width: 33.333333%;
+    width: 25%;
     position: fixed;
     bottom: 0;
     right: 0;
@@ -216,4 +216,20 @@
 .create-team .sendTeam .btn-primary{
     width: 100%;
     border-radius: 0;
+}
+
+.create-team .btn-player{
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 5px;
+}
+
+.create-team .item-player{
+    width: 100%;
+}
+
+.create-team .btn-player .right-side img{
+    max-width: 100px;
 }
