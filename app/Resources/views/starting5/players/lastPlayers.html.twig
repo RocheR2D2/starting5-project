@@ -1,0 +1,6 @@
+<h2>Last Players</h2>
+<div class="row">
+    {% for player in lastPlayers %}
+        {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
+    {% endfor %}
+</div>

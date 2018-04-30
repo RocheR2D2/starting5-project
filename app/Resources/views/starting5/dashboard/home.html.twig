@@ -7,15 +7,10 @@
 {% block body %}
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
-                    <h2>Last Players Packed</h2>
-                    <div class="row">
-                        {% for player in lastPlayers %}
-                            {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
-                        {% endfor %}
-                    </div>
+                <div class="col-md-8 col-md-offset-2" id="lastPlayers">
+                    {% include 'starting5/players/lastPlayers.html.twig' with {'lastPlayers': lastPlayers} %}
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-8 col-md-offset-2">
                     <h2>Players in your shop</h2>
                     <div class="row">
                         {% for shopPlayer in shopPlayers %}
