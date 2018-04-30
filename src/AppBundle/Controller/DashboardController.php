@@ -87,14 +87,25 @@ class DashboardController extends Controller
 
     public function newAction(Request $request)
     {
+        return $this->render('starting5/dashboard/new.html.twig');
+    }
+
+    public function getPlayerAction(Request $request)
+    {
+
         $user = $this->getUser();
 
+        $userTeamRepository = $this->getDoctrine()->getRepository(UserTeam::class);
+        $userRepository = $this->getDoctrine()->getRepository(UsersPlayers::class);
+        $MyPlayers = $userRepository->getMyPlayers($user);
+        $playerDoctrine = $this->getDoctrine()->getRepository(NBAPlayers::class);
         $serializer = $this->container->get('serializer');
 
-        $guards = $this->userPlayers->getGuards($user);
-        $guardsJson = $serializer->serialize($guards, 'json');
-        $gCount = $this->userPlayers->allGuards;
-        $forwards = $this->userPlayers->getForwards($user);
+        $guards = $userRepository->getGuards($user);
+        $guardsJson = $serializer->serialize($MyPlayers, 'json');
+
+        $gCount = $userRepository->allGuards;
+        $forwards = $userRepository->getForwards($user);
         $forwardsJson = $serializer->serialize($forwards, 'json');
         $fCount = $this->userPlayers->allForwards;
         $centers = $this->userPlayers->getCenters($user);
@@ -108,62 +119,31 @@ class DashboardController extends Controller
         $pf = 'No Player Selected';
         $c = 'No Player Selected';
 
+        $allPLayers = array_merge($guards, $forwards, $centers);
+        $result = $serializer->serialize($allPLayers, 'json');
+        return new Response($result);
+
+    }
+
+
+    public function createTeamAction(Request $request)
+    {
+        $players = $request->getContent();
+        $players = json_decode($players, true);
+        $user = $this->getUser();
         $userTeam = new UserTeam();
+        $playerDoctrine = $this->getDoctrine()->getRepository(NBAPlayers::class);
+        $this->setNewPlayers($userTeam, $playerDoctrine, $players);
+        $userTeam->setUser($user);
+        $userTeam->setLike(0);
+        $userTeam->setDislike(0);
+        //Set trainder + stadium here
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($userTeam);
+        $em->flush();
 
-        $form = $this->createFormBuilder($userTeam)
-            ->add('name', TextType::class, array('label' => 'Name of team'))
-            ->add('stadiumId', EntityType::class, array(
-                'label' => 'Select Stadium',
-                'class' => 'AppBundle:Stadium',
-                'choice_label' => 'name',
-            ))
-            ->add('trainerId', EntityType::class, array(
-                'label' => 'Select Trainer',
-                'class' => 'AppBundle:Trainer',
-                'choice_label' => 'fullName',
-            ))
-            ->add('save', SubmitType::class, array('label' => 'Create My Team'))
-            ->getForm();
+        return new Response("done");
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            $data = $request->request->get('form');
-            $userTeam = $form->getData();
-            $this->setNewPlayers($userTeam, $this->nbaPlayers, $data);
-            $userTeam->setUser($user);
-            $userTeam->setLike(0);
-            $userTeam->setDislike(0);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($userTeam);
-            $em->flush();
-
-            return $this->redirectToRoute('dashboard');
-        }
-
-        $countTeam = count($userTeams);
-
-        /*if($countTeam >= 3){
-            die('ok');
-        }*/
-
-        return $this->render('starting5/dashboard/new.html.twig', array(
-            'form' => $form->createView(),
-            'guards' => $guards,
-            'gCount' => $gCount,
-            'forwards' => $forwards,
-            'centers' => $centers,
-            'fCount' => $fCount,
-            'cCount' => $cCount,
-            'guardsJson' => $guardsJson,
-            'forwardsJson' => $forwardsJson,
-            'centersJson' => $centersJson,
-            'pg' => $pg,
-            'sg' => $sg,
-            'sf' => $sf,
-            'pf' => $pf,
-            'c' => $c,
-        ));
     }
 
     public function editAction(Request $request, $id)
@@ -286,11 +266,11 @@ class DashboardController extends Controller
 
     public function setNewPlayers($userTeam, $playerDoctrine, $data)
     {
-        $userTeam->setPointGuard($playerDoctrine->findOneBy(['playerId' => $data['pointGuard']]));
-        $userTeam->setShootingGuard($playerDoctrine->findOneBy(['playerId' => $data['shootingGuard']]));
-        $userTeam->setSmallForward($playerDoctrine->findOneBy(['playerId' => $data['smallForward']]));
-        $userTeam->setPowerForward($playerDoctrine->findOneBy(['playerId' => $data['powerForward']]));
-        $userTeam->setCenter($playerDoctrine->findOneBy(['playerId' => $data['center']]));
+        $userTeam->setPointGuard($playerDoctrine->findOneBy(['playerId' => $data['pointGuard']["playerId"]]));
+        $userTeam->setShootingGuard($playerDoctrine->findOneBy(['playerId' => $data['shootingGuard']["playerId"]]));
+        $userTeam->setSmallForward($playerDoctrine->findOneBy(['playerId' => $data['smallForward']["playerId"]]));
+        $userTeam->setPowerForward($playerDoctrine->findOneBy(['playerId' => $data['powerForward']["playerId"]]));
+        $userTeam->setCenter($playerDoctrine->findOneBy(['playerId' => $data['center']["playerId"]]));
 
         return $userTeam;
     }

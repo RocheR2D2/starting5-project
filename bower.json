@@ -1,0 +1,20 @@
+{
+  "name": "starting5-project",
+  "homepage": "https://github.com/eungtony/starting5-project",
+  "authors": [
+    "thomas <thomas.rachavong@affluences.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-dragdrop": "^1.0.13"
+  }
+}

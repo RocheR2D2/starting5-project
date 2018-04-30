@@ -82,4 +82,21 @@ class UsersPlayersRepository extends \Doctrine\ORM\EntityRepository
 
         return $players;
     }
+
+
+    /**
+     * @param $user
+     * @return array|ArrayCollection
+     */
+    public function getMyPlayers($user)
+    {
+        $players = [];
+        if ($user) {
+            $guards = $this->findBy(['userId' => $user]);
+            foreach ($guards as $guard) {
+                $players[] = $guard->getPlayerId();
+            }
+        }
+        return $players;
+    }
 }
