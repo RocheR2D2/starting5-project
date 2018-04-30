@@ -28,7 +28,7 @@
              width="50px"
              class="wow fadeInUp">
     </p>
-    <div class="text-center">
+    <div class="text-center wow fadeInDown">
         {% if(isMyPlayer) %}
             <button class="btn btn-primary" id="shop-{{ player.id }}">{{ price }}$</button>
         {% else %}
@@ -50,7 +50,11 @@
                 },
                 success: function (success) {
                     $("#shop-player-{{ player.playerId }}").empty();
-                    $("#shop-player-{{ player.playerId }}").append(success);
+                    $("#user_points").empty();
+                    $("#lastPlayers").empty();
+                    $("#lastPlayers").append(success.lastPlayers);
+                    $("#user_points").append(success.points);
+                    $("#shop-player-{{ player.playerId }}").append(success.shopPlayer);
                 }
             });
         });
