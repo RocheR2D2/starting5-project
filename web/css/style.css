@@ -152,3 +152,90 @@
     opacity: 0.5 !important;
     pointer-events: none !important;
 }
+
+/*### CREATE TEAM ###*/
+
+.create-team{
+    padding: 0;
+    position: absolute;
+    top: 55px;
+    background-color: #FFF;
+    height: calc(100% - 55px);
+    width: 100%;
+    overflow: hidden;
+}
+
+.create-team-overflow{
+    height: 100%;
+}
+
+.create-team .container-players{
+    overflow: auto;
+    height: 100%;
+    padding-bottom: 3em;
+    padding-top: 1em;
+}
+
+.create-team .container-players.selected{
+    overflow: visible;
+}
+
+
+.create-team .list-player{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.create-team .input-player{
+    border:1px solid #ccc;
+    height: 200px;
+    width: 200px;
+}
+
+.create-team .input-player.disabled{
+    background-color: #ccc;
+}
+
+.create-team .line{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.create-team .first-line{
+    justify-content: center;
+}
+
+.create-team .second-line,.create-team .third-line{
+    justify-content: space-around;
+}
+
+.create-team .sendTeam{
+    width: 25%;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-color: #FFF;
+}
+.create-team .sendTeam .btn-primary{
+    width: 100%;
+    border-radius: 0;
+}
+
+.create-team .btn-player{
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 5px;
+}
+
+.create-team .item-player{
+    width: 100%;
+}
+
+.create-team .btn-player .right-side img{
+    max-width: 100px;
+}

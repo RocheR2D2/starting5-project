@@ -88,6 +88,16 @@ user.team.new:
     defaults: { _controller: AppBundle:Dashboard:new }
     methods:  [GET, POST]
 
+user.team.new.getPlayers:
+    path:     /team/getPlayers
+    defaults: { _controller: AppBundle:Dashboard:getPlayer }
+    methods:  [GET]
+
+user.team.new.createTeam:
+    path:     /team/createTeam
+    defaults: { _controller: AppBundle:Dashboard:createTeam }
+    methods:  [POST]
+
 user.team.edit:
     path:     /team/{id}/edit
     defaults: { _controller: AppBundle:Dashboard:edit }
