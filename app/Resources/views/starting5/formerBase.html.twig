@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr" ng-app="starting5">
+<meta charset="UTF-8"/>
+<title>{% block title %}Welcome!{% endblock %}</title>
+{% block stylesheets %}{% endblock %}
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Starting5 - Créer votre 5 majeurs de rêve !</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <link href="{{ asset('css/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('css/scrolling-nav.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
+
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{{ asset('js/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom JavaScript for this theme -->
+    <script src="{{ asset('js/scrolling-nav.js') }}"></script>
+
+    <!-- AngularJs CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <!-- Main angular app -->
+    <script src="{{ asset('js/app.js') }}"></script>
+
+</head>
+<body id="page-top">
+
+<div class="loading">Loading&#8230;</div>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="/">Starting5</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{{ path('my-teams') }}">5IVE</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{{ path('user.players') }}">My Players</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{{ path('pack.opening') }}">My Packs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#"><span id="user_points">{{ app.user.quizPoints }}</span> Pts</a>
+                    </li>
+                {% endif %}
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('fos_user_profile_show') }}">{{ app.user.username }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{{ path('fos_user_security_logout') }}">
+                            {{ 'Logout'|trans({}, 'FOSUserBundle') }}
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{{ path('fos_user_security_login') }}">{{ 'Log in'|trans({}, 'FOSUserBundle') }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{{ path('fos_user_registration_register') }}">{{ 'Sign up'|trans({}, 'FOSUserBundle') }}</a>
+                    </li>
+                {% endif %}
+                {% if is_granted("ROLE_ADMIN") %}
+                    <li class="nav-item">
+                        <a href="{{ path('admin') }}" class="nav-link">{{ 'Admin'|trans({}, 'FOSUserBundle') }}</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header class="bg-primary text-white">
+    <div class="container text-center">
+        {% block header %} {% endblock %}
+    </div>
+</header>
+
+{% block body %}{% endblock %}
+
+<!-- Footer -->
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Starting5 2018</p>
+    </div>
+    <!-- /.container -->
+</footer>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+<script type="text/javascript">
+    new WOW().init();
+    $('.loading').hide();
+</script>
+</body>
+
+</html>

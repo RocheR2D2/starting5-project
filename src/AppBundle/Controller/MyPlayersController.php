@@ -76,9 +76,9 @@ class MyPlayersController extends Controller
 
     public function getMyPlayers($current = 0)
     {
-        $userPlayers = $this->userPlayers->findBy(['userId' => $this->getUser()], ['rating' => 'DESC'], 9, 0);
+        $userPlayers = $this->userPlayers->findBy(['userId' => $this->getUser()], ['rating' => 'DESC'], 18, 0);
         if($current > 0){
-            $userPlayers = $this->userPlayers->findBy(['userId' => $this->getUser()], ['rating' => 'DESC'], 9, 9 * $current);
+            $userPlayers = $this->userPlayers->findBy(['userId' => $this->getUser()], ['rating' => 'DESC'], 18, 20 * $current);
         }
 
         return $userPlayers;
