@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 use AppBundle\Entity\Stadium;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping;
 
 /**
  * StadiumRepository
@@ -12,4 +13,24 @@ use Doctrine\ORM\EntityManager;
  */
 class StadiumRepository extends \Doctrine\ORM\EntityRepository
 {
+    protected $countStadium;
+
+    public function __construct(EntityManager $em, Mapping\ClassMetadata $class)
+    {
+        parent::__construct($em, $class);
+        $this->countStadium = count($this->findAll());
+
+    }
+
+    public function getRandomStadium()
+    {
+        $randomStadiumId = rand(1, $this->countStadium);
+        $stadium = $this->find($randomStadiumId);
+        if($stadium){
+
+            return $stadium;
+        }
+
+        return null;
+    }
 }

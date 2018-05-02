@@ -90,13 +90,16 @@ class UsersPlayersRepository extends \Doctrine\ORM\EntityRepository
      */
     public function getMyPlayers($user)
     {
-        $players = [];
+        $myPlayers = [];
         if ($user) {
-            $guards = $this->findBy(['userId' => $user]);
-            foreach ($guards as $guard) {
-                $players[] = $guard->getPlayerId();
+            $players = $this->findBy(['userId' => $user], ['rating' => 'DESC']);
+            foreach ($players as $player) {
+                $myPlayers[] = $player->getPlayerId();
             }
+
+            return $myPlayers;
         }
-        return $players;
+
+        return null;
     }
 }

@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 use AppBundle\Entity\Trainer;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping;
 
 /**
  * TrainerRepository
@@ -12,4 +13,23 @@ use Doctrine\ORM\EntityManager;
  */
 class TrainerRepository extends \Doctrine\ORM\EntityRepository
 {
+    public $countTrainers;
+
+    public function __construct(EntityManager $em, Mapping\ClassMetadata $class)
+    {
+        parent::__construct($em, $class);
+        $this->countTrainers = count($this->findAll());
+    }
+
+    public function getRandomTrainer()
+    {
+        $randomTrainerId = rand(1, $this->countTrainers);
+        $trainer = $this->find($randomTrainerId);
+        if($trainer){
+
+            return $trainer;
+        }
+
+        return null;
+    }
 }

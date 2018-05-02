@@ -5,5 +5,12 @@
                 {% include 'starting5/players/player.html.twig' with {'player': player.player} %}
             </div>
         {% endfor %}
+        <div class="col-md-6 text-center">
+            {{ trainerStadium.trainer.firstname }}
+            {{ trainerStadium.trainer.lastname }}
+        </div>
+        <div class="col-md-6 text-center">
+            {{ trainerStadium.stadium.name }}
+        </div>
     </div>
 </div>
