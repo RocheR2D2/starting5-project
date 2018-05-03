@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping;
  */
 class StadiumRepository extends \Doctrine\ORM\EntityRepository
 {
-    protected $countStadium;
+    public $countStadium;
 
     public function __construct(EntityManager $em, Mapping\ClassMetadata $class)
     {
@@ -22,9 +22,20 @@ class StadiumRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
+    public function getAllIds()
+    {
+        $ids = [];
+        foreach ($this->findAll() as $stadium) {
+            $ids[] = $stadium->getId();
+        }
+
+        return $ids;
+    }
+
     public function getRandomStadium()
     {
-        $randomStadiumId = rand(1, $this->countStadium);
+        $id = array_rand($this->getAllIds());
+        $randomStadiumId = $this->find($id);
         $stadium = $this->find($randomStadiumId);
         if($stadium){
 
