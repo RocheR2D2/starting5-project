@@ -16,4 +16,11 @@ class UserStadiumRepository extends \Doctrine\ORM\EntityRepository
 
         return empty($userStadium);
     }
+
+    public function getMyStadium($user)
+    {
+        $myStadiums = $this->findBy(['userId' => $user]);
+
+        return count($myStadiums);
+    }
 }

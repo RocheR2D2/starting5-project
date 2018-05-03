@@ -22,6 +22,7 @@ class UsersPlayersRepository extends \Doctrine\ORM\EntityRepository
     public $allGuards;
     public $allForwards;
     public $allCenters;
+    public $countMyPlayers;
 
     public function __construct(EntityManager $em, Mapping\ClassMetadata $class)
     {
@@ -101,5 +102,12 @@ class UsersPlayersRepository extends \Doctrine\ORM\EntityRepository
         }
 
         return null;
+    }
+
+    public function countMyPlayers($user)
+    {
+        $myPlayers = $this->findBy(['userId' =>$user]);
+
+        return count($myPlayers);
     }
 }

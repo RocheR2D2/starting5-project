@@ -16,4 +16,11 @@ class UserTrainerRepository extends \Doctrine\ORM\EntityRepository
 
         return empty($userTrainer);
     }
+
+    public function getMyTrainer()
+    {
+        $countTrainer = $this->findAll();
+
+        return count($countTrainer);
+    }
 }
