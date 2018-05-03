@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+    {% block header %}
+        Dashboard
+    {% endblock header %}
+
+{% block body %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8" id="lastPlayers">
+                    {% include 'starting5/players/lastPlayers.html.twig' with {'lastPlayers': lastPlayers} %}
+                </div>
+                <div class="col-md-8">
+                    <h2>Players in your shop</h2>
+                    <div class="row">
+                        {% if(shopPlayers|length > 0) %}
+                        {% for shopPlayer in shopPlayers %}
+                            {% include 'starting5/players/shop.html.twig' with
+                            {'player': shopPlayer.playerId, 'price': shopPlayer.price, 'isMyPlayer' : shopPlayer.isMyPlayer} %}
+                        {% endfor %}
+                        {% else %}
+                            <span class="bg-danger">Shop is unavailable</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div>
+                        <h2>Your collection</h2>
+                        <span id="countMyPlayers">{{ countMyPlayers }}</span> / <span>{{ countAllPlayers }}</span> NBA Players
+                    </div>
+                    <div>
+                        <span id="countMyPlayers">{{ countMyStadiums }}</span> / <span>{{ countAllStadiums }}</span> NBA Stadiums
+                    </div>
+                    <div>
+                        <span id="countMyPlayers">{{ countMyTrainers }}</span> / <span>{{ countAllTrainers }}</span> NBA Head Coaches
+                    </div>
+                    <div>
+                        <h2>Open Pack: {{ app.user.openPack }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

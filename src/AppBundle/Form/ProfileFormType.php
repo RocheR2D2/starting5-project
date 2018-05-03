@@ -91,7 +91,7 @@ class ProfileFormType extends AbstractType
             ->add('email', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\EmailType'), array('label' => 'Email', 'translation_domain' => 'FOSUserBundle'))
             ->add('team', EntityType::class, array(
                 'label' => 'My Fav Team',
-                'class' => 'AppBundle:Team',
+                'class' => 'AppBundle:NBATeams',
                 'choice_label' => 'name',
             ))
         ;

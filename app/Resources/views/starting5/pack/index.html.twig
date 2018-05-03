@@ -1,46 +1,17 @@
 {% extends 'base.html.twig' %}
 
     {% block header %}
-        <h1>Welcome to Starting5</h1>
-        <p class="lead">Viens créer ton 5 majeurs de rêve NBA !</p>
+        Welcome to Starting5
     {% endblock header %}
 
 {% block body %}
 
-    <section id="about">
-        <div class="container">
-            <h1>ALL PACKS</h1>
-            <div class="row text-center">
-                {% if(count > 5000) %}
-                    <p class="alert alert-warning">
-                        This pack is not available for you !
-                    </p>
-                {% else %}
-                    {{ form_start(silverForm, { 'action': path('pack.opening')}) }}
-                    <div class="form-group">
-                        {{ form_row(silverForm.save, {'attr': {'class': 'btn btn-primary'}}) }}
-                    </div>
-                    {{ form_end(silverForm) }}
-
-                    {{ form_start(goldenForm, { 'action': path('pack.opening')}) }}
-                    <div class="form-group">
-                        {{ form_row(goldenForm.save, {'attr': {'class': 'btn btn-info'}}) }}
-                    </div>
-                    {{ form_end(goldenForm) }}
-
-                    {{ form_start(gigaForm, { 'action': path('pack.opening')}) }}
-                    <div class="form-group">
-                        {{ form_row(gigaForm.save, {'attr': {'class': 'btn btn-danger'}}) }}
-                    </div>
-                    {{ form_end(gigaForm) }}
-
-                    {{ form_start(superRareForm, { 'action': path('pack.opening')}) }}
-                    <div class="form-group">
-                        {{ form_row(superRareForm.save, {'attr': {'class': 'btn btn-success'}}) }}
-                    </div>
-                    {{ form_end(superRareForm) }}
-                {% endif %}
-            </div>
+    <div class="container">
+        <div class="pack-list text-center" style="margin: 100px;">
+            {% include 'starting5/pack/packs.html.twig' with {'packs': packs} %}
         </div>
-    </section>
+
+        <div class="pack-content"></div>
+        <div class="duplicate-players"></div>
+    </div>
 {% endblock %}

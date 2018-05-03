@@ -22,7 +22,11 @@ fos_user_change_password:
     prefix: /profile
 
 dashboard:
-    path:     /dashboard
+    path: /dashboard
+    defaults: { _controller: AppBundle:Dashboard:home }
+
+my-teams:
+    path: /my-teams
     defaults: { _controller: AppBundle:Dashboard:index }
 
 team:
@@ -126,6 +130,16 @@ pack.opening:
     defaults: { _controller: AppBundle:Pack:packOpening }
     methods:  [GET, POST]
 
+ajax.pack.opening:
+    path:     /packopening
+    defaults: { _controller: AppBundle:Pack:packContent }
+    methods:  [POST]
+
+pack.opener:
+    path:     /pack-content
+    defaults: { _controller: AppBundle:Pack:opener }
+    methods:  [GET]
+
 discard.player:
     path:     /discard
     defaults: { _controller: AppBundle:MyPlayers:discardPlayer }
@@ -165,4 +179,14 @@ powerForwards.next:
 centers.next:
     path:     /nextCenters
     defaults: { _controller: AppBundle:Dashboard:cNext }
+    methods:  [POST]
+
+shopPlayers:
+    path:     /shopPlayers
+    defaults: { _controller: AppBundle:Shop:shopPlayers }
+    methods:  [GET]
+
+shopPlayers.buy:
+    path:     /shopPlayers
+    defaults: { _controller: AppBundle:Shop:buyPlayers }
     methods:  [POST]

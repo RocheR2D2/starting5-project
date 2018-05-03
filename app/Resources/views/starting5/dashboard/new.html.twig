@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% block header %} Create my Five! {% endblock %}
+
 {% block body %}
     <section class="create-team"  ng-controller="Five">
-        <div class="container-fluid create-team-overflow">
+        <div class="create-team-overflow">
             <div class="row create-team-overflow">
                 <div class="col-lg-9 col-md-9">
-
-                    <p>My Team Comp</p>
 
                     <div class="first-line line">
                         <!-- pointGuard -->
@@ -15,7 +15,7 @@
                                 <p>Point Guard</p>
                                 <div ng-show="pointGuard.fullName">
                                     <div class="btn btn-light" data-drag="false" data-jqyoui-options ng-model="pointGuard">{[{pointGuard.fullName}]}</div>
-                                    <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{pointGuard.playerId}]}.png" alt="">
+                                    <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{pointGuard.playerId}]}.png" height="100px" alt="">
                                 </div>
                             </div>
                             <button ng-if="pointGuard.fullName" class="btn btn-light" ng-click="clearpointGuard()"><i class="fa fa-trash" aria-hidden="true"></i></button>
@@ -30,7 +30,7 @@
                                 <p>Small Forward</p>
                                 <div ng-show="smallForward.fullName">
                                     <div class="btn btn-light" data-drag="false" data-jqyoui-options ng-model="smallForward">{[{smallForward.fullName}]}</div>
-                                    <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{smallForward.playerId}]}.png" alt="">
+                                    <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{smallForward.playerId}]}.png" height="100px" alt="">
                                 </div>
                             </div>
                             <button ng-if="smallForward.fullName" class="btn btn-light" ng-click="clearsmallForward()"><i class="fa fa-trash" aria-hidden="true"></i></button>
@@ -43,7 +43,7 @@
                                 <p>Shooting Guard</p>
                                 <div ng-show="shootingGuard.fullName">
                                     <div class="btn btn-light" data-drag="false" data-jqyoui-options ng-model="shootingGuard">{[{shootingGuard.fullName}]}</div>
-                                    <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{shootingGuard.playerId}]}.png" alt="">
+                                    <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{shootingGuard.playerId}]}.png" height="100px" alt="">
                                 </div>
                             </div>
                             <button ng-if="shootingGuard.fullName" class="btn btn-light" ng-click="clearshootingGuard()"><i class="fa fa-trash" aria-hidden="true"></i></button>
@@ -58,7 +58,7 @@
                                <p>Power Forward</p>
                                <div ng-show="powerForward.fullName">
                                    <div class="btn btn-light" data-drag="false" data-jqyoui-options ng-model="powerForward">{[{powerForward.fullName}]}</div>
-                                   <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{powerForward.playerId}]}.png" alt="">
+                                   <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{powerForward.playerId}]}.png" height="100px" alt="">
                                </div>
                            </div>
                            <button ng-if="powerForward.fullName" class="btn btn-light" ng-click="clearpowerForward()"><i class="fa fa-trash" aria-hidden="true"></i></button>
@@ -72,7 +72,7 @@
                                <p>Center</p>
                                <div ng-show="center.fullName">
                                    <div class="btn btn-light" data-drag="false" jqyoui-draggable="{animate:true}" ng-model="center">{[{center.fullName}]}</div>
-                                   <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{center.playerId}]}.png" alt="">
+                                   <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{center.playerId}]}.png" height="100px" alt="">
                                </div>
                            </div>
                            <button ng-if="center.fullName" class="btn btn-light" ng-click="clearcenter()"><i class="fa fa-trash" aria-hidden="true"></i></button>
@@ -110,5 +110,4 @@
         </div>
     </section>
     <script src="{{ asset('assets/vendor/jquery-ui/jquery-ui.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('assets/vendor/angular-dragdrop/src/angular-dragdrop.js') }}" type="text/javascript"></script>
 {% endblock %}

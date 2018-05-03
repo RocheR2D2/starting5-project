@@ -2,7 +2,10 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Helper\Pack;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\ClassMetadata;
 
 /**
  * NBAPlayersRepository
@@ -12,6 +15,14 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
 {
+    public $countPlayers;
+
+    public function __construct(EntityManager $em, ClassMetadata $class)
+    {
+        parent::__construct($em, $class);
+        $this->countPlayers = count($this->findAll());
+    }
+
     /**
      * @return mixed
      */
@@ -70,16 +81,14 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
                 $profile = $player;
             }
         }
-        $playerStatsJson = file_get_contents('http://data.nba.net/data/10s/prod/v1/2017/players/' . $playerId . '_profile.json');
-        $playersStats = json_decode($playerStatsJson);
-        if ($profile->getTeamId()->getTeamId() == $playersStats->league->standard->teamId) {
+        if ($profile !== null) {
+            $playerStatsJson = file_get_contents('http://data.nba.net/data/10s/prod/v1/2017/players/' . $playerId . '_profile.json');
+            $playersStats = json_decode($playerStatsJson);
             $stats = $playersStats->league->standard->stats->careerSummary;
             $playerProfile = (object)array_merge((array)$profile, (array)$stats);
 
             return $playerProfile;
         }
-
-        return null;
     }
 
     /**
@@ -87,10 +96,10 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
      * @param $positionCode
      * @param $positionArray
      */
-    public function getPlayerPosition($players, $positionCode, $positionArray)
+    public function getPlayerPosition($players, $positionCode)
     {
         foreach ($players as $player) {
-            $playerPosition = explode('-', $player['pos']);
+            $playerPosition = explode('-', $player->position);
             if (isset($playerPosition[0]) && $playerPosition[0] == $positionCode) {
                 $pos[] = $player;
             } elseif (isset($playerPosition[0]) && isset($playerPosition[1]) && $playerPosition[1] == $positionCode) {
@@ -108,7 +117,12 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
 
         $players = $query->getResult();
         $player = $players[array_rand($players)];
-        $nbaPlayer = $this->getProfile($player->getPlayerId());
+        if($player->getPlayerId()){
+            $nbaPlayer = $this->getProfile($player->getPlayerId());
+            return $nbaPlayer;
+        } else {
+            $nbaPlayer = $this->getLevelOnePlayer();
+        }
 
         return $nbaPlayer;
     }
@@ -124,7 +138,12 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
 
         $players = $query->getResult();
         $player = $players[array_rand($players)];
-        $nbaPlayer = $this->getProfile($player->getPlayerId());
+        if($player->getPlayerId()){
+            $nbaPlayer = $this->getProfile($player->getPlayerId());
+            return $nbaPlayer;
+        } else {
+            $nbaPlayer = $this->getLevelTwoPlayer();
+        }
 
         return $nbaPlayer;
     }
@@ -140,7 +159,12 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
 
         $players = $query->getResult();
         $player = $players[array_rand($players)];
-        $nbaPlayer = $this->getProfile($player->getPlayerId());
+        if($player->getPlayerId()){
+            $nbaPlayer = $this->getProfile($player->getPlayerId());
+            return $nbaPlayer;
+        } else {
+            $nbaPlayer = $this->getLevelThreePlayer();
+        }
 
         return $nbaPlayer;
     }
@@ -156,7 +180,12 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
 
         $players = $query->getResult();
         $player = $players[array_rand($players)];
-        $nbaPlayer = $this->getProfile($player->getPlayerId());
+        if($player->getPlayerId()){
+            $nbaPlayer = $this->getProfile($player->getPlayerId());
+            return $nbaPlayer;
+        } else {
+            $nbaPlayer = $this->getLevelFourPlayer();
+        }
 
         return $nbaPlayer;
     }
@@ -172,7 +201,12 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
 
         $players = $query->getResult();
         $player = $players[array_rand($players)];
-        $nbaPlayer = $this->getProfile($player->getPlayerId());
+        if($player->getPlayerId()){
+            $nbaPlayer = $this->getProfile($player->getPlayerId());
+            return $nbaPlayer;
+        } else {
+            $nbaPlayer = $this->getLevelFivePlayer();
+        }
 
         return $nbaPlayer;
     }
@@ -188,7 +222,12 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
 
         $players = $query->getResult();
         $player = $players[array_rand($players)];
-        $nbaPlayer = $this->getProfile($player->getPlayerId());
+        if($player->getPlayerId()){
+            $nbaPlayer = $this->getProfile($player->getPlayerId());
+            return $nbaPlayer;
+        } else {
+            $nbaPlayer = $this->getLevelSixPlayer();
+        }
 
         return $nbaPlayer;
     }
@@ -204,25 +243,41 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
 
         $players = $query->getResult();
         $player = $players[array_rand($players)];
-        $nbaPlayer = $this->getProfile($player->getPlayerId());
+        $nbaPlayer = null;
+        if($player->getPlayerId()){
+            $nbaPlayer = $this->getProfile($player->getPlayerId());
+            return $nbaPlayer;
+        } else {
+            $nbaPlayer = $this->getLevelSevenPlayer();
+        }
 
         return $nbaPlayer;
     }
 
     public function packOpener($type)
     {
-        $numberOfPlayers = 3;
-        if($type == 'giga'){
-            $popPlayer = $this->getRandomGoldenPlayers(); //20% chance increased to get a very rare player
-            $numberOfPlayers = 9;
-        }
+        $numberOfPlayers = Pack::DEFAULT_NUMBER_OF_PLAYERS;
         $popPlayer = $this->getRandomPlayers();
-        if($type == 'golden'){
-            $popPlayer = $this->getRandomGoldenPlayers(); //40% chance increased to get a very rare player
+
+        switch($type) {
+            case Pack::GIGA_PACK_LABEL:
+                $popPlayer = $this->getRandomGoldenPlayers(); //20% chance increased to get a very rare player
+                $numberOfPlayers = Pack::GIGA_PACK_LABEL;
+                break;
+            case Pack::GOLDEN_PACK_LABEL:
+                $popPlayer = $this->getRandomGoldenPlayers(); //40% chance increased to get a very rare player
+                break;
+            case Pack::SUPER_RARE_PACK_LABEL:
+                $popPlayer = $this->getRandomSuperRarePlayers(); //chance of getting super rare player are multiplied by 2.5 based of golden chances
+                break;
         }
-        if($type == 'super-rare'){
-            $popPlayer = $this->getRandomSuperRarePlayers(); //chance of getting super rare player are multiplied by 2.5 based of golden chances
-        }
+
+        $packContent = $this->createPackContent($numberOfPlayers, $popPlayer);
+
+        return $packContent;
+    }
+
+    public function createPackContent($numberOfPlayers, $popPlayer) {
         $packContent = new ArrayCollection();
 
         for ($i = 0; $i < $numberOfPlayers; $i++) {
@@ -230,27 +285,41 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
             switch ($result) {
                 case 1:
                     ${"nbaPlayer" . $i} = $this->getLevelOnePlayer();
+                    ${"price" . $i} = 100000;
+                    ${"type" . $i} = 'Epic';
                     break;
                 case 2:
                     ${"nbaPlayer" . $i} = $this->getLevelTwoPlayer();
+                    ${"price" . $i} = 80000;
+                    ${"type" . $i} = 'Ultra';
                     break;
                 case 3:
                     ${"nbaPlayer" . $i} = $this->getLevelThreePlayer();
+                    ${"price" . $i} = 50000;
+                    ${"type" . $i} = 'Super';
                     break;
                 case 4:
                     ${"nbaPlayer" . $i} = $this->getLevelFourPlayer();
+                    ${"price" . $i} = 20000;
+                    ${"type" . $i} = 'Rare';
                     break;
                 case 5:
                     ${"nbaPlayer" . $i} = $this->getLevelFivePlayer();
+                    ${"price" . $i} = 10000;
+                    ${"type" . $i} = 'Normal';
                     break;
                 case 6:
                     ${"nbaPlayer" . $i} = $this->getLevelSixPlayer();
+                    ${"price" . $i} = 5000;
+                    ${"type" . $i} = 'Normal';
                     break;
                 case 7:
                     ${"nbaPlayer" . $i} = $this->getLevelSevenPlayer();
+                    ${"price" . $i} = 1000;
+                    ${"type" . $i} = 'Normal';
                     break;
             }
-            $packContent[] = ${"nbaPlayer" . $i};
+            $packContent[] = ['player' => ${"nbaPlayer" . $i}, 'level' => $result, 'price' => ${"price" . $i}, 'type' => ${"type" . $i}];
         }
 
         return $packContent;
@@ -356,5 +425,13 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
         shuffle($popPlayer);
 
         return $popPlayer;
+    }
+
+    public function getShopPlayers()
+    {
+        $popPlayer = $this->getRandomPlayers();
+        $shopPlayers = $this->createPackContent(5, $popPlayer);
+
+        return $shopPlayers;
     }
 }

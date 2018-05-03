@@ -1,11 +1,10 @@
 {% extends 'base.html.twig' %}
 
     {% block header %}
-        <h1>Mon 5 Majeur</h1>
+        Mon 5 Majeur
     {% endblock header %}
 
 {% block body %}
-    <section id="about">
         <div class="container">
             <p>
                 <a href="{{ path('user.players') }}">Mes joueurs</a>
@@ -15,7 +14,7 @@
                 {% if(guards|length > 0) %}
                 {% for player in guards %}
                     <div class="col-md-4">
-                        {% include 'starting5/players/player.html.twig' with {'player': player} %}
+                        {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
                     </div>
                 {% endfor %}
                 {% else %}
@@ -25,5 +24,4 @@
                 {% endif %}
             </div>
         </div>
-    </section>
 {% endblock %}

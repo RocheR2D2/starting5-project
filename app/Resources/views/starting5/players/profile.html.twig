@@ -1,13 +1,11 @@
 {% extends 'base.html.twig' %}
 
     {% block header %}
-        <h1>Welcome to Starting5</h1>
-        <p class="lead">Viens créer ton 5 majeurs de rêve NBA !</p>
+        Welcome to Starting5
     {% endblock header %}
 
 {% block body %}
 
-    <section id="about">
         <div class="container">
             <div class="col-lg-8 mx-auto text-center">
                 <img src="{{ asset('images/teams/' ~ player.teamId ~ '.svg') }}" alt="{{ player.teamId }}"
@@ -54,5 +52,4 @@
                 </table>
             </div>
         </div>
-    </section>
 {% endblock %}

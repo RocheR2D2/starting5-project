@@ -1,0 +1,10 @@
+<h2>Last Players</h2>
+<div class="row">
+    {% if(lastPlayers|length > 0) %}
+        {% for player in lastPlayers %}
+            {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
+        {% endfor %}
+    {% else %}
+        <div class="bg-danger">No Players packed or buyed</div>
+    {% endif %}
+</div>
