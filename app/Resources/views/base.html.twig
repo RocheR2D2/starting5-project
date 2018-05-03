@@ -57,7 +57,10 @@
         <!-- LOGO -->
         <div class="topbar-left">
             <div class="text-center">
-                <h2 class="ti-basketball"></h2>
+                <a href="{{ path('dashboard') }}">
+                    <h2 class="ti-basketball"></h2>
+                    <h2>STARTING5</h2>
+                </a>
             </div>
         </div>
 
@@ -205,9 +208,9 @@
                 </li>
 
                 <li class="list-inline-item dropdown notification-list">
-                    <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button"
+                    <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="{{ path('fos_user_profile_show') }}" role="button"
                        aria-haspopup="false" aria-expanded="false">
-                        <img src="" alt="user" class="rounded-circle">
+                        <img src="{{ asset('images/teams/' ~ app.user.team.teamId ~ '.svg') }}" alt="user" class="rounded-circle">
                     </a>
                     <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                         <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a>

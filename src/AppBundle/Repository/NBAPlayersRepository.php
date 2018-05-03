@@ -4,6 +4,8 @@ namespace AppBundle\Repository;
 
 use AppBundle\Helper\Pack;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\ClassMetadata;
 
 /**
  * NBAPlayersRepository
@@ -13,6 +15,14 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
 {
+    public $countPlayers;
+
+    public function __construct(EntityManager $em, ClassMetadata $class)
+    {
+        parent::__construct($em, $class);
+        $this->countPlayers = count($this->findAll());
+    }
+
     /**
      * @return mixed
      */

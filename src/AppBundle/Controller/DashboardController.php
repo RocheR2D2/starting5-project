@@ -4,16 +4,17 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\NBAPlayers;
 use AppBundle\Entity\Shop;
+use AppBundle\Entity\Stadium;
+use AppBundle\Entity\Trainer;
 use AppBundle\Entity\UsersPlayers;
+use AppBundle\Entity\UserStadium;
 use AppBundle\Entity\UserTeam;
+use AppBundle\Entity\UserTrainer;
 use AppBundle\Form\UserTeamType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 
 class DashboardController extends Controller
@@ -24,6 +25,10 @@ class DashboardController extends Controller
     protected $userTeamDoctrine;
     protected $userPlayers;
     protected $shopRepository;
+    protected $stadiumRepository;
+    protected $trainerRepository;
+    protected $userTrainerRepository;
+    protected $userStadiumRepository;
 
     public function __construct(ObjectManager $entityManager)
     {
@@ -32,22 +37,40 @@ class DashboardController extends Controller
         $this->userTeamDoctrine = $this->em->getRepository(UserTeam::class);
         $this->userPlayers = $this->em->getRepository(UsersPlayers::class);
         $this->shopRepository = $this->em->getRepository(Shop::class);
+        $this->stadiumRepository = $this->em->getRepository(Stadium::class);
+        $this->trainerRepository = $this->em->getRepository(Trainer::class);
+        $this->userStadiumRepository = $this->em->getRepository(UserStadium::class);
+        $this->userTrainerRepository = $this->em->getRepository(UserTrainer::class);
     }
 
     public function homeAction() {
+        $countMyPlayers = $this->userPlayers->countMyPlayers($this->getUser());
+        $countAllPlayers = $this->nbaPlayers->countPlayers;
+
+        $countMyStadiums = $this->userStadiumRepository->getMyStadium($this->getUser());
+        $countAllStadiums = $this->stadiumRepository->countStadium;
+
+        $countMyTrainers = $this->userTrainerRepository->getMyTrainer($this->getUser());
+        $countAllTrainers = $this->trainerRepository->countTrainer;
+
         $lastPlayers = $this->userPlayers->findBy([], ['id' => 'DESC'], 5);
         $shopPlayers = $this->shopRepository->getShopPlayers($this->getUser());
 
         return $this->render('starting5/dashboard/home.html.twig',
             [
                 'lastPlayers' => $lastPlayers,
-                'shopPlayers' => $shopPlayers
+                'shopPlayers' => $shopPlayers,
+                'countMyPlayers' => $countMyPlayers,
+                'countAllPlayers' => $countAllPlayers,
+                'countMyStadiums' => $countMyStadiums,
+                'countAllStadiums' => $countAllStadiums,
+                'countMyTrainers' => $countMyTrainers,
+                'countAllTrainers' => $countAllTrainers
             ]
         );
     }
 
     /**
-     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction()
@@ -85,44 +108,20 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function newAction(Request $request)
+    public function newAction()
     {
         return $this->render('starting5/dashboard/new.html.twig');
     }
 
-    public function getPlayerAction(Request $request)
+    public function getPlayerAction()
     {
-
         $user = $this->getUser();
-
-        $userTeamRepository = $this->getDoctrine()->getRepository(UserTeam::class);
-        $userRepository = $this->getDoctrine()->getRepository(UsersPlayers::class);
-        $MyPlayers = $userRepository->getMyPlayers($user);
-        $playerDoctrine = $this->getDoctrine()->getRepository(NBAPlayers::class);
+        $myPlayers = $this->userPlayers->getMyPlayers($user);
         $serializer = $this->container->get('serializer');
+        $result = $serializer->serialize($myPlayers, 'json');
+        $response = new Response($result);
 
-        $guards = $userRepository->getGuards($user);
-        $guardsJson = $serializer->serialize($MyPlayers, 'json');
-
-        $gCount = $userRepository->allGuards;
-        $forwards = $userRepository->getForwards($user);
-        $forwardsJson = $serializer->serialize($forwards, 'json');
-        $fCount = $this->userPlayers->allForwards;
-        $centers = $this->userPlayers->getCenters($user);
-        $centersJson = $serializer->serialize($centers, 'json');
-        $cCount = $this->userPlayers->allCenters;
-        $userTeams = $this->userTeamDoctrine->findBy(['user' => $user]);
-
-        $pg = 'No Player Selected';
-        $sg = 'No Player Selected';
-        $sf = 'No Player Selected';
-        $pf = 'No Player Selected';
-        $c = 'No Player Selected';
-
-        $allPLayers = array_merge($guards, $forwards, $centers);
-        $result = $serializer->serialize($allPLayers, 'json');
-        return new Response($result);
-
+        return $response;
     }
 
 

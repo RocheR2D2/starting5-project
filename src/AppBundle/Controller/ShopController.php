@@ -51,7 +51,12 @@ class ShopController extends Controller
         $player = $this->nbaPlayers->find($playerId);
         $shopPlayer =  $this->shopPlayer->findOneBy(['playerId' => $player]);
         $this->addPlayer($player, $shopPlayer);
-        $content = ['shopPlayer' => $this->shopPlayerCard($player, $shopPlayer), 'points' => $user->getQuizPoints(), 'lastPlayers' => $this->getLastPlayers()];
+        $content = [
+            'shopPlayer' => $this->shopPlayerCard($player, $shopPlayer),
+            'points' => $user->getQuizPoints(),
+            'lastPlayers' => $this->getLastPlayers(),
+            'countMyPlayers' => $this->userPlayers->countMyPlayers($user)
+        ];
         $response = new Response(json_encode($content));
         $response->headers->set('Content-Type', 'application/json');
 

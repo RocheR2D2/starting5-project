@@ -3,7 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\NBAPlayers;
+use AppBundle\Entity\Stadium;
+use AppBundle\Entity\Trainer;
 use AppBundle\Entity\UsersPlayers;
+use AppBundle\Entity\UserStadium;
+use AppBundle\Entity\UserTrainer;
 use AppBundle\Helper\Player;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Helper\Pack;
@@ -25,13 +29,20 @@ class PackController extends Controller
     public $refund;
     private $playerHelper;
     private $playerMapping;
-    private $test;
+    private $trainerRepository;
+    private $stadiumRepository;
+    private $userStadiumRepository;
+    private $userTrainerRepository;
 
     public function __construct(ObjectManager $em)
     {
         $this->em = $em;
         $this->player = $this->em->getRepository(NBAPlayers::class);
         $this->userPlayerRepository = $this->em->getRepository(UsersPlayers::class);
+        $this->trainerRepository = $this->em->getRepository(Trainer::class);
+        $this->stadiumRepository = $this->em->getRepository(Stadium::class);
+        $this->userStadiumRepository = $this->em->getRepository(UserStadium::class);
+        $this->userTrainerRepository = $this->em->getRepository(UserTrainer::class);
         $this->playerHelper = new Player();
         $this->pack = new Pack();
         $this->duplicatePlayers = [];
@@ -71,9 +82,12 @@ class PackController extends Controller
         $user = $this->getUser();
         /** @var array $playersIds */
         $packContent = $this->player->packOpener($type); // get Pack Content
-        $this->fillPack($packContent, $user, $type);
+        $trainer = $this->trainerRepository->getRandomTrainer();
+        $stadium = $this->stadiumRepository->getRandomStadium();
+        $this->fillPack($packContent, $user, $type, $trainer, $stadium);
+        $this->countPackOpening($user);
 
-        $response = $this->packResponse($user, $packContent, $type, $this->duplicatePlayers);
+        $response = $this->packResponse($user, $packContent, $type, $this->duplicatePlayers, $trainer, $stadium);
 
         return $response;
     }
@@ -86,8 +100,10 @@ class PackController extends Controller
      * @param $type
      * @param $playersIds
      */
-    public function fillPack($packContent, $user, $type)
+    public function fillPack($packContent, $user, $type, $trainer, $stadium)
     {
+        $this->addUserStadium($user, $stadium);
+        $this->addUserTrainer($user, $trainer);
         foreach ($packContent as $content) {
             if (isset($content['player']) && isset($content['level']) && $user) {
                 $this->getRefundPlayers($content['player'], $content['level']);
@@ -106,6 +122,39 @@ class PackController extends Controller
                     }
                 }
             }
+        }
+    }
+
+    public function countPackOpening($user)
+    {
+        $openPack = $user->getOpenPack();
+        $user->setOpenPack($openPack + 1);
+
+        $this->em->persist($user);
+        $this->em->flush();
+    }
+
+    public function addUserStadium($user, $stadium)
+    {
+        if($this->userStadiumRepository->checkStadium($user, $stadium)) {
+            $userStadium = new UserStadium();
+            $userStadium->setUserId($user);
+            $userStadium->setStadiumId($stadium);
+
+            $this->em->persist($userStadium);
+            $this->em->flush();
+        }
+    }
+
+    public function addUserTrainer($user, $trainer)
+    {
+        if($this->userTrainerRepository->checkTrainer($user, $trainer)) {
+            $userTrainer = new UserTrainer();
+            $userTrainer->setUserId($user);
+            $userTrainer->setTrainerId($trainer);
+
+            $this->em->persist($userTrainer);
+            $this->em->flush();
         }
     }
 
@@ -181,14 +230,16 @@ class PackController extends Controller
      * @param $type
      * @return Response
      */
-    public function packResponse($user, $packContent, $type, $duplicatePlayers)
+    public function packResponse($user, $packContent, $type, $duplicatePlayers, $trainer, $stadium)
     {
         /** @var array $responseContent */
         $responseContent = [];
         $responseContent['points'] = $user->getQuizPoints();
-        $responseContent['packContent'] = $this->packContentView($packContent, $type);
+        $responseContent['packContent'] = $this->packContentView($packContent, $type, ['trainer' => $trainer, 'stadium' => $stadium]);
         $responseContent['packList'] = $this->packList();
         $responseContent['duplicatePlayers'] = $this->duplicateView($duplicatePlayers);
+        $responseContent['trainer'] = $trainer;
+        $responseContent['stadium'] = $stadium;
 
         $response = new Response(json_encode($responseContent));
         $response->headers->set('Content-Type', 'application/json');
@@ -203,11 +254,12 @@ class PackController extends Controller
      * @param $type
      * @return string
      */
-    public function packContentView($packContent, $type)
+    public function packContentView($packContent, $type, $trainerStadium)
     {
         return $this->renderView('starting5/pack/pack.html.twig', [
             'packContent' => $packContent,
-            'type' => $type
+            'type' => $type,
+            'trainerStadium' => $trainerStadium
         ]);
     }
 

@@ -83,7 +83,7 @@ class User extends BaseUser
     /**
      * @var integer
      *
-     * @ORM\Column(name="quiz_points", type="integer")
+     * @ORM\Column(name="quiz_points", type="integer", nullable=true, options={"default" : 5000})
      */
     protected $quizPoints;
     /**
@@ -91,6 +91,13 @@ class User extends BaseUser
      * @ORM\JoinColumn(name="team_id", referencedColumnName="id")
      */
     protected $team;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="pack_open", type="integer", nullable=true, options={"default" : 0})
+     */
+    protected $openPack;
 
     /**
      * Constructor
@@ -275,5 +282,20 @@ class User extends BaseUser
     public function setTeam($team)
     {
         $this->team = $team;
+    }
+    /**
+     * @return int
+     */
+    public function getOpenPack()
+    {
+        return $this->openPack;
+    }
+
+    /**
+     * @param int $openPack
+     */
+    public function setOpenPack($openPack)
+    {
+        $this->openPack = $openPack;
     }
 }

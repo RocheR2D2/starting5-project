@@ -11,7 +11,7 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Team;
+use AppBundle\Entity\NBATeams;
 use FOS\UserBundle\Util\LegacyFormHelper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -68,7 +68,7 @@ class TeamType extends AbstractType
             'csrf_token_id' => 'team',
             // BC for SF < 2.8
             'intention' => 'team',
-            'data_class' => Team::class
+            'data_class' => NBATeams::class
         ));
     }
 
