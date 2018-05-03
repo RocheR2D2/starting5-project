@@ -23,7 +23,7 @@ class RegistrationFormType extends AbstractType
             ->add('lastname', null, array('label' => 'Lastname', 'translation_domain' => 'FOSUserBundle'))
             ->add('team', EntityType::class, array(
                 'label' => 'My Fav Team',
-                'class' => 'AppBundle:Team',
+                'class' => 'AppBundle:NBATeams',
                 'choice_label' => 'name',
             ))
             ->add('plainPassword', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\RepeatedType'), array(
