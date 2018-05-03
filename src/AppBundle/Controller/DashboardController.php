@@ -4,8 +4,12 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\NBAPlayers;
 use AppBundle\Entity\Shop;
+use AppBundle\Entity\Stadium;
+use AppBundle\Entity\Trainer;
 use AppBundle\Entity\UsersPlayers;
+use AppBundle\Entity\UserStadium;
 use AppBundle\Entity\UserTeam;
+use AppBundle\Entity\UserTrainer;
 use AppBundle\Form\UserTeamType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -21,6 +25,10 @@ class DashboardController extends Controller
     protected $userTeamDoctrine;
     protected $userPlayers;
     protected $shopRepository;
+    protected $stadiumRepository;
+    protected $trainerRepository;
+    protected $userTrainerRepository;
+    protected $userStadiumRepository;
 
     public function __construct(ObjectManager $entityManager)
     {
@@ -29,16 +37,35 @@ class DashboardController extends Controller
         $this->userTeamDoctrine = $this->em->getRepository(UserTeam::class);
         $this->userPlayers = $this->em->getRepository(UsersPlayers::class);
         $this->shopRepository = $this->em->getRepository(Shop::class);
+        $this->stadiumRepository = $this->em->getRepository(Stadium::class);
+        $this->trainerRepository = $this->em->getRepository(Trainer::class);
+        $this->userStadiumRepository = $this->em->getRepository(UserStadium::class);
+        $this->userTrainerRepository = $this->em->getRepository(UserTrainer::class);
     }
 
     public function homeAction() {
+        $countMyPlayers = $this->userPlayers->countMyPlayers($this->getUser());
+        $countAllPlayers = $this->nbaPlayers->countPlayers;
+
+        $countMyStadiums = $this->userStadiumRepository->getMyStadium($this->getUser());
+        $countAllStadiums = $this->stadiumRepository->countStadium;
+
+        $countMyTrainers = $this->userTrainerRepository->getMyTrainer($this->getUser());
+        $countAllTrainers = $this->trainerRepository->countTrainer;
+
         $lastPlayers = $this->userPlayers->findBy([], ['id' => 'DESC'], 5);
         $shopPlayers = $this->shopRepository->getShopPlayers($this->getUser());
 
         return $this->render('starting5/dashboard/home.html.twig',
             [
                 'lastPlayers' => $lastPlayers,
-                'shopPlayers' => $shopPlayers
+                'shopPlayers' => $shopPlayers,
+                'countMyPlayers' => $countMyPlayers,
+                'countAllPlayers' => $countAllPlayers,
+                'countMyStadiums' => $countMyStadiums,
+                'countAllStadiums' => $countAllStadiums,
+                'countMyTrainers' => $countMyTrainers,
+                'countAllTrainers' => $countAllTrainers
             ]
         );
     }
