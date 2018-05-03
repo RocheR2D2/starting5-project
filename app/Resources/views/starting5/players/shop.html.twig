@@ -32,7 +32,7 @@
         {% if(isMyPlayer) %}
             <button class="btn btn-primary" id="shop-{{ player.id }}">{{ price }}$</button>
         {% else %}
-            <button class="btn btn-danger" disabled>Unavailable</button>
+            <button class="btn btn-success" disabled>Packed</button>
         {% endif %}
     </div>
     <script type="text/javascript">
@@ -52,6 +52,8 @@
                     $("#shop-player-{{ player.playerId }}").empty();
                     $("#user_points").empty();
                     $("#lastPlayers").empty();
+                    $("#countMyPlayers").empty();
+                    $("#countMyPlayers").append(success.countMyPlayers);
                     $("#lastPlayers").append(success.lastPlayers);
                     $("#user_points").append(success.points);
                     $("#shop-player-{{ player.playerId }}").append(success.shopPlayer);
