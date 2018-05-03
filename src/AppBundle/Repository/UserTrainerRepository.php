@@ -17,9 +17,9 @@ class UserTrainerRepository extends \Doctrine\ORM\EntityRepository
         return empty($userTrainer);
     }
 
-    public function getMyTrainer()
+    public function getMyTrainer($user)
     {
-        $countTrainer = $this->findAll();
+        $countTrainer = $this->findBy(['userId' => $user]);
 
         return count($countTrainer);
     }

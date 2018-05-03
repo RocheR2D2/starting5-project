@@ -210,7 +210,15 @@
                 <li class="list-inline-item dropdown notification-list">
                     <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="{{ path('fos_user_profile_show') }}" role="button"
                        aria-haspopup="false" aria-expanded="false">
-                        <img src="{{ asset('images/teams/' ~ app.user.team.teamId ~ '.svg') }}" alt="user" class="rounded-circle">
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            {% if(app.user.team) %}
+                                <img src="{{ asset('images/teams/' ~ app.user.team.teamId ~ '.svg') }}" alt="user" class="rounded-circle">
+                            {% else %}
+                                <img src="{{ asset('images/teams/default-logo.png') }}" alt="user" class="rounded-circle">
+                            {% endif %}
+                        {% else %}
+                            <h3 class="ti-basketball"></h3>
+                        {% endif %}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                         <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a>
