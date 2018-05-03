@@ -13,18 +13,28 @@ use Doctrine\ORM\Mapping;
  */
 class TrainerRepository extends \Doctrine\ORM\EntityRepository
 {
-    public $countTrainers;
+    public $countTrainer;
 
     public function __construct(EntityManager $em, Mapping\ClassMetadata $class)
     {
         parent::__construct($em, $class);
-        $this->countTrainers = count($this->findAll());
+        $this->countTrainer = count($this->findAll());
+    }
+
+    public function getAllIds()
+    {
+        $ids = [];
+        foreach ($this->findAll() as $trainer) {
+            $ids[] = $trainer->getId();
+        }
+
+        return $ids;
     }
 
     public function getRandomTrainer()
     {
-        $randomTrainerId = rand(1, $this->countTrainers);
-        $trainer = $this->find($randomTrainerId);
+        $id = array_rand($this->getAllIds());
+        $trainer = $this->find($id);
         if($trainer){
 
             return $trainer;
