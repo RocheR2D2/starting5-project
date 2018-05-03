@@ -85,6 +85,7 @@ class PackController extends Controller
         $trainer = $this->trainerRepository->getRandomTrainer();
         $stadium = $this->stadiumRepository->getRandomStadium();
         $this->fillPack($packContent, $user, $type, $trainer, $stadium);
+        $this->countPackOpening($user);
 
         $response = $this->packResponse($user, $packContent, $type, $this->duplicatePlayers, $trainer, $stadium);
 
@@ -122,6 +123,15 @@ class PackController extends Controller
                 }
             }
         }
+    }
+
+    public function countPackOpening($user)
+    {
+        $openPack = $user->getOpenPack();
+        $user->setOpenPack($openPack + 1);
+
+        $this->em->persist($user);
+        $this->em->flush();
     }
 
     public function addUserStadium($user, $stadium)
