@@ -53,7 +53,7 @@ class DashboardController extends Controller
         $countMyTrainers = $this->userTrainerRepository->getMyTrainer($this->getUser());
         $countAllTrainers = $this->trainerRepository->countTrainer;
 
-        $lastPlayers = $this->userPlayers->findBy([], ['id' => 'DESC'], 5);
+        $lastPlayers = $this->userPlayers->findBy(['userId' => $this->getUser()], ['id' => 'DESC'], 5);
         $shopPlayers = $this->shopRepository->getShopPlayers($this->getUser());
 
         return $this->render('starting5/dashboard/home.html.twig',
