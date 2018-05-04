@@ -2718,7 +2718,7 @@ body.fixed-left .side-menu.left {
 .content-page {
     height: 100%;
     width: calc(100% - 240px);
-    right: 0;
+    right: -2px;
     position: relative;
     float: right;
     padding-top: 54px;
@@ -3183,13 +3183,16 @@ body.fixed-left .side-menu.left {
 
 .create-team-overflow{
     height: 100%;
+    width: 100%;
+    margin: 0;
 }
 
 .create-team .container-players{
     overflow: auto;
     height: 100%;
-    padding-bottom: 3em;
-    padding-top: 1em;
+    background: #424858;
+    padding: 0.5em 0em 2.5em 0em;
+    margin: 0;
 }
 
 .create-team .container-players.selected{
@@ -3202,18 +3205,76 @@ body.fixed-left .side-menu.left {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 
 .create-team .input-player{
-    border:1px solid #ccc;
-    height: 200px;
-    width: 200px;
-    margin-bottom: 5px;
+    border: 1px solid transparent;
+    height: 165px;
+    width: 180px;
+    margin-bottom: 50px;
+    position: relative;
+    border-radius: 6px;
+    background-image: linear-gradient(to bottom, #868f96 0%, #596164 100%);
 }
 
-.create-team .input-player.disabled{
-    background-color: #ccc;
+.create-team .input-player .portrait {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
+
+.create-team .input-player .portrait .fa-user{
+    display: block;
+}
+
+.create-team .input-player.disabled .fa-user{
+    display: none;
+}
+
+.create-team .input-player .portrait .fa-ban{
+    display: none;
+    color:#ff4200;
+}
+
+.create-team .input-player.disabled .portrait .fa-ban{
+    display: block;
+}
+
+.create-team .input-player .portrait .fa{
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+}
+
+.create-team .input-player .portrait p{
+    font-size: 1.2rem;
+}
+
+.create-team .input-player.selected .portrait p{
+    font-size: 0.8rem;
+    color: #FFF;
+}
+
+.create-team .input-player.selected .portrait{
+    justify-content: flex-start;
+}
+
+.create-team .input-player.selected{
+    background: #ff4200;
+}
+
+
+.create-team .input-player.selected .triangle-top{
+    border-bottom-color: #ff4200;
+}
+
+.create-team .input-player.selected .triangle-bottom{
+    border-top-color: #ff4200;
+}
+
 
 .create-team .line{
     width: 100%;
@@ -3247,12 +3308,158 @@ body.fixed-left .side-menu.left {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 5px;
+    background-image: linear-gradient(90deg, #8e2500 0%, #ff4200 60%, #ff4200 100%);
+    color: #EEEEEE;
+    border-color:#000;
+}
+
+.create-team .btn-player:active{
+    background-image: linear-gradient(90deg, #8e2500 0%, #ff4200 60%, #ff4200 100%)!important;
+    color: #EEEEEE;
+    border-color:#000;
 }
 
 .create-team .item-player{
-    width: 100%;
+    width: 95%;
 }
 
 .create-team .btn-player .right-side img{
     max-width: 100px;
+}
+
+.create-team .btn-player .left-side{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.create-team .btn-player .left-side p{
+    margin: 0;
+}
+
+.create-team .btn-player .left-side .name{
+    font-size: 1rem;
+    font-weight: bold;
+    text-shadow: 0px 2px 6px #000;
+}
+
+
+.create-team .triangle-top{
+    width: 0;
+    height: 0;
+    border-left: 90px solid transparent;
+    border-right: 90px solid transparent;
+    border-bottom: 20px solid #868f96;
+    position: absolute;
+    top: -20px;
+    border-radius: 14px;
+}
+
+.create-team .triangle-bottom {
+    width: 0;
+    height: 0;
+    border-left: 90px solid transparent;
+    border-right: 90px solid transparent;
+    position: absolute;
+    bottom: -20px;
+    border-top: 20px solid #596164;
+    border-radius: 14px;
+}
+
+.create-team .left-column{
+    padding: 30px;
+    background-color: #252A34;
+    z-index:0;
+}
+
+.create-team .loading{
+    background: #424858;
+}
+
+
+/*** RIBBON ***/
+.create-team .input-player .ribbon {
+    bottom: 20px;
+    left: -15px;
+    width: 210px;
+    position: absolute;
+    text-align: center;
+    font-size: 17px!important;
+    background: #cc3300;
+    background: -webkit-gradient(linear, left top, left bottom, from(#cc3300), to(#8e2600));
+    background: -webkit-linear-gradient(top, #cc3300, #8e2600);
+    background: -moz-linear-gradient(top, #cc3300, #8e2600);
+    background: -ms-linear-gradient(top, #cc3300, #8e2600);
+    background: -o-linear-gradient(top, #cc3300, #8e2600);
+    background-image: -ms-linear-gradient(top, #cc3300 0%, #8e2600 100%);
+    -webkit-box-shadow: rgba(000,000,000,0.3) 0 1px 1px;
+    -moz-box-shadow: rgba(000,000,000,0.3) 0 1px 1px;
+    box-shadow: rgba(000,000,000,0.3) 0 1px 1px;
+    font-family: 'Helvetica Neue',Helvetica, sans-serif;
+}
+.create-team .input-player .ribbon h1 {
+    font-size: 1rem;
+    color: #ffffff;
+    margin: 0px;
+    padding: 0px 10px;
+    text-shadow: 0px 2px 6px #000;
+    line-height: 35px;
+}
+.create-team .input-player .ribbon:before, .ribbon:after {
+    content: '';
+    position: absolute;
+    display: block;
+    bottom: -1em;
+    border: 1em solid #c23a3a;
+    z-index: -1;
+}
+.create-team .input-player .ribbon:before {
+    left: -1.6em;
+    border-right-width: 1.5em;
+    border-left-color: transparent;
+    -webkit-box-shadow: rgba(000,000,000,0.4) 1px 1px 1px;
+    -moz-box-shadow: rgba(000,000,000,0.4) 1px 1px 1px;
+    box-shadow: rgba(000,000,000,0.4) 1px 1px 1px;
+}
+.create-team .input-player .ribbon:after {
+    right: -1.52em;
+    border-left-width: 1.5em;
+    border-right-color: transparent;
+    -webkit-box-shadow: rgba(000,000,000,0.4) -1px 1px 1px;
+    -moz-box-shadow: rgba(000,000,000,0.4) -1px 1px 1px;
+    box-shadow: rgba(000,000,000,0.4) -1px 1px 1px;
+}
+.create-team .input-player .ribbon .ribbon-content:before, .ribbon .ribbon-content:after {
+    border-color: #7a1414 transparent transparent transparent;
+    position: absolute;
+    display: block;
+    border-style: solid;
+    bottom: -1em;
+    content: '';
+}
+.create-team .input-player .ribbon .ribbon-content:before {
+    left: 0px;
+    border-width: 0.8em 0 0 0.8em;
+    bottom: -14px;
+}
+.create-team .input-player .ribbon .ribbon-content:after {
+    right: 2px;
+    bottom: -14px;
+    border-width: 0.8em 0.8em 0 0;
+}
+.create-team .input-player .ribbon-stitches-top {
+    margin-top:2px;
+    border-top: 0px dashed rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 2px rgba(255, 255, 255, 0.5);
+}
+.create-team .input-player .ribbon-stitches-bottom {
+    margin-bottom:2px;
+    border-top: 0px dashed rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 2px rgba(255, 255, 255, 0.3);
 }

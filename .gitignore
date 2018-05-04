@@ -20,3 +20,4 @@
 .idea
 docker/logs/nginx/*
 /database-backup/*
+bower_components/
