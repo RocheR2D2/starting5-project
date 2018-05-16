@@ -181,4 +181,15 @@ class PlayerController extends Controller
         }
         die('DONE SHIT MAN');
     }
+
+    public function updatePlayerRarityAction()
+    {
+        $nbaPlayers = $this->NBAPlayersRepository->findAll();
+        foreach ($nbaPlayers as $nbaPlayer) {
+            $nbaPlayer->setRarity($this->NBAPlayersRepository->getRarity($nbaPlayer));
+            $this->em->persist($nbaPlayer);
+            $this->em->flush();
+        }
+        die('DONE SHIT MAN');
+    }
 }
