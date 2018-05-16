@@ -200,3 +200,13 @@ get.myTrainers:
     path:     /json/myTrainers
     defaults: { _controller: AppBundle:Stadium:myTrainers }
     methods:  [GET]
+
+updateOffensiveRating:
+    path:     /updateOffensiveRating
+    defaults: { _controller: AppBundle:Player:updateOffensiveRating }
+    methods:  [GET]
+
+updateDefensiveRating:
+    path:     /updateDefensiveRating
+    defaults: { _controller: AppBundle:Player:updateDefensiveRating }
+    methods:  [GET]
