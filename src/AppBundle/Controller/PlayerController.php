@@ -24,7 +24,7 @@ class PlayerController extends Controller
     {
         $this->em = $em;
         $this->NBAPlayersRepository = $this->em->getRepository(NBAPlayers::class);
-        $this->playerRepository = $this->em->getRepository(Player::class);
+        $this->playerRepository = $this->em->getRepository(NBAPlayers::class);
     }
 
     /**
@@ -76,7 +76,7 @@ class PlayerController extends Controller
      */
     public function newAction(Request $request){
         $players = $this->playerRepository->findAll();
-        $player = new Player();
+        $player = new NBAPlayers();
 
         $NBAPlayersRepository = $this->getDoctrine()->getRepository(NBAPlayers::class);
         $guards = $NBAPlayersRepository->getGuards();
@@ -138,7 +138,7 @@ class PlayerController extends Controller
 
     public function editAction(Request $request, $id)
     {
-        $playerRepository = $this->getDoctrine()->getRepository(Player::class);
+        $playerRepository = $this->getDoctrine()->getRepository(NBAPlayers::class);
         $player = $playerRepository->find($id);
         $form = $this->createForm(PlayerType::class, $player);
 
@@ -158,5 +158,27 @@ class PlayerController extends Controller
             'player' => $player,
             'id' => $id
         ));
+    }
+
+    public function updateOffensiveRatingAction()
+    {
+        $nbaPlayers = $this->NBAPlayersRepository->findAll();
+        foreach ($nbaPlayers as $nbaPlayer) {
+            $nbaPlayer->setOffensiveRating($this->NBAPlayersRepository->getOffensiveRating($nbaPlayer->getPlayerId()));
+            $this->em->persist($nbaPlayer);
+            $this->em->flush();
+        }
+        die('DONE SHIT MAN');
+    }
+
+    public function updateDefensiveRatingAction()
+    {
+        $nbaPlayers = $this->NBAPlayersRepository->findAll();
+        foreach ($nbaPlayers as $nbaPlayer) {
+            $nbaPlayer->setDefensiveRating($this->NBAPlayersRepository->getDefensiveRating($nbaPlayer->getPlayerId()));
+            $this->em->persist($nbaPlayer);
+            $this->em->flush();
+        }
+        die('DONE SHIT MAN');
     }
 }
