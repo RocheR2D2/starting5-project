@@ -25,6 +25,9 @@
                     <h2>{{ team['data']['name'] }} <a href="{{ path('user.team.edit', {'id': team['data']['id'] }) }}" class="btn btn-info">Edit this 5IVE</a></h2>
                     <p>{{ team['data']['trainer'].fullName }}</p>
                     <p>{{ team['data']['stadium'].name }}</p>
+                    <p>Average : {{ team['data']['teamRating'] }}</p>
+                    <p>Off. Rating : {{ team['data']['offRating'] }}</p>
+                    <p>Def. Rating : {{ team['data']['defRating'] }}</p>
                     <div class="row">
                         <div class="col-md-4">
                             {% set player = team['players']['pointGuard'] %}
