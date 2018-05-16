@@ -6,12 +6,7 @@
              class="wow fadeInUp">
     </div>
     <p class="text-center" class="wow fadeInDown">
-        {% if player.rating > '84' and player.rating <= '87' %} R
-        {% elseif player.rating > '87' and player.rating <= '90' %} SR
-        {% elseif player.rating > '90' and player.rating <= '95' %} UR
-        {% elseif player.rating > '95' %} E
-        {% else %} N
-        {% endif %}
+        {{ player.rarity }}
         <br>
         <span class="wow fadeInUp">
             {{ player.firstname }} {{ player.lastname }}
@@ -19,13 +14,13 @@
         <br>
         <span class="wow fadeInDown">
             {{ player.position }} -
-            {% if(player.rating == 'O') %} RK
-            {% else %} {{ player.rating }}
-            {% endif %}
+            {{ player.note }}
         </span>
         <img src="{{ asset('images/teams/' ~ player.teamId.teamId ~ '.svg') }}"
              alt="{{ player.teamId.teamId }}"
              width="50px"
              class="wow fadeInUp">
+        <br>
+        <span class="text-center">OFF {{ player.offensiveRating }} - DEF {{ player.defensiveRating }}</p>
     </p>
 </div>
