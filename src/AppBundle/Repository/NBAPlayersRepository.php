@@ -92,6 +92,73 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
+     * @param $playerId
+     * @return object|null
+     */
+    public function getRegularSeasonProfile($playerId)
+    {
+        $profile = null;
+        foreach ($this->getPlayers() as $player) {
+            if ($player->getPlayerId() == $playerId) {
+                $profile = $player;
+            }
+        }
+        if ($profile !== null) {
+            $playerStatsJson = file_get_contents('http://data.nba.net/data/10s/prod/v1/2017/players/' . $playerId . '_profile.json');
+            $playersStats = json_decode($playerStatsJson);
+            if(isset($playersStats->league->standard->stats->regularSeason->season[0])) {
+                $stats = $playersStats->league->standard->stats->regularSeason->season[0]->total;
+                $playerProfile = (object)array_merge((array)$profile, (array)$stats);
+
+                return $playerProfile;
+            }
+        }
+
+        return $profile;
+    }
+
+    public function getTeamPlayer($teamId)
+    {
+        $nbaPlayers = $this->findBy(['teamId' => $teamId]);
+
+        return $nbaPlayers;
+    }
+
+    public function getOffensiveRating($nbaPlayerId)
+    {
+        $nbaPlayer = $this->getProfile($nbaPlayerId);
+        $nbaPlayerOffRating = 15 + $nbaPlayer->fgp + $nbaPlayer->ppg + $nbaPlayer->apg + (($nbaPlayer->totReb - $nbaPlayer->defReb) / $nbaPlayer->gamesPlayed) - ($nbaPlayer->turnovers / $nbaPlayer->gamesPlayed);
+
+        return $nbaPlayerOffRating;
+    }
+
+    public function getDefensiveRating($nbaPlayerId)
+    {
+        $nbaPlayer = $this->getProfile($nbaPlayerId);
+        $nbaPlayerDefRating = $nbaPlayer->spg + $nbaPlayer->bpg + (($nbaPlayer->totReb - $nbaPlayer->offReb) / $nbaPlayer->gamesPlayed);
+        $defMapping = [
+            "12" => -15,
+            "11" => -10,
+            "10" => 1,
+            "9" => 10,
+            "8" => 10,
+            "7" => 15,
+            "6" => 20,
+            "5" => 30,
+            "4" => 35,
+            "3" => 40,
+            "2" => 45,
+            "1" => 50,
+            "0" => 50
+        ];
+        $defRatingKey = round($nbaPlayerDefRating);
+        $defRating = $defMapping[$defRatingKey];
+        $nbaPlayerDefRating = $nbaPlayerDefRating * 10 + $defRating;
+
+        return $nbaPlayerDefRating;
+    }
+
+    /**
      * @param $players
      * @param $positionCode
      * @param $positionArray
@@ -262,7 +329,7 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
         switch($type) {
             case Pack::GIGA_PACK_LABEL:
                 $popPlayer = $this->getRandomGoldenPlayers(); //20% chance increased to get a very rare player
-                $numberOfPlayers = Pack::GIGA_PACK_LABEL;
+                $numberOfPlayers = Pack::GIGA_NUMBER_OF_PLAYERS;
                 break;
             case Pack::GOLDEN_PACK_LABEL:
                 $popPlayer = $this->getRandomGoldenPlayers(); //40% chance increased to get a very rare player

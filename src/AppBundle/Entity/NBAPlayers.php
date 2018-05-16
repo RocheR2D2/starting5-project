@@ -94,6 +94,19 @@ class NBAPlayers
      * @ORM\JoinColumn(name="team_id", referencedColumnName="id")
      */
     public $teamId;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="offensiveRating", type="integer", nullable=true)
+     */
+    public $offensiveRating;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="defensiveRating", type="integer", nullable=true)
+     */
+    public $defensiveRating;
 
     /**
      * Get id
@@ -286,6 +299,63 @@ class NBAPlayers
     public function setTeamId($teamId)
     {
         $this->teamId = $teamId;
+    }
+    /**
+     * @return int
+     */
+    public function getOffensiveRating()
+    {
+        return $this->offensiveRating;
+    }
+
+    /**
+     * @param int $offensiveRating
+     */
+    public function setOffensiveRating($offensiveRating)
+    {
+        $this->offensiveRating = $offensiveRating;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefensiveRating()
+    {
+        return $this->defensiveRating;
+    }
+
+    /**
+     * @param int $defensiveRating
+     */
+    public function setDefensiveRating($defensiveRating)
+    {
+        $this->defensiveRating = $defensiveRating;
+    }
+
+    public function getRarity()
+    {
+        if($this->getRating() == 0) {
+            return 'RK';
+        } elseif ($this->getRating() > 95) {
+            return 'E';
+        } elseif ($this->getRating() > 90) {
+            return 'UR';
+        } elseif ($this->getRating() > 87) {
+            return 'SR';
+        } elseif ($this->getRating() > 80) {
+            return 'R';
+        }
+
+        return 'N';
+    }
+
+    public function getNote()
+    {
+        if($this->getRating() == 0) {
+            return 'RK';
+        }
+
+        return $this->getRating();
     }
 }
 
