@@ -107,6 +107,11 @@ class NBAPlayers
      * @ORM\Column(name="defensiveRating", type="integer", nullable=true)
      */
     public $defensiveRating;
+    /**
+     * @var string
+     * @ORM\Column(name="rarity", type="string", nullable=true)
+     */
+    public $rarity;
 
     /**
      * Get id
@@ -332,30 +337,17 @@ class NBAPlayers
         $this->defensiveRating = $defensiveRating;
     }
 
-    public function getRarity()
+    /**
+     * @param string $rarity
+     */
+    public function setRarity($rarity)
     {
-        if($this->getRating() == 0) {
-            return 'RK';
-        } elseif ($this->getRating() > 95) {
-            return 'E';
-        } elseif ($this->getRating() > 90) {
-            return 'UR';
-        } elseif ($this->getRating() > 87) {
-            return 'SR';
-        } elseif ($this->getRating() > 80) {
-            return 'R';
-        }
-
-        return 'N';
+        $this->rarity = $rarity;
     }
 
-    public function getNote()
+    public function getRarity()
     {
-        if($this->getRating() == 0) {
-            return 'RK';
-        }
-
-        return $this->getRating();
+        return $this->rarity;
     }
 }
 
