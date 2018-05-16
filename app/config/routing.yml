@@ -210,3 +210,8 @@ updateDefensiveRating:
     path:     /updateDefensiveRating
     defaults: { _controller: AppBundle:Player:updateDefensiveRating }
     methods:  [GET]
+
+updatePlayerRarity:
+    path:     /updatePlayerRarity
+    defaults: { _controller: AppBundle:Player:updatePlayerRarity }
+    methods:  [GET]
