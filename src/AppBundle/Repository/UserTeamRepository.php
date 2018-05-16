@@ -12,4 +12,42 @@ use Doctrine\ORM\EntityManager;
  */
 class UserTeamRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getTeamRating($players)
+    {
+        $pointGuard = $players['pointGuard']["playerId"];
+        $shootingGuard = $players['shootingGuard']["playerId"];
+        $smallForward = $players['smallForward']["playerId"];
+        $powerForward = $players['powerForward']["playerId"];
+        $center = $players['$center']["playerId"];
+
+        $average = ($pointGuard->getRating() + $shootingGuard->getRating() + $smallForward->getRating() + $powerForward->getRating() + $center->getRating()) / 5;
+
+        return $average;
+    }
+
+    public function getOffRating($players)
+    {
+        $pointGuard = $players['pointGuard']["playerId"];
+        $shootingGuard = $players['shootingGuard']["playerId"];
+        $smallForward = $players['smallForward']["playerId"];
+        $powerForward = $players['powerForward']["playerId"];
+        $center = $players['$center']["playerId"];
+
+        $average = ($pointGuard->getOffensiveRating() + $shootingGuard->getOffensiveRating() + $smallForward->getOffensiveRating() + $powerForward->getOffensiveRating() + $center->getOffensiveRating()) / 5;
+
+        return $average;
+    }
+
+    public function getDefRating($players)
+    {
+        $pointGuard = $players['pointGuard']["playerId"];
+        $shootingGuard = $players['shootingGuard']["playerId"];
+        $smallForward = $players['smallForward']["playerId"];
+        $powerForward = $players['powerForward']["playerId"];
+        $center = $players['$center']["playerId"];
+
+        $average = ($pointGuard->getDefensiveRating() + $shootingGuard->getDefensiveRating() + $smallForward->getDefensiveRating() + $powerForward->getDefensiveRating() + $center->getDefensiveRating()) / 5;
+
+        return $average;
+    }
 }

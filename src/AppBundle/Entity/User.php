@@ -100,6 +100,13 @@ class User extends BaseUser
     protected $openPack;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="battleMode", type="boolean", nullable=true, options={"default" : 0})
+     */
+    protected $battleMode;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -297,5 +304,20 @@ class User extends BaseUser
     public function setOpenPack($openPack)
     {
         $this->openPack = $openPack;
+    }
+    /**
+     * @return bool
+     */
+    public function isBattleMode()
+    {
+        return $this->battleMode;
+    }
+
+    /**
+     * @param bool $battleMode
+     */
+    public function setBattleMode($battleMode)
+    {
+        $this->battleMode = $battleMode;
     }
 }
