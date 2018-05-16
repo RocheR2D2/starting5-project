@@ -15,7 +15,7 @@ use AppBundle\Entity\User;
 use FOS\UserBundle\Util\LegacyFormHelper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
@@ -89,6 +89,10 @@ class ProfileFormType extends AbstractType
             ->add('lastname', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\TextType'), array('label' => 'Lastname', 'translation_domain' => 'FOSUserBundle'))
             ->add('username', null, array('label' => 'Username', 'translation_domain' => 'FOSUserBundle'))
             ->add('email', LegacyFormHelper::getType('Symfony\Component\Form\Extension\Core\Type\EmailType'), array('label' => 'Email', 'translation_domain' => 'FOSUserBundle'))
+            ->add('battleMode', CheckboxType::class, array(
+               'label' => 'Enable battle mode ?',
+               'required' => false
+            ))
             ->add('team', EntityType::class, array(
                 'label' => 'My Fav Team',
                 'class' => 'AppBundle:NBATeams',
