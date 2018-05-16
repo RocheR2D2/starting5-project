@@ -501,4 +501,21 @@ class NBAPlayersRepository extends \Doctrine\ORM\EntityRepository
 
         return $shopPlayers;
     }
+
+    public function getRarity($nbaPlayer)
+    {
+        if($nbaPlayer->getRating() == 0) {
+            return 'RK';
+        } elseif ($nbaPlayer->getRating() > 95) {
+            return 'E';
+        } elseif ($nbaPlayer->getRating() > 90) {
+            return 'UR';
+        } elseif ($nbaPlayer->getRating() > 87) {
+            return 'SR';
+        } elseif ($nbaPlayer->getRating() > 80) {
+            return 'R';
+        }
+
+        return 'N';
+    }
 }
