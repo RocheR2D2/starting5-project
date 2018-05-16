@@ -40,6 +40,6 @@ class TrainerRepository extends \Doctrine\ORM\EntityRepository
             return $trainer;
         }
 
-        return null;
+        return $trainer;
     }
 }

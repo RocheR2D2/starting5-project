@@ -35,13 +35,12 @@ class StadiumRepository extends \Doctrine\ORM\EntityRepository
     public function getRandomStadium()
     {
         $id = array_rand($this->getAllIds());
-        $randomStadiumId = $this->find($id);
-        $stadium = $this->find($randomStadiumId);
+        $stadium = $this->find($id);
         if($stadium){
 
             return $stadium;
         }
 
-        return null;
+        return $stadium;
     }
 }
