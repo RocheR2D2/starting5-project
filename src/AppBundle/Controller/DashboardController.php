@@ -84,14 +84,24 @@ class DashboardController extends Controller
             $players = new ArrayCollection();
             $teamInfos = new ArrayCollection();
 
-            $pointGuard = $this->getPointGuard($userTeam, $this->nbaPlayers);
-            $shootingGuard = $this->getShootingGuard($userTeam, $this->nbaPlayers);
-            $smallForward = $this->getSmallForward($userTeam, $this->nbaPlayers);
-            $powerForward = $this->getPowerForward($userTeam, $this->nbaPlayers);
-            $center = $this->getCenter($userTeam, $this->nbaPlayers);
+            $pointGuard = $userTeam->pointGuard;
+            $shootingGuard = $userTeam->shootingGuard;
+            $smallForward = $userTeam->smallForward;
+            $powerForward = $userTeam->powerForward;
+            $center = $userTeam->center;
 
             $players = $this->setPlayers($players, $pointGuard, $shootingGuard, $smallForward, $powerForward, $center);
-            $teamInfos = $this->setTeamData($teamInfos, $userTeam->getName(), $userTeam->getTrainerId(), $userTeam->getStadiumId(), $userTeam->getLike(), $userTeam->getDislike(), $userTeam->getId());
+            $teamInfos = $this->setTeamData(
+                $teamInfos,
+                $userTeam->getName(),
+                $userTeam->getTrainerId(),
+                $userTeam->getStadiumId(),
+                $userTeam->getLike(),
+                $userTeam->getDislike(),
+                $userTeam->getId(),
+                $userTeam->getTeamRating(),
+                $userTeam->getOffRating(),
+                $userTeam->getDefRating());
 
             $teams['players'] = $players;
             $teams['data'] = $teamInfos;
@@ -133,10 +143,11 @@ class DashboardController extends Controller
         $userTeam = new UserTeam();
         $playerDoctrine = $this->getDoctrine()->getRepository(NBAPlayers::class);
         $this->setNewPlayers($userTeam, $playerDoctrine, $players);
+        $this->setTeamRating($userTeam, $players);
         $userTeam->setUser($user);
         $userTeam->setLike(0);
         $userTeam->setDislike(0);
-        //Set trainder + stadium here
+        //Set trainer + stadium here setTrainerId($trainerId); setStadiumId($stadium);
         $em = $this->getDoctrine()->getManager();
         $em->persist($userTeam);
         $em->flush();
@@ -195,51 +206,6 @@ class DashboardController extends Controller
         ));
     }
 
-    public function getPointGuard($userTeam, $playerRepository)
-    {
-        $poingGuardId = $userTeam->getPointGuard()->getId();
-        $pointGuardProfileId = $playerRepository->findOneBy(['id' => $poingGuardId])->getPlayerId();
-        $pointGuard = $playerRepository->getProfile($pointGuardProfileId);
-
-        return $pointGuard;
-    }
-
-    public function getShootingGuard($userTeam, $playerRepository)
-    {
-        $shootingGuardId = $userTeam->getShootingGuard()->getId();
-        $shootingGuardProfileId = $playerRepository->findOneBy(['id' => $shootingGuardId])->getPlayerId();
-        $shootingGuard = $playerRepository->getProfile($shootingGuardProfileId);
-
-        return $shootingGuard;
-    }
-
-    public function getSmallForward($userTeam, $playerRepository)
-    {
-        $smallForwardId = $userTeam->getSmallForward()->getId();
-        $smallForwardProfileId = $playerRepository->findOneBy(['id' => $smallForwardId])->getPlayerId();
-        $smallForward = $playerRepository->getProfile($smallForwardProfileId);
-
-        return $smallForward;
-    }
-
-    public function getPowerForward($userTeam, $playerRepository)
-    {
-        $powerForwardId = $userTeam->getPowerForward()->getId();
-        $powerForwardProfileId = $playerRepository->findOneBy(['id' => $powerForwardId])->getPlayerId();
-        $powerForward = $playerRepository->getProfile($powerForwardProfileId);
-
-        return $powerForward;
-    }
-
-    public function getCenter($userTeam, $playerRepository)
-    {
-        $centerId = $userTeam->getCenter()->getId();
-        $centerProfileId = $playerRepository->findOneBy(['id' => $centerId])->getPlayerId();
-        $center = $playerRepository->getProfile($centerProfileId);
-
-        return $center;
-    }
-
     public function setPlayers($players, $pointGuard, $shootingGuard, $smallForward, $powerForward, $center)
     {
         $players['pointGuard'] = $pointGuard;
@@ -251,7 +217,7 @@ class DashboardController extends Controller
         return $players;
     }
 
-    public function setTeamData($teamInfos, $name, $trainer, $stadium, $like, $dislike, $user)
+    public function setTeamData($teamInfos, $name, $trainer, $stadium, $like, $dislike, $user, $rating, $offRating, $defRating)
     {
         $teamInfos['name'] = $name;
         $teamInfos['trainer'] = $trainer;
@@ -259,6 +225,9 @@ class DashboardController extends Controller
         $teamInfos['like'] = $like;
         $teamInfos['dislike'] = $dislike;
         $teamInfos['id'] = $user;
+        $teamInfos['teamRating'] = $rating;
+        $teamInfos['offRating'] = $offRating;
+        $teamInfos['defRating'] = $defRating;
 
         return $teamInfos;
     }
@@ -270,6 +239,15 @@ class DashboardController extends Controller
         $userTeam->setSmallForward($playerDoctrine->findOneBy(['playerId' => $data['smallForward']["playerId"]]));
         $userTeam->setPowerForward($playerDoctrine->findOneBy(['playerId' => $data['powerForward']["playerId"]]));
         $userTeam->setCenter($playerDoctrine->findOneBy(['playerId' => $data['center']["playerId"]]));
+
+        return $userTeam;
+    }
+
+    public function setTeamRating($userTeam, $players)
+    {
+        $userTeam->setTeamRating($this->userTeamDoctrine->getTeamRating($players));
+        $userTeam->setTeamRating($this->userTeamDoctrine->getOffRating($players));
+        $userTeam->setTeamRating($this->userTeamDoctrine->getDefRating($players));
 
         return $userTeam;
     }

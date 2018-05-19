@@ -136,7 +136,7 @@ class PackController extends Controller
 
     public function addUserStadium($user, $stadium)
     {
-        if($this->userStadiumRepository->checkStadium($user, $stadium)) {
+        if($stadium && $this->userStadiumRepository->checkStadium($user, $stadium)) {
             $userStadium = new UserStadium();
             $userStadium->setUserId($user);
             $userStadium->setStadiumId($stadium);
@@ -148,7 +148,7 @@ class PackController extends Controller
 
     public function addUserTrainer($user, $trainer)
     {
-        if($this->userTrainerRepository->checkTrainer($user, $trainer)) {
+        if($trainer && $this->userTrainerRepository->checkTrainer($user, $trainer)) {
             $userTrainer = new UserTrainer();
             $userTrainer->setUserId($user);
             $userTrainer->setTrainerId($trainer);

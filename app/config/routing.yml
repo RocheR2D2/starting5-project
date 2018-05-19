@@ -190,3 +190,28 @@ shopPlayers.buy:
     path:     /shopPlayers
     defaults: { _controller: AppBundle:Shop:buyPlayers }
     methods:  [POST]
+
+get.myStadiums:
+    path:     /json/myStadiums
+    defaults: { _controller: AppBundle:Stadium:myStadiums }
+    methods:  [GET]
+
+get.myTrainers:
+    path:     /json/myTrainers
+    defaults: { _controller: AppBundle:Stadium:myTrainers }
+    methods:  [GET]
+
+updateOffensiveRating:
+    path:     /updateOffensiveRating
+    defaults: { _controller: AppBundle:Player:updateOffensiveRating }
+    methods:  [GET]
+
+updateDefensiveRating:
+    path:     /updateDefensiveRating
+    defaults: { _controller: AppBundle:Player:updateDefensiveRating }
+    methods:  [GET]
+
+updatePlayerRarity:
+    path:     /updatePlayerRarity
+    defaults: { _controller: AppBundle:Player:updatePlayerRarity }
+    methods:  [GET]
