@@ -11,80 +11,159 @@
                     <div class="first-line line">
                         <!-- pointGuard -->
 
-                            <div class="input-player" ng-class="{'selected': pointGuard.fullName, 'disabled': (selectedPoste != 'G' && selectedPoste != 'F-G' && selectedPoste != 'G-F' && selectedPoste != '')}" data-drop="{[{ (selectedPoste == 'G' || selectedPoste == 'F-G' || selectedPoste == 'G-F') ? true : false }]}"
+                            <div class="input-player" ng-class="{'selected': pointGuard.fullName, 'low': pointGuard.rating < 80 , 'disabled': (selectedPoste != 'G' && selectedPoste != 'F-G' && selectedPoste != 'G-F' && selectedPoste != '' && !pointGuard.fullName)}" data-drop="{[{ (selectedPoste == 'G' || selectedPoste == 'F-G' || selectedPoste == 'G-F') ? true : false }]}"
                                  data-jqyoui-options ng-model="pointGuard" jqyoui-droppable="{onDrop: 'dropCallback'}">
                                 <div class="triangle-top"></div>
-                                <button ng-if="pointGuard.fullName" class="btn btn-light" ng-click="clearpointGuard()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                <button ng-if="pointGuard.fullName" class="btn btn-danger btn-remove" ng-click="clearpointGuard()"><i class="fas fa-user-times"></i></button>
                                 <div class="portrait">
                                     <i class="fa fa-ban"></i>
                                     <i ng-show="!pointGuard.fullName" class="fa fa-user"></i>
-                                    <img ng-show="pointGuard.fullName" ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{pointGuard.playerId}]}.png" height="100px" alt="">
-                                    <p>Point Guard</p>
-                                </div>
-                                <div ng-show="pointGuard.fullName">
-                                    <div class="ribbon" data-drag="false" data-jqyoui-options ng-model="pointGuard"><div class="ribbon-stitches-top"></div><strong class="ribbon-content"><h1>{[{pointGuard.fullName}]}</h1></strong><div class="ribbon-stitches-bottom"></div></div>
+                                    <p ng-show="!pointGuard.fullName">Point Guard</p>
+                                    <div ng-show="pointGuard.fullName" class="description">
+                                        <div class="top-left">
+                                            <span class="rating" ng-bind="pointGuard.rating"></span>
+                                            <span class="position" ng-bind="pointGuard.position"></span>
+                                        </div>
+                                        <div>
+                                            <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{pointGuard.playerId}]}.png" alt="">
+                                        </div>
+                                        <div class="bottom">
+                                            <div>
+                                                <p class="name" data-drag="false" data-jqyoui-options ng-model="pointGuard">{[{pointGuard.fullName}]}</p>
+                                                <p class="posi">Point Guard</p>
+                                            </div>
+                                            <div>
+                                                <ul class="list-stats">
+                                                    <li>
+                                                        ATQ : <b>50</b>
+                                                    </li>
+                                                    <li>
+                                                        DEF : <b>50</b>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="triangle-bottom"></div>
                             </div>
-                    </div>
 
-
-                    <div class="second-line line">
                         <!-- smallForward -->
-                        <div class="">
-                            <div class="input-player" ng-class="{'selected': smallForward.fullName,  'disabled': (selectedPoste != 'F' && selectedPoste != 'G-F' && selectedPoste != 'F-G' && selectedPoste != 'F-C' && selectedPoste != 'C-F' && selectedPoste != '')}" data-drop="{[{ (selectedPoste == 'F' || selectedPoste == 'G-F' || selectedPoste == 'F-G' || selectedPoste == 'F-C' || selectedPoste == 'C-F') ? true : false }]}"
+                            <div class="input-player" ng-class="{'selected': smallForward.fullName, 'low': smallForward.rating < 80 , 'disabled': (selectedPoste != 'F' && selectedPoste != 'G-F' && selectedPoste != 'F-G' && selectedPoste != 'F-C' && selectedPoste != 'C-F' && selectedPoste != '' && !smallForward.fullName)}" data-drop="{[{ (selectedPoste == 'F' || selectedPoste == 'G-F' || selectedPoste == 'F-G' || selectedPoste == 'F-C' || selectedPoste == 'C-F') ? true : false }]}"
                                  data-jqyoui-options ng-model="smallForward" jqyoui-droppable="{onDrop: 'dropCallback'}">
                                 <div class="triangle-top"></div>
+                                <button ng-if="smallForward.fullName" class="btn btn-danger btn-remove" ng-click="clearsmallForward()"><i class="fas fa-user-times" aria-hidden="true"></i></button>
+
                                 <div class="portrait">
                                     <i class="fa fa-ban"></i>
                                     <i ng-show="!smallForward.fullName" class="fa fa-user"></i>
-                                    <img ng-show="smallForward.fullName" ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{smallForward.playerId}]}.png" height="100px" alt="">
-                                    <p>Small Forward</p>
+                                    <p ng-show="!smallForward.fullName">Small Forward</p>
+                                    <div ng-show="smallForward.fullName" class="description">
+                                        <div class="top-left">
+                                            <span class="rating" ng-bind="smallForward.rating"></span>
+                                            <span class="position" ng-bind="smallForward.position"></span>
+                                        </div>
+                                        <div>
+                                            <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{smallForward.playerId}]}.png" alt="">
+                                        </div>
+                                        <div class="bottom">
+                                            <div>
+                                                <p class="name" data-drag="false" data-jqyoui-options ng-model="smallForward">{[{smallForward.fullName}]}</p>
+                                                <p class="posi">Small Forward</p>
+                                            </div>
+                                            <div>
+                                                <ul class="list-stats">
+                                                    <li>
+                                                        ATQ : <b>50</b>
+                                                    </li>
+                                                    <li>
+                                                        DEF : <b>50</b>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div ng-show="smallForward.fullName">
-                                    <div class="ribbon" data-drag="false" data-jqyoui-options ng-model="smallForward"><div class="ribbon-stitches-top"></div><strong class="ribbon-content"><h1>{[{smallForward.fullName}]}</h1></strong><div class="ribbon-stitches-bottom"></div></div>
-                                </div>
                                 <div class="triangle-bottom"></div>
                             </div>
-                            <button ng-if="smallForward.fullName" class="btn btn-light" ng-click="clearsmallForward()"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                        </div>
 
                         <!-- shootingGuard -->
-                        <div class="">
-                            <div class="input-player" ng-class="{'selected': shootingGuard.fullName, 'disabled': (selectedPoste != 'G' && selectedPoste != 'F-G' && selectedPoste != 'G-F' && selectedPoste != '') }" data-drop="{[{ (selectedPoste == 'G' || selectedPoste == 'F-G' || selectedPoste == 'G-F') ? true : false }]}"
+                            <div class="input-player" ng-class="{'selected': shootingGuard.fullName, 'low': shootingGuard.rating < 80, 'disabled': (selectedPoste != 'G' && selectedPoste != 'F-G' && selectedPoste != 'G-F' && selectedPoste != '' && !shootingGuard.fullName) }" data-drop="{[{ (selectedPoste == 'G' || selectedPoste == 'F-G' || selectedPoste == 'G-F') ? true : false }]}"
                                  data-jqyoui-options ng-model="shootingGuard" jqyoui-droppable="{onDrop: 'dropCallback'}">
                                 <div class="triangle-top"></div>
+                                <button ng-if="shootingGuard.fullName" class="btn btn-danger btn-remove" ng-click="clearshootingGuard()"><i class="fas fa-user-times" aria-hidden="true"></i></button>
                                 <div class="portrait">
                                     <i class="fa fa-ban"></i>
                                     <i ng-show="!shootingGuard.fullName" class="fa fa-user"></i>
-                                    <img ng-show="shootingGuard.fullName" ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{shootingGuard.playerId}]}.png" height="100px" alt="">
-                                    <p>Shooting Guard</p>
-                                </div>
-                                <div ng-show="shootingGuard.fullName">
-                                    <div class="ribbon" data-drag="false" data-jqyoui-options ng-model="shootingGuard"><div class="ribbon-stitches-top"></div><strong class="ribbon-content"><h1>{[{shootingGuard.fullName}]}</h1></strong><div class="ribbon-stitches-bottom"></div></div>
+                                    <p ng-show="!shootingGuard.fullName">Shooting Guard</p>
+                                    <div ng-show="shootingGuard.fullName" class="description">
+                                        <div class="top-left">
+                                            <span class="rating" ng-bind="shootingGuard.rating"></span>
+                                            <span class="position" ng-bind="shootingGuard.position"></span>
+                                        </div>
+                                        <div>
+                                            <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{shootingGuard.playerId}]}.png" alt="">
+                                        </div>
+                                        <div class="bottom">
+                                            <div>
+                                                <p class="name" data-drag="false" data-jqyoui-options ng-model="shootingGuard">{[{shootingGuard.fullName}]}</p>
+                                                <p class="posi">Shooting Guard</p>
+                                            </div>
+                                            <div>
+                                                <ul class="list-stats">
+                                                    <li>
+                                                        ATQ : <b>50</b>
+                                                    </li>
+                                                    <li>
+                                                        DEF : <b>50</b>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="triangle-bottom"></div>
                             </div>
-                            <button ng-if="shootingGuard.fullName" class="btn btn-light" ng-click="clearshootingGuard()"><i class="fa fa-trash" aria-hidden="true"></i></button>
                         </div>
-                    </div>
+
 
                    <div class="third-line line">
                        <!-- powerForward -->
                        <div class="">
-                           <div class="input-player" ng-class="{'selected': powerForward.fullName,  'disabled': (selectedPoste != 'F' && selectedPoste != 'G-F' && selectedPoste != 'F-G' && selectedPoste != 'F-C' && selectedPoste != 'C-F' && selectedPoste != '')}" data-drop="{[{ (selectedPoste == 'F' || selectedPoste == 'G-F' || selectedPoste == 'F-G' || selectedPoste == 'F-C' || selectedPoste == 'C-F') ? true : false }]}"
+                           <div class="input-player" ng-class="{'selected': powerForward.fullName, 'low': powerForward.rating < 80, 'disabled': (selectedPoste != 'F' && selectedPoste != 'G-F' && selectedPoste != 'F-G' && selectedPoste != 'F-C' && selectedPoste != 'C-F' && selectedPoste != '' && !powerForward.fullName)}" data-drop="{[{ (selectedPoste == 'F' || selectedPoste == 'G-F' || selectedPoste == 'F-G' || selectedPoste == 'F-C' || selectedPoste == 'C-F') ? true : false }]}"
                                 data-jqyoui-options ng-model="powerForward" jqyoui-droppable="{onDrop: 'dropCallback'}">
-                               <button ng-if="powerForward.fullName" class="btn btn-light" ng-click="clearpowerForward()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                               <button ng-if="powerForward.fullName" class="btn btn-danger btn-remove" ng-click="clearpowerForward()"><i class="fas fa-user-times" aria-hidden="true"></i></button>
                                <div class="triangle-top"></div>
                                <div class="portrait">
                                    <i class="fa fa-ban"></i>
                                    <i ng-show="!powerForward.fullName" class="fa fa-user"></i>
-                                   <img ng-show="powerForward.fullName" ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{powerForward.playerId}]}.png" height="100px" alt="">
-                                   <p>Power Forward</p>
-                               </div>
-                               <div ng-show="powerForward.fullName">
-                                   <div class="ribbon" data-drag="false" data-jqyoui-options ng-model="powerForward"><div class="ribbon-stitches-top"></div><strong class="ribbon-content"><h1>{[{powerForward.fullName}]}</h1></strong><div class="ribbon-stitches-bottom"></div></div>
+                                   <p ng-show="!powerForward.fullName">Power Forward</p>
+                                   <div ng-show="powerForward.fullName" class="description">
+                                       <div class="top-left">
+                                           <span class="rating" ng-bind="powerForward.rating"></span>
+                                           <span class="position" ng-bind="powerForward.position"></span>
+                                       </div>
+                                       <div>
+                                           <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{powerForward.playerId}]}.png" alt="">
+                                       </div>
+                                       <div class="bottom">
+                                           <div>
+                                               <p class="name" data-drag="false" data-jqyoui-options ng-model="powerForward">{[{powerForward.fullName}]}</p>
+                                               <p class="posi">Power Forward</p>
+                                           </div>
+                                           <div>
+                                               <ul class="list-stats">
+                                                   <li>
+                                                       ATQ : <b>50</b>
+                                                   </li>
+                                                   <li>
+                                                       DEF : <b>50</b>
+                                                   </li>
+                                               </ul>
+                                           </div>
+                                       </div>
+                                   </div>
                                </div>
                                <div class="triangle-bottom"></div>
                            </div>
@@ -93,21 +172,42 @@
 
                        <!-- center -->
                        <div class="">
-                           <div class="input-player" ng-class="{'selected': center.fullName, 'disabled': (selectedPoste != 'C' && selectedPoste != 'F-C' && selectedPoste != 'C-F' && selectedPoste != '')}" data-drop="{[{ (selectedPoste == 'C' || selectedPoste == 'F-C' || selectedPoste == 'C-F') ? true : false }]}"
+                           <div class="input-player" ng-class="{'selected': center.fullName, 'low': center.rating < 80 ,'disabled': (selectedPoste != 'C' && selectedPoste != 'F-C' && selectedPoste != 'C-F' && selectedPoste != '' && !center.fullName)}" data-drop="{[{ (selectedPoste == 'C' || selectedPoste == 'F-C' || selectedPoste == 'C-F') ? true : false }]}"
                                 ng-model="center" jqyoui-droppable="{onDrop: 'dropCallback'}">
                                <div class="triangle-top"></div>
+                               <button ng-if="center.fullName" class="btn btn-danger btn-remove" ng-click="clearcenter()"><i class="fas fa-user-times" aria-hidden="true"></i></button>
                                <div class="portrait">
                                    <i class="fa fa-ban"></i>
                                    <i ng-show="!center.fullName" class="fa fa-user"></i>
-                                   <img ng-show="center.fullName" ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{center.playerId}]}.png" height="100px" alt="">
-                                   <p>Center</p>
-                               </div>
-                               <div ng-show="center.fullName">
-                                   <div class="ribbon" data-drag="false" data-jqyoui-options ng-model="center"><div class="ribbon-stitches-top"></div><strong class="ribbon-content"><h1>{[{center.fullName}]}</h1></strong><div class="ribbon-stitches-bottom"></div></div>
+                                   <p ng-show="!center.fullName">Center</p>
+                                   <div ng-show="center.fullName" class="description">
+                                       <div class="top-left">
+                                           <span class="rating" ng-bind="center.rating"></span>
+                                           <span class="position" ng-bind="center.position"></span>
+                                       </div>
+                                       <div>
+                                           <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{center.playerId}]}.png" alt="">
+                                       </div>
+                                       <div class="bottom">
+                                           <div>
+                                               <p class="name" data-drag="false" data-jqyoui-options ng-model="center">{[{center.fullName}]}</p>
+                                               <p class="posi">Center</p>
+                                           </div>
+                                           <div>
+                                               <ul class="list-stats">
+                                                   <li>
+                                                       ATQ : <b>50</b>
+                                                   </li>
+                                                   <li>
+                                                       DEF : <b>50</b>
+                                                   </li>
+                                               </ul>
+                                           </div>
+                                       </div>
+                                   </div>
                                </div>
                                <div class="triangle-bottom"></div>
                            </div>
-                           <button ng-if="center.fullName" class="btn btn-light" ng-click="clearcenter()"><i class="fa fa-trash" aria-hidden="true"></i></button>
                        </div>
                    </div>
 
@@ -116,7 +216,7 @@
 
                 <div class="col-lg-3 col-md-3 container-players" ng-if="!loadingPlayers" ng-class="selectedPlayer.fullName ? 'selected':''">
                     <div class="list-player">
-                        <div class="item-player" ng-repeat="player in players track by $index" data-drop="true" ng-model="players" jqyoui-droppable="{index: {[{$index}]} }">
+                        <div class="item-player" ng-repeat="player in players track by $index" data-drop="true" ng-model="players" jqyoui-droppable="{index: {[{$index}]}}">
                             <div class="btn btn-player" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="players" jqyoui-draggable="{index: {[{$index}]},placeholder:true,animate: false, onDrag: 'dragCallback(player)', onStop : 'dragStopCallback()'}" ng-hide="!player.fullName">
                                 <div class="left-side">
                                     <p>{[{player.rating}]} - {[{player.position}]}</p>
@@ -124,13 +224,12 @@
                                 </div>
                                 <div class="right-side">
                                     <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{player.playerId}]}.png" alt="">
-
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="sendTeam">
-                        <button class="btn btn-primary" ng-click="sendTeam()" ng-disabled="!center.fullName || !smallForward.fullName || !powerForward.fullName || !shootingGuard.fullName || !pointGuard.fullName">Créer ma team</button>
+                        <button class="btn waves-effect" ng-class="{'secondary': !center.fullName || !smallForward.fullName || !powerForward.fullName || !shootingGuard.fullName || !pointGuard.fullName} " ng-click="sendTeam()"><span class="ti-basketball"></span>Créer ma team</button>
                     </div>
                 </div>
 
@@ -140,5 +239,52 @@
             </div>
         </div>
     </section>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="createTeam" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Finaliser mon 5</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Nom de ma team</label>
+                            <input type="text" class="form-control" id="name" placeholder="Entrer le nom de votre team">
+                        </div>
+                        <div class="form-group">
+                            <label for="stade">Stade</label>
+                            <select class="form-control" id="stade">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="entraineur">Entraineur</label>
+                            <select class="form-control" id="entraineur">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Créer ma team</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="{{ asset('assets/vendor/jquery-ui/jquery-ui.js') }}" type="text/javascript"></script>
 {% endblock %}

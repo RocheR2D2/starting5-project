@@ -106,6 +106,8 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
     $scope.selectedPlayer = {};
     $scope.selectedPoste = '';
 
+    $scope.sendingTeam = false;
+
     getPlayers();
 
     $scope.getPlayers = getPlayers();
@@ -115,6 +117,12 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
         ServiceFive.getPlayer().then(function(res){
             $scope.players = res.data;
             $scope.loadingPlayers = false;
+
+            $timeout(function(){
+                var width = $(".container-players").width();
+                $(".sendTeam").css("width", width);
+                })
+
         }, function(err){
             console.log(err);
         })
@@ -171,6 +179,15 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
     }
 
     $scope.sendTeam = function(){
+        if(!$scope.center.fullName || !$scope.smallForward.fullName || !$scope.powerForward.fullName || !$scope.shootingGuard.fullName || !$scope.pointGuard.fullName){
+            return false;
+        }
+
+        $("#createTeam").modal("show");
+    };
+
+    $scope.createTeam = function(){
+        $scope.sendingTeam = true;
 
         var players = {
             "center": $scope.center,
@@ -182,10 +199,20 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
 
         ServiceFive.sendTeam(players).then(function(res){
             console.log(res);
+            $scope.sendingTeam = false;
 
         }, function(err){
             console.log(err);
         })
+    }
+
+    window.onresize = resizeBtn;
+
+    function resizeBtn(){
+        if(window.innerWidth > 1250){
+            var width = $(".container-players").width();
+            $(".sendTeam").css("width", width);
+        }
     }
 
 }]);
