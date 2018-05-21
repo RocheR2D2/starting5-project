@@ -1,0 +1,9 @@
+<div>
+    <h2>Play #{{ round.round }}</h2>
+    {% if(round.score) %}
+        <h4>Score: {{ round.score }}</h4>
+    {% else %}
+        <h4>Score: NaN</h4>
+    {% endif %}
+</div>
+<hr>
