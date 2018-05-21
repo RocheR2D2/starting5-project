@@ -215,3 +215,29 @@ updatePlayerRarity:
     path:     /updatePlayerRarity
     defaults: { _controller: AppBundle:Player:updatePlayerRarity }
     methods:  [GET]
+
+battle.index:
+    path:     /battle
+    defaults: { _controller: AppBundle:Battle:index }
+    methods:  [GET]
+
+battle.search:
+    path:     /battle/search
+    defaults: { _controller: AppBundle:Battle:search }
+    methods:  [POST]
+
+battle.list:
+    path:     /battle/list
+    defaults: { _controller: AppBundle:Battle:list }
+    methods:  [GET]
+
+battle:
+    path:     /battle
+    defaults: { _controller: AppBundle:Battle:confront }
+    methods:  [POST]
+
+battle.detail:
+    path:     /battle/{battleId}
+    defaults: { _controller: AppBundle:Battle:detail }
+    requirements:
+            battleId: '\d+'
