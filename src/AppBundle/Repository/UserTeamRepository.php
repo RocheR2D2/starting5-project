@@ -50,4 +50,23 @@ class UserTeamRepository extends \Doctrine\ORM\EntityRepository
 
         return $average;
     }
+
+    public function searchPlayer($min, $max, $ownTeamId)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $query = $qb->select('ut')
+            ->from('AppBundle:UserTeam', 'ut')
+            ->leftJoin('AppBundle:User', 'u', 'WITH', 'u.id = ut.user')
+            ->where('ut.id != :ownTeamId')
+            ->andWhere('u.battleMode != :battleMode')
+            ->setParameters(['ownTeamId' => $ownTeamId, 'battleMode' => 0])
+            ->andWhere($qb->expr()->between('ut.teamRating', $min, $max))
+            ->andWhere($qb->expr()->eq('ut.active', true))
+            ->getQuery();
+
+        $opponent = $query->getResult();
+
+        return $opponent;
+    }
 }

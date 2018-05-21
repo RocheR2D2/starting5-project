@@ -97,6 +97,12 @@ class UserTeam
      * @ORM\Column(name="def_rating", type="integer")
      */
     private $defRating;
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="active", type="boolean")
+     */
+    private $active;
 
     /**
      * Get id
@@ -328,6 +334,21 @@ class UserTeam
     public function setDefRating($defRating)
     {
         $this->defRating = $defRating;
+    }
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param bool $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
     }
 }
 
