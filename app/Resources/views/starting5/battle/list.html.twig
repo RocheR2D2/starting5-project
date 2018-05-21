@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="col-lg-12 mx-auto">
+          {%  include 'starting5/battle/button.html.twig' %}
+            <hr>
+            <div id="battleList">
+                <div id="home">
+                    <h2>Home Battles</h2>
+                        {% if homeBattles | length > 0 %}
+                            {% for battle in homeBattles %}
+                                {% include 'starting5/battle/battle.html.twig' with {'battle' : battle} %}
+                            {% endfor %}
+                        {% else %}
+                            <div class="bg-danger">
+                                No Battle.
+                            </div>
+                        {% endif %}
+                </div>
+                <hr>
+                <div id="away">
+                    <h2>Away Battles</h2>
+                        {% if awayBattles | length > 0 %}
+                            {% for battle in awayBattles %}
+                                {% include 'starting5/battle/battle.html.twig' with {'battle' : battle} %}
+                            {% endfor %}
+                        {% else %}
+                            <div class="bg-danger">
+                                No Battle.
+                            </div>
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
