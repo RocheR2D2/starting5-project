@@ -22,16 +22,14 @@ class Battle
     private $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="playerOneId", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="battle")
+     * @ORM\JoinColumn(name="playerOneId", referencedColumnName="id")
      */
     private $playerOneId;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="playerTwoId", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="battle")
+     * @ORM\JoinColumn(name="playerTwoId", referencedColumnName="id")
      */
     private $playerTwoId;
 
@@ -43,9 +41,8 @@ class Battle
     private $active;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="winnerUserId", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="battle")
+     * @ORM\JoinColumn(name="winnerUserId", referencedColumnName="id")
      */
     private $winnerUserId;
 
@@ -77,7 +74,7 @@ class Battle
     /**
      * Set playerOneId
      *
-     * @param integer $playerOneId
+     * @param $playerOneId
      *
      * @return Battle
      */
@@ -101,7 +98,7 @@ class Battle
     /**
      * Set playerTwoId
      *
-     * @param integer $playerTwoId
+     * @param $playerTwoId
      *
      * @return Battle
      */
