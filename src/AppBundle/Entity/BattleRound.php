@@ -22,33 +22,43 @@ class BattleRound
     private $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="battleId", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Battle", inversedBy="battleRound")
+     * @ORM\JoinColumn(name="battleId", referencedColumnName="id")
      */
     private $battleId;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="attackerId", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="battlePlayers")
+     * @ORM\JoinColumn(name="attackerId", referencedColumnName="id")
      */
     private $attackerId;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="score", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="battlePlayers")
+     * @ORM\JoinColumn(name="defenderId", referencedColumnName="id")
      */
-    private $score;
+    private $defenderId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="typeOfRound", type="string", length=255)
+     * @ORM\Column(name="score", type="string", nullable=true, length=255)
      */
-    private $typeOfRound;
+    private $score;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="round", type="integer")
+     */
+    private $round;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="done", type="boolean", nullable=true)
+     */
+    private $done;
 
     /**
      * Get id
@@ -133,15 +143,15 @@ class BattleRound
     }
 
     /**
-     * Set typeOfRound
+     * Set round
      *
-     * @param string $typeOfRound
+     * @param integer $round
      *
      * @return BattleRound
      */
-    public function setTypeOfRound($typeOfRound)
+    public function setRound($round)
     {
-        $this->typeOfRound = $typeOfRound;
+        $this->round = $round;
 
         return $this;
     }
@@ -149,11 +159,42 @@ class BattleRound
     /**
      * Get typeOfRound
      *
-     * @return string
+     * @return integer
      */
-    public function getTypeOfRound()
+    public function getRound()
     {
-        return $this->typeOfRound;
+        return $this->round;
+    }
+    /**
+     * @return mixed
+     */
+    public function getDefenderId()
+    {
+        return $this->defenderId;
+    }
+
+    /**
+     * @param mixed $defenderId
+     */
+    public function setDefenderId($defenderId)
+    {
+        $this->defenderId = $defenderId;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDone()
+    {
+        return $this->done;
+    }
+
+    /**
+     * @param bool $done
+     */
+    public function setDone($done)
+    {
+        $this->done = $done;
     }
 }
 
