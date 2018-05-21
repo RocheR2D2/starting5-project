@@ -1,0 +1,25 @@
+<div class="bg-warning text-center" id="confront" data-team-id="{{ team.id }}">
+    <h2>
+        <a href="#">Battle the LineUp by {{ user.username }}</h2>
+        </a>
+    </h2>
+    <script type="text/javascript">
+        var confront = $("#confront");
+        var loading = $('.loading');
+        confront.click(function () {
+            $.ajax({
+                url: '{{ path('battle') }}',
+                data: 'opponentTeamId=' + $(this).attr('data-team-id'),
+                type: 'POST',
+                beforeSend: function () {
+                    loading.show();
+                },
+                complete: function () {
+                    loading.hide();
+                },
+                success: function (success) {
+                }
+            });
+        });
+    </script>
+</div>
