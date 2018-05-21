@@ -1,0 +1,19 @@
+<div>
+    <h4>
+        <img src="{{ asset('images/teams/' ~ battle.playerTwoId.team.teamId ~ '.svg') }}" alt="">
+        {{ battle.playerTwoId.username }}
+        {{ battle.playerTwoScore }}
+
+        -
+
+        {{ battle.playerOneScore }}
+        {{ battle.playerOneId.username }}
+        <img src="{{ asset('images/teams/' ~ battle.playerOneId.team.teamId ~ '.svg') }}" alt="">
+        <a href="{{ path('battle.detail', {'battleId': battle.id}) }}" class="btn btn-dark">Detail</a>
+        {% if battle.active %}
+            <button class="btn btn-danger">LIVE</button>
+        {% else %}
+            <button class="btn btn-primary">OVER</button>
+        {% endif %}
+    </h4>
+</div>
