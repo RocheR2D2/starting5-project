@@ -1,0 +1,41 @@
+<button id="confirmPlay" class="btn btn-success">Confirmer le PLAY</button>
+
+<script type="text/javascript">
+
+    playType = {{ playType }};
+    var loading = $('.loading');
+
+    $('#confirmPlay').click(function() {
+        p0 = $('#p0').val();
+        p1 = $('#p1').val();
+        p2 = $('#p2').val();
+        data = null;
+
+        switch (playType) {
+            case 1:
+                data = '0=' + p0 + '&playType=' + playType + '&roundId=' + {{ roundId }} + '&isCritical=' + p0 + '&battleId=' + {{ battleId }};
+                break;
+            case 2:
+                data = '0=' + p0 + '&1=' + p1 + '&playType=' + playType + '&roundId=' + {{ roundId }} + '&isCritical=' + p0 + '&battleId=' + {{ battleId }};
+                break;
+            case 3:
+                data = '0=' + p0 + '&1=' + p1 + '&2=' + p2 + '&playType=' + playType + '&roundId=' + {{ roundId }} + '&isCritical=' + p0 + '&battleId=' + {{ battleId }};
+                break;
+        }
+
+        $.ajax({
+            url: '{{ path('play.create') }}',
+            type: 'POST',
+            data: data,
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                console.log(success);
+            }
+        });
+    });
+</script>
