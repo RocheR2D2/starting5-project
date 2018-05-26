@@ -6,6 +6,7 @@ use AppBundle\Entity\Battle;
 use AppBundle\Entity\BattlePlayers;
 use AppBundle\Entity\BattleRound;
 use AppBundle\Entity\NBAPlayers;
+use AppBundle\Entity\PlayType;
 use AppBundle\Entity\UserTeam;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -20,6 +21,7 @@ class BattleController extends Controller
     private $battle;
     private $battleRound;
     private $battlePlayers;
+    private $playType;
     private $attackDefenseRound = [];
     private $defenseAttackRound = [];
 
@@ -31,8 +33,19 @@ class BattleController extends Controller
         $this->battle = $this->em->getRepository(Battle::class);
         $this->battleRound = $this->em->getRepository(BattleRound::class);
         $this->battlePlayers = $this->em->getRepository(BattlePlayers::class);
-        $this->attackDefenseRound = [1, 3];
-        $this->defenseAttackRound = [2, 4];
+        $this->playType = $this->em->getRepository(PlayType::class);
+        $this->attackDefenseRound = $this->playType->getAttackDefenseRound();
+        $this->defenseAttackRound = $this->playType->getDefenseAttackRound();
+    }
+
+    public function isAuthorized($battleId)
+    {
+        $isBattlePlayerOne = $this->battle->findOneBy(['id' => $battleId, 'playerOneId' => $this->getUser()]);
+        $isBattlePlayerTwo = $this->battle->findOneBy(['id' => $battleId, 'playerTwoId' => $this->getUser()]);
+
+        if(!$isBattlePlayerOne && !$isBattlePlayerTwo) {
+            die('OK 1');
+        }
     }
 
     /**
@@ -106,13 +119,18 @@ class BattleController extends Controller
 
     public function detailAction($battleId)
     {
+        $this->isAuthorized($battleId);
+
         $battle = $this->battle->find($battleId);
         $playerOnePlayers = $this->battlePlayers->findBy(['battleId' => $battle, 'userId' => $this->getUser()]);
         $rounds = $this->battleRound->findBy(['battleId' => $battle], ['round' => 'ASC']);
+        $activeRound = $this->battleRound->getActiveRound($battle);
+
         return $this->render('starting5/battle/detail.html.twig', [
             'battle' => $battle,
             'rounds' => $rounds,
-            'players' => $playerOnePlayers
+            'players' => $playerOnePlayers,
+            'activeRound'=> $activeRound
         ]);
     }
 
@@ -141,23 +159,24 @@ class BattleController extends Controller
      */
     public function setBattleRound($battle, $playerOne, $playerTwo)
     {
-        foreach ($this->attackDefenseRound as $round) {
-            $this->createBattleRound($battle, $playerOne, $playerTwo, $round);
+        foreach ($this->attackDefenseRound as $round => $playType) {
+            $this->createBattleRound($battle, $playerOne, $playerTwo, $round, $playType);
         }
 
-        foreach ($this->defenseAttackRound as $round) {
-            $this->createBattleRound($battle, $playerTwo, $playerOne, $round);
+        foreach ($this->defenseAttackRound as $round => $playType) {
+            $this->createBattleRound($battle, $playerTwo, $playerOne, $round, $playType);
         }
     }
 
-    public function createBattleRound($battle, $attacker, $defender, $round)
+    public function createBattleRound($battle, $attacker, $defender, $round, $playType)
     {
         $battleRound = new BattleRound();
         $battleRound
             ->setBattleId($battle)
             ->setRound($round)
             ->setAttackerId($attacker)
-            ->setDefenderId($defender);
+            ->setDefenderId($defender)
+            ->setPlayType($playType);
 
         $this->em->persist($battleRound);
         $this->em->flush();
