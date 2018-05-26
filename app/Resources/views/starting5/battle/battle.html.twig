@@ -13,6 +13,9 @@
         {% if battle.active %}
             <button class="btn btn-danger">LIVE</button>
         {% else %}
+            {% if battle.winnerUserId %}
+                <button class="btn btn-success">Won by {{ battle.winnerUserId.username }}</button>
+            {% endif %}
             <button class="btn btn-primary">OVER</button>
         {% endif %}
     </h4>
