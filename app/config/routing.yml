@@ -241,3 +241,15 @@ battle.detail:
     defaults: { _controller: AppBundle:Battle:detail }
     requirements:
             battleId: '\d+'
+
+round.detail:
+    path:     /battle/{battleId}/play/{roundId}
+    defaults: { _controller: AppBundle:Round:detail }
+    requirements:
+            battleId: '\d+'
+            roundId: '\d+'
+
+play.create:
+    path:     /battle/new/play
+    defaults: { _controller: AppBundle:Round:createPlay }
+    methods:  [POST]
