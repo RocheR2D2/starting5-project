@@ -28,23 +28,30 @@ class BattleRound
     private $battleId;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="battlePlayers")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="battleRound")
      * @ORM\JoinColumn(name="attackerId", referencedColumnName="id")
      */
     private $attackerId;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="battlePlayers")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="battleRound")
      * @ORM\JoinColumn(name="defenderId", referencedColumnName="id")
      */
     private $defenderId;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="score", type="string", nullable=true, length=255)
+     * @ORM\Column(name="attackerPoints", type="integer", nullable=true)
      */
-    private $score;
+    private $attackerPoints;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="defenderPoints", type="integer", nullable=true)
+     */
+    private $defenderPoints;
 
     /**
      * @var integer
@@ -59,6 +66,11 @@ class BattleRound
      * @ORM\Column(name="done", type="boolean", nullable=true)
      */
     private $done;
+    /**
+     * @ORM\ManyToOne(targetEntity="PlayType", inversedBy="battleRound")
+     * @ORM\JoinColumn(name="playType", referencedColumnName="id")
+     */
+    private $playType;
 
     /**
      * Get id
@@ -119,30 +131,6 @@ class BattleRound
     }
 
     /**
-     * Set score
-     *
-     * @param string $score
-     *
-     * @return BattleRound
-     */
-    public function setScore($score)
-    {
-        $this->score = $score;
-
-        return $this;
-    }
-
-    /**
-     * Get score
-     *
-     * @return string
-     */
-    public function getScore()
-    {
-        return $this->score;
-    }
-
-    /**
      * Set round
      *
      * @param integer $round
@@ -174,11 +162,14 @@ class BattleRound
     }
 
     /**
-     * @param mixed $defenderId
+     * @param $defenderId
+     * @return $this
      */
     public function setDefenderId($defenderId)
     {
         $this->defenderId = $defenderId;
+
+        return $this;
     }
 
     /**
@@ -190,11 +181,77 @@ class BattleRound
     }
 
     /**
-     * @param bool $done
+     * @param $done
+     * @return $this
      */
     public function setDone($done)
     {
         $this->done = $done;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlayType()
+    {
+        return $this->playType;
+    }
+
+    /**
+     * @param $playType
+     * @return mixed
+     */
+    public function setPlayType($playType)
+    {
+        return $this->playType = $playType;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAttackerPoints()
+    {
+        if(!$this->attackerPoints) {
+            return '0';
+        }
+
+        return $this->attackerPoints;
+    }
+
+    /**
+     * @param $attackerPoints
+     * @return $this
+     */
+    public function setAttackerPoints($attackerPoints)
+    {
+        $this->attackerPoints = $attackerPoints;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefenderPoints()
+    {
+        if(!$this->defenderPoints) {
+            return '0';
+        }
+
+        return $this->defenderPoints;
+    }
+
+    /**
+     * @param $defenderPoints
+     * @return $this
+     */
+    public function setDefenderPoints($defenderPoints)
+    {
+        $this->defenderPoints = $defenderPoints;
+
+        return $this;
     }
 }
 
