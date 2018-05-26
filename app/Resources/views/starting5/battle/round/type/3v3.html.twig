@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="col-lg-12 mx-auto">
+            <a href="{{ path('battle.detail', {'battleId': battleId}) }}">Back</a>
+            <h1>MAKE YOUR {{ playerType }} PLAY !</h1>
+            {% include 'starting5/battle/round/type/play.html.twig' with {'position' : 0} %}
+            {% include 'starting5/battle/round/type/play.html.twig' with {'position' : 1} %}
+            {% include 'starting5/battle/round/type/play.html.twig' with {'position' : 2} %}
+        </div>
+    </div>
+
+    {% include 'starting5/battle/round/type/confirm.html.twig' with { 'playType' : 3 } %}
+
+{% endblock %}
