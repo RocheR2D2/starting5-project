@@ -1,6 +1,6 @@
 <div>
-    <h4>
-        <img src="{{ asset('images/teams/' ~ battle.playerTwoId.team.teamId ~ '.svg') }}" alt="">
+    <p>
+        <img src="{{ asset('images/teams/' ~ battle.playerTwoId.team.teamId ~ '.svg') }}" width="70" alt="">
         {{ battle.playerTwoId.username }}
         {{ battle.playerTwoScore }}
 
@@ -8,15 +8,60 @@
 
         {{ battle.playerOneScore }}
         {{ battle.playerOneId.username }}
-        <img src="{{ asset('images/teams/' ~ battle.playerOneId.team.teamId ~ '.svg') }}" alt="">
+        <img src="{{ asset('images/teams/' ~ battle.playerOneId.team.teamId ~ '.svg') }}" width="70" alt="">
         <a href="{{ path('battle.detail', {'battleId': battle.id}) }}" class="btn btn-dark">Detail</a>
-        {% if battle.active %}
+        {% if battle.active and battle.isAccepted %}
             <button class="btn btn-danger">LIVE</button>
+        {% elseif battle.isAccepted == false and battle.isDeclined == false and app.user == battle.playerTwoId %}
+            <button class="btn btn-success" id="accept-battle" data-battle-id="{{ battle.id }}">ACCEPT</button>
+            <button class="btn btn-danger" id="decline-battle" data-battle-id="{{ battle.id }}">DECLINE</button>
+            <script type="text/javascript">
+                loading = $('#loading');
+                $('#accept-battle').click(function () {
+                    $.ajax({
+                        url: '{{ path('battle.accept') }}',
+                        type: 'POST',
+                        data: 'battleId=' + $(this).attr('data-battle-id'),
+                        beforeSend: function () {
+                            loading.show();
+                        },
+                        complete: function () {
+                            loading.hide();
+                        },
+                        success: function (success) {
+                            location.reload();
+                        }
+                    });
+                });
+
+                $('#decline-battle').click(function () {
+                    $.ajax({
+                        url: '{{ path('battle.decline') }}',
+                        type: 'POST',
+                        data: 'battleId=' + $(this).attr('data-battle-id'),
+                        beforeSend: function () {
+                            loading.show();
+                        },
+                        complete: function () {
+                            loading.hide();
+                        },
+                        success: function (success) {
+                            location.reload();
+                        }
+                    });
+                });
+            </script>
+            {% elseif battle.isAccepted == false and battle.isDeclined == true and app.user == battle.playerTwoId %}
+                <button class="btn btn-warning">You decline the battle</button>
+            {% elseif battle.isAccepted == false and battle.isDeclined == false and app.user == battle.playerOneId %}
+            <button class="btn btn-warning">WAITING ...</button>
+            {% elseif battle.isAccepted == false and battle.isDeclined == true and app.user == battle.playerOneId %}
+            <button class="btn btn-">Battle declined</button>
         {% else %}
             {% if battle.winnerUserId %}
                 <button class="btn btn-success">Won by {{ battle.winnerUserId.username }}</button>
             {% endif %}
             <button class="btn btn-primary">OVER</button>
         {% endif %}
-    </h4>
+    </p>
 </div>
