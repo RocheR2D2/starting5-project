@@ -60,6 +60,26 @@ class Battle
      */
     private $playerTwoScore;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="isAccepted", type="boolean", nullable=true)
+     */
+    private $isAccepted;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="isDeclined", type="boolean", nullable=true)
+     */
+    private $isDeclined;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="isWaiting", type="boolean", nullable=true)
+     */
+    private $isWaiting;
 
     /**
      * Get id
@@ -213,6 +233,63 @@ class Battle
     public function getPlayerTwoScore()
     {
         return $this->playerTwoScore;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAccepted()
+    {
+        return $this->isAccepted;
+    }
+
+    /**
+     * @param $isAccepted
+     * @return $this
+     */
+    public function setIsAccepted($isAccepted)
+    {
+        $this->isAccepted = $isAccepted;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeclined()
+    {
+        return $this->isDeclined;
+    }
+
+    /**
+     * @param $isDeclined
+     * @return $this
+     */
+    public function setIsDeclined($isDeclined)
+    {
+        $this->isDeclined = $isDeclined;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWaiting()
+    {
+        return $this->isWaiting;
+    }
+
+    /**
+     * @param $isWaiting
+     * @return $this
+     */
+    public function setIsWaiting($isWaiting)
+    {
+        $this->isWaiting = $isWaiting;
+
+        return $this;
     }
 }
 
