@@ -82,7 +82,7 @@ class RoundController extends Controller
                         $playerTwo = $playerByDefender[$key];
                         $ratingAttacker = $player->getRating();
                         $ratingDefender = $playerTwo->getRating();
-                        if($ratingAttacker > $ratingDefender) {
+                        if ($ratingAttacker > $ratingDefender) {
                             $player->setPointsMade(1);
                             $battleRound->setAttackerPoints($battleRound->getAttackerPoints() + 1);
 
@@ -103,7 +103,7 @@ class RoundController extends Controller
                     }
                 }
 
-                if($attackerId == $playerOneId) {
+                if ($attackerId == $playerOneId) {
                     $playerOneScore = array_sum($attackerScore);
                     $playerTwoScore = array_sum($defenderScore);
                 } else {
@@ -148,13 +148,21 @@ class RoundController extends Controller
      */
     public function detailAction($battleId, $roundId)
     {
-        $this->isAuthorized($battleId);
+        $this->isAuthorized($battleId, $roundId);
         $this->hasPlayersPlayed($battleId, $roundId);
         $user = $this->getUser();
+        $round = $this->battleRound->find($roundId);
+        $previousRoundInt = $round->getRound() - 1;
+        if ($round->getRound() == 1) {
+            $previousRoundInt = 1;
+        }
+        $previousRound = $this->battleRound->findOneBy(['battleId' => $battleId, 'round' => $previousRoundInt]);
+        if (!$previousRound->isDone() && $round->getRound() != 1) {
+            die('FORBIDDEN');
+        }
 
         $isPlayed = $this->isPlayed($roundId, $user, $battleId);
         if ($isPlayed) {
-            $round = $this->battleRound->find($roundId);
             $battle = $this->battle->find($battleId);
             $battleRoundType = $round->getPlayType();
             $attacker = $round->getAttackerId();
@@ -168,8 +176,8 @@ class RoundController extends Controller
                 && count($offPlayers) == $battleRoundType->getId() && count($defPlayers) == $battleRoundType->getId()
                 && count($offPlayers) == count($defPlayers)) {
 
-                $roundResult['score'] = $attacker->getUsername() .' '. $round->getAttackerPoints() . ' - ' . $round->getDefenderPoints() . ' ' .$defender->getUsername() ;
-                $roundResult['battleScore'] = $battle->getPlayerTwoId()->getUsername() .' '. $battle->getPlayerTwoScore(). ' - ' .$battle->getPlayerOneScore() . ' ' . $battle->getPlayerOneId()->getUsername() ;
+                $roundResult['score'] = $attacker->getUsername() . ' ' . $round->getAttackerPoints() . ' - ' . $round->getDefenderPoints() . ' ' . $defender->getUsername();
+                $roundResult['battleScore'] = $battle->getPlayerTwoId()->getUsername() . ' ' . $battle->getPlayerTwoScore() . ' - ' . $battle->getPlayerOneScore() . ' ' . $battle->getPlayerOneId()->getUsername();
             }
 
             return $this->render('starting5/battle/round/played.html.twig', [
@@ -216,7 +224,7 @@ class RoundController extends Controller
 
         foreach ($players as $key => $data) {
             $isCritical = false;
-            if($data == $criticalPlayer) {
+            if ($data == $criticalPlayer) {
                 $isCritical = true;
             }
 
@@ -227,7 +235,7 @@ class RoundController extends Controller
 
             $rating = $playerDefRating + $bonus;
 
-            if($isAttacker) {
+            if ($isAttacker) {
                 $rating = $playerOffRating + $bonus;
             }
 
