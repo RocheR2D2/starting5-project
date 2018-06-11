@@ -63,11 +63,21 @@ class BattleController extends Controller
 
     public function listAction()
     {
-        $homeBattles = $this->battle->findBy(['playerOneId' => $this->getUser()], ['active' => 'DESC']);
-        $awayBattles = $this->battle->findBy(['playerTwoId' => $this->getUser()], ['active' => 'DESC']);
+        $homeActiveBattle = $this->battle->findBy(['playerOneId' => $this->getUser(), 'isAccepted' => true, 'isDeclined' => false, 'active' => true], ['id' => 'DESC'], 3);
+        $homeOverBattle = $this->battle->findBy(['playerOneId' => $this->getUser(), 'isAccepted' => true, 'isDeclined' => false, 'active' => false], ['id' => 'DESC'], 3);
+        $homeWaitingBattle = $this->battle->findBy(['playerOneId' => $this->getUser(), 'isAccepted' => false, 'isDeclined' => NULL, 'isWaiting' => true,'active' => false], ['id' => 'DESC'], 3);
+
+        $awayActiveBattle = $this->battle->findBy(['playerTwoId' => $this->getUser(), 'isAccepted' => true, 'isDeclined' => false, 'active' => true], ['id' => 'DESC'], 3);
+        $awayOverBattle = $this->battle->findBy(['playerTwoId' => $this->getUser(), 'isAccepted' => true, 'isDeclined' => false, 'active' => false], ['id' => 'DESC'], 3);
+        $awayInvitationBattle = $this->battle->findBy(['playerTwoId' => $this->getUser(), 'isAccepted' => false, 'isDeclined' => NULL, 'isWaiting' => true, 'active' => false], ['id' => 'DESC'], 3);
+
         return $this->render('starting5/battle/list.html.twig', [
-            'homeBattles' => $homeBattles,
-            'awayBattles' => $awayBattles
+            'homeOverBattle' => $homeOverBattle,
+            'homeActiveBattle' => $homeActiveBattle,
+            'homeWaitingBattle' => $homeWaitingBattle,
+            'awayActiveBattle' => $awayActiveBattle,
+            'awayInvitationBattle' => $awayInvitationBattle,
+            'awayOverBattle' => $awayOverBattle
         ]);
     }
 
@@ -98,23 +108,57 @@ class BattleController extends Controller
         $opponentTeamId = $request->get('opponentTeamId');
         $opponentTeam = $this->userTeamDoctrine->findOneBy(['id' => $opponentTeamId]);
 
-        $playerTwo = $opponentTeam->getUser();
-
         $activeTeam = $this->userTeamDoctrine->findOneBy(['user' => $playerOne, 'active' => 1]);
         $battle = $this->setNewBattle($activeTeam, $opponentTeam);
 
         $this->em->persist($battle);
         $this->em->flush();
 
-        $this->setBattlePlayers($opponentTeam, $battle);
-        $this->setBattlePlayers($activeTeam, $battle);
-        $this->setBattleRound($battle, $playerOne, $playerTwo);
-
         $route = $this->generateUrl('battle.list');
         $response = new Response(json_encode($route));
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
+    }
+
+    public function acceptAction(Request $request)
+    {
+        $battleId = $request->get('battleId');
+        $battle = $this->battle->find($battleId);
+
+        $opponentTeam = $this->userTeamDoctrine->findOneBy(['user' => $battle->getPlayerTwoId(), 'active' => 1]);
+        $activeTeam = $this->userTeamDoctrine->findOneBy(['user' => $battle->getPlayerOneId(), 'active' => 1]);
+
+        $this->setBattlePlayers($opponentTeam, $battle);
+        $this->setBattlePlayers($activeTeam, $battle);
+        $this->setBattleRound($battle, $battle->getPlayerOneId(), $battle->getPlayerTwoId());
+
+        $battle
+            ->setIsAccepted(true)
+            ->setIsDeclined(false)
+            ->setIsWaiting(false)
+            ->setActive(true);
+
+        $this->em->persist($battle);
+        $this->em->flush();
+
+        die('ok');
+    }
+
+    public function declineAction(Request $request)
+    {
+        $battleId = $request->get('battleId');
+        $battle = $this->battle->find($battleId);
+
+        $battle
+            ->setIsAccepted(false)
+            ->setIsDeclined(true)
+            ->setActive(false);
+
+        $this->em->persist($battle);
+        $this->em->flush();
+
+        die('ok2');
     }
 
     public function detailAction($battleId)
@@ -138,9 +182,11 @@ class BattleController extends Controller
     {
         $battle = new Battle();
         $battle
-            ->setActive(true)
+            ->setActive(false)
+            ->setIsAccepted(false)
             ->setPlayerOneScore(0)
             ->setPlayerTwoScore(0)
+            ->setIsWaiting(true)
             ->setPlayerOneId($activeTeam->getUser())
             ->setPlayerTwoId($opponentTeam->getUser());
 
