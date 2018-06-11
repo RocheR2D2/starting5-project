@@ -226,6 +226,16 @@ battle.search:
     defaults: { _controller: AppBundle:Battle:search }
     methods:  [POST]
 
+battle.accept:
+    path:     /battle/accept
+    defaults: { _controller: AppBundle:Battle:accept }
+    methods:  [POST]
+
+battle.decline:
+    path:     /battle/decline
+    defaults: { _controller: AppBundle:Battle:decline }
+    methods:  [POST]
+
 battle.list:
     path:     /battle/list
     defaults: { _controller: AppBundle:Battle:list }

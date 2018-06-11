@@ -29,3 +29,11 @@ security:
         - { path: ^/team/\d+/edit, role: ROLE_USER }
         - { path: ^/my-players, role: ROLE_USER }
         - { path: ^/pack, role: ROLE_USER }
+        - { path: ^/dashboard, role: ROLE_USER }
+        - { path: ^/battle/list, role: ROLE_USER }
+        - { path: ^/battle, role: ROLE_USER }
+        - { path: ^/profile, role: ROLE_USER }
+        - { path: ^/profile/edit, role: ROLE_USER }
+        - { path: ^/my-teams, role: ROLE_USER }
+        - { path: ^/battle/\+d, role: ROLE_USER }
+        - { path: ^/battle/\+d/play/\+d, role: ROLE_USER }
