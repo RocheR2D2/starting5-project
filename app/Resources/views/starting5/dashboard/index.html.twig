@@ -20,18 +20,19 @@
                     {% endif %}
                 </h2>
             </div>
-            <div class="myTeams-container">
+
 
             {% if userTeams|length > 0 %}
                 {% for team in teams %}
+            <div class="myTeams-container">
                     <h2 class="title">{{ team['data']['name'] }}</h2>
                     <a href="{{ path('user.team.edit', {'id': team['data']['id'] }) }}" class="btn btn-info edit">Edit this 5IVE</a>
                     <div class="details-grid">
-                        <div class="item" data-toggle="tooltip" data-placement="top" title="Entraîneur"><i class="far fa-user"></i><span class="text">{{ team['data']['trainer'].fullName }}</span></div>
-                        <div class="item border-left-right" data-toggle="tooltip" data-placement="top" title="Stade"><img src="{{ asset('images/stadium.png') }}" alt=""><span class="text">{{ team['data']['stadium'].name }}</span></div>
-                        <div class="item border-bottom" data-toggle="tooltip" data-placement="top" title="Rating global"><i class="far fa-star"></i> <span class="text">{{ team['data']['teamRating'] }}</span></div>
-                        <div class="item border-top" data-toggle="tooltip" data-placement="top" title="Rating offensive"><img src="{{ asset('images/sword.png') }}" alt=""><span class="text">{{ team['data']['offRating'] }}</span></div>
-                        <div class="item border-top border-left-right" data-toggle="tooltip" data-placement="top" title="Rating defensive"><i class="fas fa-shield-alt"></i><span class="text">{{ team['data']['defRating'] }}</span></div>
+                        <div class="item"><u class="text">Entraîneur</u><i class="far fa-user"></i><span class="text">{{ team['data']['trainer'].fullName }}</span></div>
+                        <div class="item border-left-right"><u class="text">Stade</u><img src="{{ asset('images/stadium.png') }}" alt=""><span class="text">{{ team['data']['stadium'].name }}</span></div>
+                        <div class="item border-bottom"><u class="text">Rating global</u><i class="far fa-star"></i> <span class="text">{{ team['data']['teamRating'] }}</span></div>
+                        <div class="item border-top"><u class="text">Rating offensive</u><img src="{{ asset('images/sword.png') }}" alt=""><span class="text">{{ team['data']['offRating'] }}</span></div>
+                        <div class="item border-top border-left-right"><u class="text">Rating defensive</u><i class="fas fa-shield-alt"></i><span class="text">{{ team['data']['defRating'] }}</span></div>
                     </div>
                     <div class="first-line line">
 
@@ -56,13 +57,14 @@
                             {% include 'starting5/players/player.html.twig' with {'player': player} %}
 
                     </div>
-
+            </div>
                 {% endfor %}
             {% else %}
                 <p class="alert alert-danger">
                     NO 5IVE AVAILABLE
                 </p>
             {% endif %}
-            </div>
+
         </div>
+
 {% endblock %}

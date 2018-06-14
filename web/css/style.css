@@ -3528,7 +3528,7 @@ body.fixed-left .side-menu.left {
     border-radius: 3px;
     position: relative;
     box-shadow: 3px 6px 20px -2px #424242;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 
@@ -3538,7 +3538,7 @@ body.fixed-left .side-menu.left {
     color: #8e2500;
     font-size: 3.5em;
     text-shadow: 0px 2px 6px #42424270;
-    margin-bottom: 20px;
+    margin-bottom: 35px;
 }
 
 .myTeams-container .btn.edit{
@@ -3556,7 +3556,7 @@ body.fixed-left .side-menu.left {
 
 .myTeams-container .details-grid .item{
     min-width: 33.33%;
-    height: 120px;
+    height: 160px;
     display: flex;
     flex-direction : column;;
     justify-content: center;
