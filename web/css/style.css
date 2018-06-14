@@ -3555,7 +3555,7 @@ body.fixed-left .side-menu.left {
 }
 
 .myTeams-container .details-grid .item{
-    min-width: 33.33%;
+    min-width: 20%;
     height: 160px;
     display: flex;
     flex-direction : column;;
