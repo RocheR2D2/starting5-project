@@ -3298,6 +3298,7 @@ body.fixed-left .side-menu.left {
     margin: 0;
     float: left;
     width: 100%;
+    white-space: nowrap;
 }
 
 .input-player .portrait .posi{
@@ -3494,8 +3495,23 @@ body.fixed-left .side-menu.left {
     z-index:0;
 }
 
-.create-team .loading{
+.create-team .loading-players{
     background: #424858;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #ccc;
+    flex-direction: column;
+}
+
+.create-team .loading-players i{
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+.create-team .loading-players p{
+    font-size: 1.2em;
 }
 
 

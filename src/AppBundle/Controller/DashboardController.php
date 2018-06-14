@@ -137,8 +137,14 @@ class DashboardController extends Controller
 
     public function createTeamAction(Request $request)
     {
-        $players = $request->getContent();
-        $players = json_decode($players, true);
+        $data = $request->getContent();
+        $data = json_decode($data, true);
+
+        $teamName = $data["teamName"];
+        $players = $data["players"];
+        $stadium = $data["stadium"];
+        $trainer = $data["trainer"];
+
         $user = $this->getUser();
         $userTeam = new UserTeam();
         $playerDoctrine = $this->getDoctrine()->getRepository(NBAPlayers::class);
@@ -147,7 +153,16 @@ class DashboardController extends Controller
         $userTeam->setUser($user);
         $userTeam->setLike(0);
         $userTeam->setDislike(0);
-        //Set trainer + stadium here setTrainerId($trainerId); setStadiumId($stadium);
+        $userTeam->setName($teamName);
+        $trainerRepo = $this->getDoctrine()->getRepository(Trainer::class);
+        $trainer = $trainerRepo->find($trainer["trainerId"]["id"]);
+
+        $stadiumRepo = $this->getDoctrine()->getRepository(Stadium::class);
+        $stadium = $stadiumRepo->find($stadium["stadiumId"]["id"]);
+
+        $userTeam->setTrainerId($trainer);
+        $userTeam->setStadiumId($stadium);
+
         $em = $this->getDoctrine()->getManager();
         $em->persist($userTeam);
         $em->flush();
@@ -246,8 +261,8 @@ class DashboardController extends Controller
     public function setTeamRating($userTeam, $players)
     {
         $userTeam->setTeamRating($this->userTeamDoctrine->getTeamRating($players));
-        $userTeam->setTeamRating($this->userTeamDoctrine->getOffRating($players));
-        $userTeam->setTeamRating($this->userTeamDoctrine->getDefRating($players));
+        $userTeam->setOffRating($this->userTeamDoctrine->getOffRating($players));
+        $userTeam->setDefRating($this->userTeamDoctrine->getDefRating($players));
 
         return $userTeam;
     }
