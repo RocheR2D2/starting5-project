@@ -14,39 +14,39 @@ class UserTeamRepository extends \Doctrine\ORM\EntityRepository
 {
     public function getTeamRating($players)
     {
-        $pointGuard = $players['pointGuard']["playerId"];
-        $shootingGuard = $players['shootingGuard']["playerId"];
-        $smallForward = $players['smallForward']["playerId"];
-        $powerForward = $players['powerForward']["playerId"];
-        $center = $players['$center']["playerId"];
+        $pointGuard = $players['pointGuard'];
+        $shootingGuard = $players['shootingGuard'];
+        $smallForward = $players['smallForward'];
+        $powerForward = $players['powerForward'];
+        $center = $players['center'];
 
-        $average = ($pointGuard->getRating() + $shootingGuard->getRating() + $smallForward->getRating() + $powerForward->getRating() + $center->getRating()) / 5;
+        $average = ($pointGuard["rating"] + $shootingGuard["rating"] + $smallForward["rating"] + $powerForward["rating"] + $center["rating"]) / 5;
 
         return $average;
     }
 
     public function getOffRating($players)
     {
-        $pointGuard = $players['pointGuard']["playerId"];
-        $shootingGuard = $players['shootingGuard']["playerId"];
-        $smallForward = $players['smallForward']["playerId"];
-        $powerForward = $players['powerForward']["playerId"];
-        $center = $players['$center']["playerId"];
+        $pointGuard = $players['pointGuard'];
+        $shootingGuard = $players['shootingGuard'];
+        $smallForward = $players['smallForward'];
+        $powerForward = $players['powerForward'];
+        $center = $players['center'];
 
-        $average = ($pointGuard->getOffensiveRating() + $shootingGuard->getOffensiveRating() + $smallForward->getOffensiveRating() + $powerForward->getOffensiveRating() + $center->getOffensiveRating()) / 5;
+        $average = ($pointGuard["offensiveRating"] + $shootingGuard["offensiveRating"] + $smallForward["offensiveRating"] + $powerForward["offensiveRating"] + $center["offensiveRating"]) / 5;
 
         return $average;
     }
 
     public function getDefRating($players)
     {
-        $pointGuard = $players['pointGuard']["playerId"];
-        $shootingGuard = $players['shootingGuard']["playerId"];
-        $smallForward = $players['smallForward']["playerId"];
-        $powerForward = $players['powerForward']["playerId"];
-        $center = $players['$center']["playerId"];
+        $pointGuard = $players['pointGuard'];
+        $shootingGuard = $players['shootingGuard'];
+        $smallForward = $players['smallForward'];
+        $powerForward = $players['powerForward'];
+        $center = $players['center'];
 
-        $average = ($pointGuard->getDefensiveRating() + $shootingGuard->getDefensiveRating() + $smallForward->getDefensiveRating() + $powerForward->getDefensiveRating() + $center->getDefensiveRating()) / 5;
+        $average = ($pointGuard["offensiveRating"] + $shootingGuard["offensiveRating"] + $smallForward["offensiveRating"] + $powerForward["offensiveRating"] + $center["offensiveRating"]) / 5;
 
         return $average;
     }

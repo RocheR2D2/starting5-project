@@ -81,13 +81,23 @@ app.factory("ServiceFive", function ($http) {
         return $http.get("/app_dev.php/team/getPlayers", {responseType: "json"});
     };
 
-    var sendTeam = function(players){
-        return $http.post("/app_dev.php/team/createTeam", players);
+    var sendTeam = function(team){
+        return $http.post("/app_dev.php/team/createTeam", team);
     };
+
+    var getStadiums = function(){
+        return $http.get("/app_dev.php/json/myStadiums", {responseType: "json"});
+    };
+
+    var getTrainers = function(){
+        return $http.get("/app_dev.php/json/myTrainers", {responseType: "json"});
+    }
 
     return {
         getPlayer: getPlayer,
-        sendTeam: sendTeam
+        sendTeam: sendTeam,
+        getStadiums: getStadiums,
+        getTrainers: getTrainers
     };
 
 });
@@ -106,6 +116,17 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
     $scope.selectedPlayer = {};
     $scope.selectedPoste = '';
 
+    $scope.sendingTeam = false;
+
+    $scope.trainers = [];
+    $scope.trainer = null;
+    $scope.loadingTrainers = false;
+    $scope.stadiums = [];
+    $scope.stadium = null;
+    $scope.loadingStadiums = false;
+
+    $scope.teamName = "";
+
     getPlayers();
 
     $scope.getPlayers = getPlayers();
@@ -115,6 +136,12 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
         ServiceFive.getPlayer().then(function(res){
             $scope.players = res.data;
             $scope.loadingPlayers = false;
+
+            $timeout(function(){
+                var width = $(".container-players").width();
+                $(".sendTeam").css("width", width);
+                })
+
         }, function(err){
             console.log(err);
         })
@@ -171,6 +198,35 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
     }
 
     $scope.sendTeam = function(){
+        if(!$scope.center.fullName || !$scope.smallForward.fullName || !$scope.powerForward.fullName || !$scope.shootingGuard.fullName || !$scope.pointGuard.fullName){
+            return false;
+        }
+
+        $scope.loadingTrainers = true;
+        $scope.loadingStadiums = true;
+
+        ServiceFive.getTrainers()
+            .then(function(response){
+               $timeout(function(){
+                   $scope.trainers = response.data;
+                   $scope.loadingTrainers = false;
+               })
+            }, function(error){
+                console.log(error);
+            });
+
+        ServiceFive.getStadiums()
+            .then(function(response){
+                $scope.stadiums = response.data;
+                $scope.loadingStadiums = false;
+            }, function(error){
+                console.log(error);
+            });
+        $("#createTeam").modal("show");
+    };
+
+    $scope.createTeam = function(){
+        $scope.sendingTeam = true;
 
         var players = {
             "center": $scope.center,
@@ -180,12 +236,41 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
             "pointGuard": $scope.pointGuard
         };
 
-        ServiceFive.sendTeam(players).then(function(res){
-            console.log(res);
+        var team = {
+            "teamName" : $scope.teamName,
+            "players" : players,
+            "stadium" : JSON.parse($scope.stadium),
+            "trainer" : JSON.parse($scope.trainer)
+        };
+
+        ServiceFive.sendTeam(team).then(function(res){
+            $scope.sendingTeam = false;
+
+            //reset players
+                $scope.center = null;
+                $scope.smallForward =null;
+                $scope.powerForward =null;
+                $scope.shootingGuard =null;
+                $scope.pointGuard =null;
+                $scope.teamName = null;
+                $scope.trainer = null;
+                $scope.stadium = null;
+
+                window.location.href= "/app_dev.php/my-teams";
+            $("#createTeam").modal("hide");
 
         }, function(err){
             console.log(err);
         })
+    }
+
+    window.onresize = resizeBtn;
+
+    function resizeBtn(){
+        if(window.innerWidth > 1250){
+            var width = $(".container-players").width();
+            $(".sendTeam").css("width", width);
+        }
     }
 
 }]);
