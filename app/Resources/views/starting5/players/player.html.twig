@@ -1,26 +1,31 @@
-<div id="player-{{ player.playerId }}">
-    <div class="text-center">
-        <img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{{ player.playerId }}.png"
-             alt="{{ player.teamId.teamId }}"
-             width="100px"
-             class="wow fadeInUp">
+<div class="input-player selected {% if player.rating < 80 %}low{% endif %}" id="player-{{ player.playerId }}">
+    <div class="triangle-top"></div>
+    <div class="portrait">
+        <div class="description">
+            <div class="top-left">
+                <span class="rating">{{ player.rating }}</span>
+                <span class="position">{{ player.position }}</span>
+            </div>
+            <div>
+                <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{{ player.playerId }}.png" alt="{{ player.teamId.teamId }}">
+            </div>
+            <div class="bottom">
+                <div>
+                    <p class="name">{{ player.firstname }} {{ player.lastname }}</p>
+                    <p class="posi">{{ player.position }}</p>
+                </div>
+                <div>
+                    <ul class="list-stats">
+                        <li>
+                            ATQ : <b>{{ player.offensiveRating }}</b>
+                        </li>
+                        <li>
+                            DEF : <b>{{ player.defensiveRating }}</b>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-    <p class="text-center" class="wow fadeInDown">
-        {{ player.rarity }}
-        <br>
-        <span class="wow fadeInUp">
-            {{ player.firstname }} {{ player.lastname }}
-        </span>
-        <br>
-        <span class="wow fadeInDown">
-            {{ player.position }} -
-            {{ player.rating }}
-        </span>
-        <img src="{{ asset('images/teams/' ~ player.teamId.teamId ~ '.svg') }}"
-             alt="{{ player.teamId.teamId }}"
-             width="50px"
-             class="wow fadeInUp">
-        <br>
-        <span class="text-center">OFF {{ player.offensiveRating }} - DEF {{ player.defensiveRating }}</p>
-    </p>
+    <div class="triangle-bottom"></div>
 </div>
