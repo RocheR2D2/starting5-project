@@ -226,7 +226,7 @@
                     </div>
                 </div>
                 <div class="sendTeam" ng-if="!loadingPlayers">
-                    <button class="btn waves-effect" ng-class="{'secondary': !center.fullName || !smallForward.fullName || !powerForward.fullName || !shootingGuard.fullName || !pointGuard.fullName} " ng-click="sendTeam()"><span class="ti-basketball"></span><span  ng-show="route != 'edit'">Créer ma team</span><span ng-show="route == 'edit'">Editer ma team</span></button>
+                    <button class="btn waves-effect" ng-class="{'secondary': !center.fullName || !smallForward.fullName || !powerForward.fullName || !shootingGuard.fullName || !pointGuard.fullName} " ng-click="sendTeam()"><span class="ti-basketball"></span> <span ng-show="route != 'edit'">Créer ma team</span><span ng-show="route == 'edit'">Editer ma team</span></button>
                 </div>
                 <div class="loading-players" ng-if="loadingPlayers">
                     <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>

@@ -81,8 +81,12 @@ app.factory("ServiceFive", function ($http) {
         return $http.get("/app_dev.php/team/getPlayers", {responseType: "json"});
     };
 
-    var sendTeam = function(team){
-        return $http.post("/app_dev.php/team/createTeam", team);
+    var sendTeam = function(team, edit){
+        if(edit){
+            return $http.post("/app_dev.php/team/editTeam", team);
+        }else{
+            return $http.post("/app_dev.php/team/createTeam", team);
+        }
     };
 
     var getStadiums = function(){
@@ -140,10 +144,9 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
 
     $scope.teamName = "";
 
+    $scope.editTeamId = null;
+
     getPlayers();
-    if(route == "edit"){
-        getInfosEdit();
-    }
 
     $scope.getPlayers = getPlayers();
 
@@ -152,7 +155,9 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
         ServiceFive.getPlayer().then(function(res){
             $scope.players = res.data;
             $scope.loadingPlayers = false;
-
+            if(route == "edit"){
+                getInfosEdit();
+            }
             $timeout(function(){
                 var width = $(".container-players").width();
                 $(".sendTeam").css("width", width);
@@ -166,11 +171,14 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
 
     function getInfosEdit(){
         ServiceFive.getInfosEdit(teamId).then(function(res){
+
                 $scope.center = res.data.center;
                 $scope.smallForward = res.data.smallForward;
                 $scope.powerForward = res.data.powerForward;
                 $scope.shootingGuard = res.data.shootingGuard;
                 $scope.pointGuard = res.data.pointGuard;
+
+                console.log($scope.players.length);
 
                 for(var i=0;i<$scope.players.length;i++){
                     if($scope.players[i].id == $scope.center.id || $scope.players[i].id == $scope.smallForward.id || $scope.players[i].id == $scope.powerForward.id
@@ -181,6 +189,8 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
 
                     }
                 }
+
+                $scope.editTeamId = res.data.id;
 
             $scope.teamName = res.data.name;
             $scope.stadium = res.data.stadiumId;
@@ -246,20 +256,24 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
         $scope.loadingTrainers = true;
         $scope.loadingStadiums = true;
 
-        ServiceFive.getTrainers()
-            .then(function(response){
-                $scope.trainers = [];
-                $scope.loadingTrainers = false;
-                for(var i=0;i<response.data.length;i++){
-                    $scope.trainers.push(response.data[i].trainerId);
-                }
-                if(route != "edit"){
-                    $scope.trainer = $scope.trainers[0];
-                }
-            }, function(error){
-                console.log(error);
-            });
+        if($scope.trainers.length <= 0){
+            ServiceFive.getTrainers()
+                .then(function(response){
+                    $scope.trainers = [];
+                    $scope.loadingTrainers = false;
+                    for(var i=0;i<response.data.length;i++){
+                        $scope.trainers.push(response.data[i].trainerId);
+                    }
+                    if(route != "edit"){
+                        $scope.trainer = $scope.trainers[0];
+                    }
+                }, function(error){
+                    console.log(error);
+                });
+        }
 
+
+    if($scope.stadiums.length <= 0){
         ServiceFive.getStadiums()
             .then(function(response){
                 $scope.stadiums = [];
@@ -273,6 +287,8 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
             }, function(error){
                 console.log(error);
             });
+    }
+
 
         $("#createTeam").modal("show");
     };
@@ -291,11 +307,17 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
         var team = {
             "teamName" : $scope.teamName,
             "players" : players,
-            "stadium" : JSON.parse($scope.stadium),
-            "trainer" : JSON.parse($scope.trainer)
+            "stadium" : $scope.stadium,
+            "trainer" : $scope.trainer
         };
 
-        ServiceFive.sendTeam(team).then(function(res){
+        var edit = false;
+        if(route == 'edit'){
+            team.id = $scope.editTeamId;
+            edit = true;
+        }
+
+        ServiceFive.sendTeam(team, edit).then(function(res){
             $scope.sendingTeam = false;
 
             //reset players

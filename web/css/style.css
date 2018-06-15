@@ -3406,11 +3406,12 @@ body.fixed-left .side-menu.left {
     margin-right: 5px;
 }
 
- .sendTeam .btn span:before{
+ .sendTeam .btn span.ti-basketball:before{
     content: "\e6b9";
 }
 
- .btn-player{
+
+.btn-player{
     position: relative;
     width: 100%;
     display: flex;
