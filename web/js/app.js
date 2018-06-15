@@ -146,6 +146,8 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
 
     $scope.editTeamId = null;
 
+    $scope.sendingDone = false;
+
     getPlayers();
 
     $scope.getPlayers = getPlayers();
@@ -178,13 +180,16 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
                 $scope.shootingGuard = res.data.shootingGuard;
                 $scope.pointGuard = res.data.pointGuard;
 
-                console.log($scope.players.length);
+
 
                 for(var i=0;i<$scope.players.length;i++){
                     if($scope.players[i].id == $scope.center.id || $scope.players[i].id == $scope.smallForward.id || $scope.players[i].id == $scope.powerForward.id
                     || $scope.players[i].id == $scope.shootingGuard.id || $scope.players[i].id == $scope.pointGuard.id){
                         $scope.players.splice(1,i);
-                        i--;
+                        if(i>0){
+                            i--;
+                        }
+
                     }else{
 
                     }
@@ -330,8 +335,11 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
                 $scope.trainer = null;
                 $scope.stadium = null;
 
+                $scope.sendingDone = true;
+                $("#createTeam").modal("hide");
+
                 window.location.href= "/app_dev.php/my-teams";
-            $("#createTeam").modal("hide");
+
 
         }, function(err){
             console.log(err);

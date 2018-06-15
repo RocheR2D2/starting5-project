@@ -3199,6 +3199,16 @@ body.fixed-left .side-menu.left {
     overflow: visible;
 }
 
+.create-team .alert-success{
+    position: fixed;
+    top: 10px;
+    z-index: 100;
+    left: 0;
+    right: 0;
+    width: 280px;
+    margin: 0 auto;
+    text-align: center;
+}
 
 .create-team .list-player{
     display: flex;
@@ -3554,7 +3564,7 @@ body.fixed-left .side-menu.left {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-bottom: 90px;
+    margin-bottom: 40px;
 }
 
 .myTeams-container .details-grid .item{
