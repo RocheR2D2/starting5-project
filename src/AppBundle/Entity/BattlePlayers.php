@@ -22,16 +22,14 @@ class BattlePlayers
     private $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="playerId", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="NBAPlayers", inversedBy="battlePlayers")
+     * @ORM\JoinColumn(name="playerId", referencedColumnName="id")
      */
     private $playerId;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="userId", type="integer")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="battlePlayers")
+     * @ORM\JoinColumn(name="userId", referencedColumnName="id")
      */
     private $userId;
 
@@ -57,9 +55,8 @@ class BattlePlayers
     private $actionPoint;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="battleId", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Battle", inversedBy="battlePlayers")
+     * @ORM\JoinColumn(name="battleId", referencedColumnName="id")
      */
     private $battleId;
 
@@ -77,7 +74,7 @@ class BattlePlayers
     /**
      * Set playerId
      *
-     * @param integer $playerId
+     * @param $playerId
      *
      * @return BattlePlayers
      */
@@ -101,7 +98,7 @@ class BattlePlayers
     /**
      * Set userId
      *
-     * @param integer $userId
+     * @param $userId
      *
      * @return BattlePlayers
      */
@@ -197,7 +194,7 @@ class BattlePlayers
     /**
      * Set battleId
      *
-     * @param integer $battleId
+     * @param $battleId
      *
      * @return BattlePlayers
      */
@@ -209,9 +206,7 @@ class BattlePlayers
     }
 
     /**
-     * Get battleId
-     *
-     * @return int
+     * @return mixed
      */
     public function getBattleId()
     {

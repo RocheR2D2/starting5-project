@@ -7,6 +7,7 @@
 {% block body %}
         <div class="container">
             <div class="row">
+                {% include 'starting5/battle/button.html.twig' %}
                 <div class="col-md-8" id="lastPlayers">
                     {% include 'starting5/players/lastPlayers.html.twig' with {'lastPlayers': lastPlayers} %}
                 </div>

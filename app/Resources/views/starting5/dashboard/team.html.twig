@@ -1,0 +1,33 @@
+<h2>{{ team['data']['name'] }} <a href="{{ path('user.team.edit', {'id': team['data']['id'] }) }}" class="btn btn-info">Edit this 5IVE</a></h2>
+<div>
+    <span>{{ team['data']['trainer'].fullName }}</span>
+    <span>{{ team['data']['stadium'].name }}</span>
+    <span>Average : {{ team['data']['teamRating'] }}</span>
+    <span>Off. Rating : {{ team['data']['offRating'] }}</span>
+    <span>Def. Rating : {{ team['data']['defRating'] }}</span>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        {% set player = team['players']['pointGuard'] %}
+        {% include 'starting5/players/player.html.twig' with {'player': player} %}
+    </div>
+    <div class="col-md-4">
+        {% set player = team['players']['shootingGuard'] %}
+        {% include 'starting5/players/player.html.twig' with {'player': player} %}
+    </div>
+    <div class="col-md-4">
+        {% set player = team['players']['smallForward'] %}
+        {% include 'starting5/players/player.html.twig' with {'player': player} %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        {% set player = team['players']['powerForward'] %}
+        {% include 'starting5/players/player.html.twig' with {'player': player} %}
+    </div>
+    <div class="col-md-5">
+        {% set player = team['players']['center'] %}
+        {% include 'starting5/players/player.html.twig' with {'player': player} %}
+    </div>
+</div>
+<hr>

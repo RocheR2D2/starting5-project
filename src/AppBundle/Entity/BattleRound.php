@@ -22,33 +22,55 @@ class BattleRound
     private $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="battleId", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Battle", inversedBy="battleRound")
+     * @ORM\JoinColumn(name="battleId", referencedColumnName="id")
      */
     private $battleId;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="attackerId", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="battleRound")
+     * @ORM\JoinColumn(name="attackerId", referencedColumnName="id")
      */
     private $attackerId;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="score", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="battleRound")
+     * @ORM\JoinColumn(name="defenderId", referencedColumnName="id")
      */
-    private $score;
+    private $defenderId;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="typeOfRound", type="string", length=255)
+     * @ORM\Column(name="attackerPoints", type="integer", nullable=true)
      */
-    private $typeOfRound;
+    private $attackerPoints;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="defenderPoints", type="integer", nullable=true)
+     */
+    private $defenderPoints;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="round", type="integer")
+     */
+    private $round;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="done", type="boolean", nullable=true)
+     */
+    private $done;
+    /**
+     * @ORM\ManyToOne(targetEntity="PlayType", inversedBy="battleRound")
+     * @ORM\JoinColumn(name="playType", referencedColumnName="id")
+     */
+    private $playType;
 
     /**
      * Get id
@@ -109,39 +131,15 @@ class BattleRound
     }
 
     /**
-     * Set score
+     * Set round
      *
-     * @param string $score
-     *
-     * @return BattleRound
-     */
-    public function setScore($score)
-    {
-        $this->score = $score;
-
-        return $this;
-    }
-
-    /**
-     * Get score
-     *
-     * @return string
-     */
-    public function getScore()
-    {
-        return $this->score;
-    }
-
-    /**
-     * Set typeOfRound
-     *
-     * @param string $typeOfRound
+     * @param integer $round
      *
      * @return BattleRound
      */
-    public function setTypeOfRound($typeOfRound)
+    public function setRound($round)
     {
-        $this->typeOfRound = $typeOfRound;
+        $this->round = $round;
 
         return $this;
     }
@@ -149,11 +147,111 @@ class BattleRound
     /**
      * Get typeOfRound
      *
-     * @return string
+     * @return integer
      */
-    public function getTypeOfRound()
+    public function getRound()
     {
-        return $this->typeOfRound;
+        return $this->round;
+    }
+    /**
+     * @return mixed
+     */
+    public function getDefenderId()
+    {
+        return $this->defenderId;
+    }
+
+    /**
+     * @param $defenderId
+     * @return $this
+     */
+    public function setDefenderId($defenderId)
+    {
+        $this->defenderId = $defenderId;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDone()
+    {
+        return $this->done;
+    }
+
+    /**
+     * @param $done
+     * @return $this
+     */
+    public function setDone($done)
+    {
+        $this->done = $done;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlayType()
+    {
+        return $this->playType;
+    }
+
+    /**
+     * @param $playType
+     * @return mixed
+     */
+    public function setPlayType($playType)
+    {
+        return $this->playType = $playType;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAttackerPoints()
+    {
+        if(!$this->attackerPoints) {
+            return '0';
+        }
+
+        return $this->attackerPoints;
+    }
+
+    /**
+     * @param $attackerPoints
+     * @return $this
+     */
+    public function setAttackerPoints($attackerPoints)
+    {
+        $this->attackerPoints = $attackerPoints;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefenderPoints()
+    {
+        if(!$this->defenderPoints) {
+            return '0';
+        }
+
+        return $this->defenderPoints;
+    }
+
+    /**
+     * @param $defenderPoints
+     * @return $this
+     */
+    public function setDefenderPoints($defenderPoints)
+    {
+        $this->defenderPoints = $defenderPoints;
+
+        return $this;
     }
 }
 

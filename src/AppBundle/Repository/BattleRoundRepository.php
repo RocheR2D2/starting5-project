@@ -10,4 +10,46 @@ namespace AppBundle\Repository;
  */
 class BattleRoundRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getActiveRound($battle)
+    {
+        $roundDone = $this->findBy(['battleId' => $battle, 'done' => 1], ['round' => 'ASC']);
+        $countRoundDone = count($roundDone);
+        $countRoundDone = $countRoundDone + 1;
+        if($countRoundDone > 4) {
+            $countRoundDone = 0;
+        }
+
+        return $countRoundDone;
+    }
+
+    public function battleTypeLabel($battleId, $roundId, $user)
+    {
+        $role = 'OFF.';
+        $round = $this->findOneBy(['battleId' => $battleId, 'id' => $roundId]);
+        $attacker = $round->getAttackerId();
+        $defender = $round->getDefenderId();
+        if($defender == $user) {
+            $role = 'DEF.';
+            return $role;
+        } elseif($attacker == $user) {
+            $role = 'OFF.';
+        }
+
+        return $role;
+    }
+
+    public function isAttacker($battleId, $roundId, $user) {
+        $role = true;
+        $round = $this->findOneBy(['battleId' => $battleId, 'id' => $roundId]);
+        $attacker = $round->getAttackerId();
+        $defender = $round->getDefenderId();
+        if($defender == $user) {
+            $role = false;
+            return $role;
+        } elseif($attacker == $user) {
+            $role = true;
+        }
+
+        return $role;
+    }
 }

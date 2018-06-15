@@ -16,6 +16,10 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class DashboardController extends Controller
 {
@@ -320,5 +324,15 @@ class DashboardController extends Controller
         $c = $this->userPlayers->getCenters($this->getUser(), $page);
 
         return new Response($this->renderView('starting5/dashboard/positions/centers.html.twig', ['centers' => $c, 'cCount' => $this->userPlayers->allCenters]));
+    }
+
+    public function myTeamAction($id)
+    {
+        $userTeam = $this->userTeamDoctrine->find($id);
+        $serializer = $this->container->get('serializer');
+        $result = $serializer->serialize($userTeam, 'json');
+        $response = new Response($result);
+
+        return $response;
     }
 }

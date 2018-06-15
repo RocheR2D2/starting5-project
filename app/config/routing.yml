@@ -201,6 +201,13 @@ get.myTrainers:
     defaults: { _controller: AppBundle:Stadium:myTrainers }
     methods:  [GET]
 
+get.myTeam:
+    path:     /json/{id}/myTeam/
+    defaults: { _controller: AppBundle:Dashboard:myTeam }
+    requirements:
+            id: '\d+'
+    methods:  [GET]
+
 updateOffensiveRating:
     path:     /updateOffensiveRating
     defaults: { _controller: AppBundle:Player:updateOffensiveRating }
@@ -215,3 +222,51 @@ updatePlayerRarity:
     path:     /updatePlayerRarity
     defaults: { _controller: AppBundle:Player:updatePlayerRarity }
     methods:  [GET]
+
+battle.index:
+    path:     /battle
+    defaults: { _controller: AppBundle:Battle:index }
+    methods:  [GET]
+
+battle.search:
+    path:     /battle/search
+    defaults: { _controller: AppBundle:Battle:search }
+    methods:  [POST]
+
+battle.accept:
+    path:     /battle/accept
+    defaults: { _controller: AppBundle:Battle:accept }
+    methods:  [POST]
+
+battle.decline:
+    path:     /battle/decline
+    defaults: { _controller: AppBundle:Battle:decline }
+    methods:  [POST]
+
+battle.list:
+    path:     /battle/list
+    defaults: { _controller: AppBundle:Battle:list }
+    methods:  [GET]
+
+battle:
+    path:     /battle
+    defaults: { _controller: AppBundle:Battle:confront }
+    methods:  [POST]
+
+battle.detail:
+    path:     /battle/{battleId}
+    defaults: { _controller: AppBundle:Battle:detail }
+    requirements:
+            battleId: '\d+'
+
+round.detail:
+    path:     /battle/{battleId}/play/{roundId}
+    defaults: { _controller: AppBundle:Round:detail }
+    requirements:
+            battleId: '\d+'
+            roundId: '\d+'
+
+play.create:
+    path:     /battle/new/play
+    defaults: { _controller: AppBundle:Round:createPlay }
+    methods:  [POST]

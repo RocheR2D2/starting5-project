@@ -93,6 +93,10 @@
                                 <i class="ti-user"></i>
                                 <span> My Players </span>
                             </a>
+                            <a href="{{ path('battle.list') }}" class="waves-effect">
+                                <i class="ti-game"></i>
+                                <span> Battle </span>
+                            </a>
                             <a href="{{ path('pack.opening') }}" class="waves-effect">
                                 <i class="ti-package"></i>
                                 <span> Packs</span>
@@ -221,8 +225,12 @@
                         {% endif %}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
-                        <a class="dropdown-item" href="{{ path('fos_user_profile_show') }}"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a>
-                        <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}"><i class="mdi mdi-logout m-r-5 text-muted"></i> Logout</a>
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            <a class="dropdown-item" href="{{ path('fos_user_profile_show') }}"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a>
+                            <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}"><i class="mdi mdi-logout m-r-5 text-muted"></i> Logout</a>
+                        {% else %}
+                            <a class="dropdown-item" href="{{ path('fos_user_security_login') }}"><i class="mdi mdi-account-key m-r-5 text-muted"></i> Login</a>
+                        {% endif %}
                     </div>
                 </li>
 

@@ -1,0 +1,28 @@
+{% if battlePlayers|length > 0 %}
+    <div class="row">
+        {% for player in battlePlayers %}
+            <div class="col-md-2 p{{ position }}" id="p{{ position }}-{{ player.playerId.playerId }}">
+                {% include 'starting5/players/player.html.twig' with {'player': player.playerId } %}
+                <p class="btn btn-danger">A.P : {{ player.actionPoint }} </p>
+            </div>
+            <script>
+                var position = '#p' + {{ position }} + '-' + {{ player.playerId.playerId }};
+                $(position).click(function () {
+                    playerPosition = '#p' + {{ position }};
+                    pInput = $(playerPosition);
+                    pInput.val({{ player.playerId.playerId }});
+                    console.log(pInput.val());
+                    name = '{{ player.playerId.firstname }} {{ player.playerId.lastname }}';
+                    pIdName = '#p' + {{ position }} + 'Name';
+                    pname = $(pIdName);
+                    pname.empty();
+                    pname.append(name);
+                });
+            </script>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-warning">
+        0 Player Available
+    </div>
+{% endif %}
