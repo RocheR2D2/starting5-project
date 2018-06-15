@@ -201,6 +201,13 @@ get.myTrainers:
     defaults: { _controller: AppBundle:Stadium:myTrainers }
     methods:  [GET]
 
+get.myTeam:
+    path:     /json/{id}/myTeam/
+    defaults: { _controller: AppBundle:Dashboard:myTeam }
+    requirements:
+            id: '\d+'
+    methods:  [GET]
+
 updateOffensiveRating:
     path:     /updateOffensiveRating
     defaults: { _controller: AppBundle:Player:updateOffensiveRating }
