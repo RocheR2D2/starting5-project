@@ -3523,7 +3523,9 @@ body.fixed-left .side-menu.left {
 /* MY TEAMS */
 
 .myTeams-container{
-    background-color: #e6e6e6;
+    background-color: #DCD9D4;
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%), radial-gradient(at 50% 0%, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.50) 50%);
+    background-blend-mode: soft-light,screen;
     padding: 20px 20px 0px 20px;
     border-radius: 3px;
     position: relative;
@@ -3623,4 +3625,113 @@ body.fixed-left .side-menu.left {
     flex-direction: row;
     justify-content: space-around;
     margin: 35px 0 0px 0;
+}
+
+
+
+/* PACK */
+
+.pack-players{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 60px;
+}
+
+.pack-players .badge-pill{
+    bottom: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 90px;
+}
+
+.pack-list{
+    margin-top: 25px;
+}
+
+.pack-list .pack{
+    background-size: cover;
+    background-position: center;
+    height: 350px;
+    width:200px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: 0.5s all ease-in-out;
+}
+
+.pack-list .pack img{
+    height: 100%;
+    transition: 0.3s all cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+
+.pack-list .pack:hover img{
+    transform: scale(1.2);
+}
+
+.pack-list .pack .pack-name{
+    position: absolute;
+    bottom: 0;
+    color: #FFF;
+    width: 100%;
+    left: 0;
+    font-size: 1.5em;
+    padding: 20px 0px;
+    background: rgba(0,0,0,0.5);
+    font-weight: bold;
+}
+
+.pack-list .pack .pack-name p{
+    margin: 0;
+}
+
+.pack-list .pack .pack-name p.silver{
+    color: #C0C0C0;
+}
+
+.pack-list .pack .pack-name p.golden{
+    color: #FFD700;
+}
+
+.pack-list .pack .pack-name p.giga{
+    color: #e2d1c3;
+}
+
+.pack-list .pack .pack-name p.super-rare{
+    color: #ff4200;
+}
+
+.extra-card{
+    border: 1px solid #8e2500;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #DCD9D4;
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%), radial-gradient(at 50% 0%, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.50) 50%);
+    background-blend-mode: soft-light,screen;
+    border-radius: 3px;
+    position: relative;
+    box-shadow: 3px 6px 20px -2px #424242;
+    margin-bottom: 50px;
+    align-items: center;
+}
+
+.extra-card .far {
+    margin-bottom: 10px;
+    font-size: 55px;
+    color: #8e2500;
+}
+
+.extra-card .text{
+    font-size: 1.2em;
+    color: #424242;
+    font-weight: bold;
 }
