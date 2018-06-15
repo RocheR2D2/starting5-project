@@ -226,7 +226,7 @@
                     </div>
                 </div>
                 <div class="sendTeam" ng-if="!loadingPlayers">
-                    <button class="btn waves-effect" ng-class="{'secondary': !center.fullName || !smallForward.fullName || !powerForward.fullName || !shootingGuard.fullName || !pointGuard.fullName} " ng-click="sendTeam()"><span class="ti-basketball"></span>Créer ma team</button>
+                    <button class="btn waves-effect" ng-class="{'secondary': !center.fullName || !smallForward.fullName || !powerForward.fullName || !shootingGuard.fullName || !pointGuard.fullName} " ng-click="sendTeam()"><span class="ti-basketball"></span><span  ng-show="route != 'edit'">Créer ma team</span><span ng-show="route == 'edit'">Editer ma team</span></button>
                 </div>
                 <div class="loading-players" ng-if="loadingPlayers">
                     <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
@@ -260,26 +260,31 @@
                                 <i class="fa fa-spin fa-spinner"></i>
                             </div>
 
-                            <select class="form-control" name="stade" id="stade" ng-model="stadium.id" ng-show="!loadingStadiums">
-
-                                <option ng-repeat="stad in stadiums track by stad.id" value="{[{stad.stadiumId.id}]}" ng-selected="stad.stadiumId.id == stadium.id">{[{stad.stadiumId.name}]}</option>
+                            <select ng-show="!loadingStadiums" class="form-control" name="stade" id="stade" ng-model="stadium" ng-options="stad.name for stad in stadiums track by stad.id">
                             </select>
+
                         </div>
                         <div class="form-group">
                             <label for="entraineur">Entraineur</label>
                             <div ng-show="loadingTrainers" class="text-center">
                                 <i class="fa fa-spin fa-spinner"></i>
                             </div>
-                            <select class="form-control" id="entraineur" name="entraineur" ng-model="trainer" ng-show="!loadingTrainers">
-                                <option value="" selected="true">Sélectionner un entraîneur</option>
-                                <option ng-repeat="train in trainers track by train.id" value="{[{train}]}">{[{train.trainerId.firstname}]}</option>
+
+
+                            <select class="form-control" id="entraineur" name="entraineur" ng-model="trainer" ng-show="!loadingTrainers" ng-options="train.firstname for train in trainers track by train.id">
                             </select>
+
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" ng-click="createTeam()" ng-disabled="!stadium || !trainer || !teamName || sendingTeam"><span ng-if="sendingTeam"><i class="fa fa-spin fa-spinner"></i> Création en cours</span><span ng-if="!sendingTeam">Créer ma team</span></button>
+                    <button type="button" class="btn btn-primary" ng-click="createTeam()" ng-disabled="!stadium || !trainer || !teamName || sendingTeam">
+                        <span ng-if="sendingTeam && route != 'edit'"><i class="fa fa-spin fa-spinner"></i> Création en cours</span>
+                        <span ng-if="sendingTeam && route == 'edit'"><i class="fa fa-spin fa-spinner"></i> Edition en cours</span>
+                        <span ng-if="!sendingTeam && route != 'edit'">Créer ma team</span>
+                        <span ng-if="!sendingTeam && route == 'edit'">Editer ma team</span>
+                    </button>
                 </div>
             </div>
         </div>

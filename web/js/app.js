@@ -114,6 +114,7 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
     if(route.indexOf("edit") > -1){
         var teamId = parseInt(route.split('/team/')[1].split('/edit')[0]);
         route = "edit";
+        $scope.route = route;
     }
 
     $scope.center = {};
@@ -247,21 +248,32 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
 
         ServiceFive.getTrainers()
             .then(function(response){
-               $timeout(function(){
-                   $scope.trainers = response.data;
-                   $scope.loadingTrainers = false;
-               })
+                $scope.trainers = [];
+                $scope.loadingTrainers = false;
+                for(var i=0;i<response.data.length;i++){
+                    $scope.trainers.push(response.data[i].trainerId);
+                }
+                if(route != "edit"){
+                    $scope.trainer = $scope.trainers[0];
+                }
             }, function(error){
                 console.log(error);
             });
 
         ServiceFive.getStadiums()
             .then(function(response){
-                $scope.stadiums = response.data;
+                $scope.stadiums = [];
+                for(var i=0;i<response.data.length;i++){
+                    $scope.stadiums.push(response.data[i].stadiumId);
+                }
                 $scope.loadingStadiums = false;
+                if(route != "edit"){
+                    $scope.stadium = $scope.stadiums[0];
+                }
             }, function(error){
                 console.log(error);
             });
+
         $("#createTeam").modal("show");
     };
 
