@@ -91,18 +91,30 @@ app.factory("ServiceFive", function ($http) {
 
     var getTrainers = function(){
         return $http.get("/app_dev.php/json/myTrainers", {responseType: "json"});
+    };
+
+    var getInfosEdit = function (id){
+        return $http.get("/app_dev.php/json/" + id + "/myTeam/", {responseType: "json"});
     }
 
     return {
         getPlayer: getPlayer,
         sendTeam: sendTeam,
         getStadiums: getStadiums,
-        getTrainers: getTrainers
+        getTrainers: getTrainers,
+        getInfosEdit: getInfosEdit
     };
 
 });
 
 app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, ServiceFive, $timeout){
+
+    var route = window.location.pathname;
+
+    if(route.indexOf("edit") > -1){
+        var teamId = parseInt(route.split('/team/')[1].split('/edit')[0]);
+        route = "edit";
+    }
 
     $scope.center = {};
     $scope.smallForward = {};
@@ -128,6 +140,9 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
     $scope.teamName = "";
 
     getPlayers();
+    if(route == "edit"){
+        getInfosEdit();
+    }
 
     $scope.getPlayers = getPlayers();
 
@@ -146,6 +161,31 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
             console.log(err);
         })
 
+    }
+
+    function getInfosEdit(){
+        ServiceFive.getInfosEdit(teamId).then(function(res){
+                $scope.center = res.data.center;
+                $scope.smallForward = res.data.smallForward;
+                $scope.powerForward = res.data.powerForward;
+                $scope.shootingGuard = res.data.shootingGuard;
+                $scope.pointGuard = res.data.pointGuard;
+
+                for(var i=0;i<$scope.players.length;i++){
+                    if($scope.players[i].id == $scope.center.id || $scope.players[i].id == $scope.smallForward.id || $scope.players[i].id == $scope.powerForward.id
+                    || $scope.players[i].id == $scope.shootingGuard.id || $scope.players[i].id == $scope.pointGuard.id){
+                        $scope.players.splice(1,i);
+                        i--;
+                    }else{
+
+                    }
+                }
+
+            $scope.teamName = res.data.name;
+            $scope.stadium = res.data.stadiumId;
+                $scope.trainer = res.data.trainerId;
+
+        })
     }
 
     $scope.clearcenter = function(){
