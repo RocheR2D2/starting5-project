@@ -7,10 +7,10 @@
 {% block body %}
         <div class="container">
             <div class="row">
-                <div class="col-md-8" id="lastPlayers">
+                <div class="col-md-12" id="lastPlayers">
                     {% include 'starting5/players/lastPlayers.html.twig' with {'lastPlayers': lastPlayers} %}
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <h2>Players in your shop</h2>
                     <div class="row">
                         {% if(shopPlayers|length > 0) %}
