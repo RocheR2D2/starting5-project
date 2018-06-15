@@ -57,6 +57,7 @@
 
                     </div>
             </div>
+                    {% include 'starting5/dashboard/team.html.twig' with {'team' : team } %}
                 {% endfor %}
             {% else %}
                 <p class="alert alert-danger">

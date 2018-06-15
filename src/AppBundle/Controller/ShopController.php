@@ -50,17 +50,21 @@ class ShopController extends Controller
         $playerId = $request->request->get('playerId');
         $player = $this->nbaPlayers->find($playerId);
         $shopPlayer =  $this->shopPlayer->findOneBy(['playerId' => $player]);
-        $this->addPlayer($player, $shopPlayer);
-        $content = [
-            'shopPlayer' => $this->shopPlayerCard($player, $shopPlayer),
-            'points' => $user->getQuizPoints(),
-            'lastPlayers' => $this->getLastPlayers(),
-            'countMyPlayers' => $this->userPlayers->countMyPlayers($user)
-        ];
-        $response = new Response(json_encode($content));
-        $response->headers->set('Content-Type', 'application/json');
+        if ($user->getQuizPoints() >= $shopPlayer->price) {
+            $this->addPlayer($player, $shopPlayer);
+            $content = [
+                'shopPlayer' => $this->shopPlayerCard($player, $shopPlayer),
+                'points' => $user->getQuizPoints(),
+                'lastPlayers' => $this->getLastPlayers(),
+                'countMyPlayers' => $this->userPlayers->countMyPlayers($user)
+            ];
+            $response = new Response(json_encode($content));
+            $response->headers->set('Content-Type', 'application/json');
 
-        return $response;
+            return $response;
+        }
+
+        return false;
     }
 
     public function getLastPlayers()

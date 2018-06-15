@@ -1,4 +1,4 @@
-<div id="shop-player-{{ player.playerId }}">
+<div {% if app.user.quizPoints > price %} id="shop-player-{{ player.playerId }}" {% endif %}>
     <div class="text-center">
         <img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{{ player.playerId }}.png"
              alt="{{ player.teamId.teamId }}"
@@ -30,7 +30,11 @@
     </p>
     <div class="text-center wow fadeInDown">
         {% if(isMyPlayer) %}
-            <button class="btn btn-primary" id="shop-{{ player.id }}">{{ price }}$</button>
+            {% if app.user.quizPoints >= price %}
+                <button class="btn btn-primary" id="shop-{{ player.id }}">{{ price }}$</button>
+                {% else %}
+                <button class="btn btn-danger" disabled>{{ price }}$</button>
+            {% endif %}
         {% else %}
             <button class="btn btn-success" disabled>Packed</button>
         {% endif %}

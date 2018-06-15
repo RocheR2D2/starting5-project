@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <a href="{{ path('battle.detail', {'battleId': battleId}) }}">Back</a>
+        {% if roundResult is not empty %}
+            <div class="col-md-12">
+                Round Score : {{ roundResult.score }}
+                Battle Score : {{ roundResult.battleScore }}
+            </div>
+            <hr>
+        {% endif %}
+        <div class="col-md-6">
+            <h2>OFFENSIVE PLAY BY {{ attacker.username }}</h2>
+            {% if offPlayers | length > 0 %}
+                <div class="row">
+                    {% for player in offPlayers %}
+                        <div class="col-md-4 text-center">
+                            {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
+                            <span class="btn btn-danger">A.P : {{ player.battlePlayerId.actionPoint }} </span>
+                            <span class="btn btn-success">
+                                OR : {{ player.playerId.offensiveRating }}
+                                {% if player.bonus >= 0 %}
+                                    + {{ player.bonus }}
+                                {% else %}
+                                    {{ player.bonus }}
+                                {% endif %}
+                            </span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="bg-danger">
+                    {{ attacker.username }} hasn't played yed !
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h2>DEFENSIVE PLAY BY {{ defender.username }}</h2>
+            {% if defPlayers | length > 0 %}
+                <div class="row">
+                {% for player in defPlayers %}
+                    <div class="col-md-4 text-center">
+                        {% include 'starting5/players/player.html.twig' with { 'player': player.playerId } %}
+                        <span class="btn btn-danger">A.P : {{ player.battlePlayerId.actionPoint }} </span>
+                        <span class="btn btn-warning">
+                            DR : {{ player.playerId.defensiveRating }}
+                            {% if player.bonus >= 0 %}
+                                + {{ player.bonus }}
+                            {% else %}
+                                {{ player.bonus }}
+                            {% endif %}
+                        </span>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="bg-danger">
+                    {{ defender.username }} hasn't played yet !
+                </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

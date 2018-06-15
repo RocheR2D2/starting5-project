@@ -1,0 +1,27 @@
+<h2>{{ team.name }}</h2>
+<p>{{ team.trainerId.fullName }} {{ team.stadiumId.name }}</p>
+<p>Average : {{ team.teamRating }} Off. Rating : {{ team.offRating }} Def. Rating : {{ team.defRating }}</p>
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-2">
+        {% set player = team.pointGuard %}
+        {% include 'starting5/players/player.html.twig' with {'player': player} %}
+    </div>
+    <div class="col-md-2">
+        {% set player = team.shootingGuard %}
+        {% include 'starting5/players/player.html.twig' with {'player': player} %}
+    </div>
+    <div class="col-md-2">
+        {% set player = team.smallForward %}
+        {% include 'starting5/players/player.html.twig' with {'player': player} %}
+    </div>
+    <div class="col-md-2">
+        {% set player = team.powerForward %}
+        {% include 'starting5/players/player.html.twig' with {'player': player} %}
+    </div>
+    <div class="col-md-2">
+        {% set player = team.center %}
+        {% include 'starting5/players/player.html.twig' with {'player': player} %}
+    </div>
+    <div class="col-md-1"></div>
+</div>

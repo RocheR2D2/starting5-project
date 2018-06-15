@@ -1,0 +1,11 @@
+<div>
+    Selected Player: <span id="p{{ position }}Name"></span>
+</div>
+<div style="visibility: hidden">
+    {% for player in battlePlayers %}
+        <input value="" name="p{{ position }}" id="p{{ position }}">
+    {% endfor %}
+</div>
+<div class="NBAPlayerOne">
+    {% include 'starting5/battle/round/type/playerSelect.html.twig' with {'battlePlayers': battlePlayers, 'position': position} %}
+</div>
