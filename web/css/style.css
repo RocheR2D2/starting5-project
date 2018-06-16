@@ -3397,7 +3397,7 @@ body.fixed-left .side-menu.left {
     right: 0;
     background-color: #FFF;
 }
- .sendTeam .btn{
+ .sendTeam .btn, .btn-battle-mode{
     width: 100%;
     border-radius: 0;
     padding: 9px 0;
@@ -3409,11 +3409,22 @@ body.fixed-left .side-menu.left {
     display: flex;
     align-items: center;
     justify-content: center;
+     border: 1px solid #8e2500;
+     transition: 0.5s all;
 }
 
+.sendTeam .btn:hover .ti-basketball, .btn-battle-mode:hover .ti-basketball{
+    transform: rotate(360deg);
 
- .sendTeam .btn .ti-basketball{
+}
+
+.btn-battle-mode:hover{
+    color: #8e2500;
+}
+
+ .sendTeam .btn .ti-basketball, .btn-battle-mode .ti-basketball{
     margin-right: 5px;
+     transition: 0.5s all;
 }
 
  .sendTeam .btn span.ti-basketball:before{

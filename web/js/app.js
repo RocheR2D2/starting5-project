@@ -258,10 +258,8 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
             return false;
         }
 
-        $scope.loadingTrainers = true;
-        $scope.loadingStadiums = true;
-
         if($scope.trainers.length <= 0){
+            $scope.loadingTrainers = true;
             ServiceFive.getTrainers()
                 .then(function(response){
                     $scope.trainers = [];
@@ -277,8 +275,8 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
                 });
         }
 
-
     if($scope.stadiums.length <= 0){
+        $scope.loadingStadiums = true;
         ServiceFive.getStadiums()
             .then(function(response){
                 $scope.stadiums = [];
