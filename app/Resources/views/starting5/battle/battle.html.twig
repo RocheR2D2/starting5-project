@@ -1,5 +1,5 @@
 <div>
-    <p>
+    <div>
         <img src="{{ asset('images/teams/' ~ battle.playerTwoId.team.teamId ~ '.svg') }}" width="70" alt="">
         {{ battle.playerTwoId.username }}
         {{ battle.playerTwoScore }}
@@ -9,9 +9,9 @@
         {{ battle.playerOneScore }}
         {{ battle.playerOneId.username }}
         <img src="{{ asset('images/teams/' ~ battle.playerOneId.team.teamId ~ '.svg') }}" width="70" alt="">
-        <a href="{{ path('battle.detail', {'battleId': battle.id}) }}" class="btn btn-dark">Detail</a>
+        <div class="text-center battle-status">
         {% if battle.active and battle.isAccepted %}
-            <button class="btn btn-danger">LIVE</button>
+            <span class="badge badge-pill badge-success">LIVE</span>
         {% elseif battle.isAccepted == false and battle.isDeclined == false and app.user == battle.playerTwoId %}
             <button class="btn btn-success" id="accept-battle" data-battle-id="{{ battle.id }}">ACCEPT</button>
             <button class="btn btn-danger" id="decline-battle" data-battle-id="{{ battle.id }}">DECLINE</button>
@@ -52,16 +52,20 @@
                 });
             </script>
             {% elseif battle.isAccepted == false and battle.isDeclined == true and app.user == battle.playerTwoId %}
-                <button class="btn btn-warning">You decline the battle</button>
+            <span class="badge badge-pill badge-danger">You decline the battle</span>
             {% elseif battle.isAccepted == false and battle.isDeclined == false and app.user == battle.playerOneId %}
-            <button class="btn btn-warning">WAITING ...</button>
+            <span class="badge badge-pill badge-danger">WAITING</span>
             {% elseif battle.isAccepted == false and battle.isDeclined == true and app.user == battle.playerOneId %}
-            <button class="btn btn-">Battle declined</button>
+            <span class="badge badge-pill badge-danger">Battle declined</span>
         {% else %}
             {% if battle.winnerUserId %}
-                <button class="btn btn-success">Won by {{ battle.winnerUserId.username }}</button>
+            <span class="badge badge-pill badge-success">WON BY {{ battle.winnerUserId.username }}</span>
             {% endif %}
-            <button class="btn btn-primary">OVER</button>
+            <span class="badge badge-pill badge-Secondary">OVER</span>
         {% endif %}
-    </p>
+    </div>
+        <div class="text-center">
+            <a href="{{ path('battle.detail', {'battleId': battle.id}) }}" class="btn btn-outline-dark">Detail</a>
+        </div>
+    </div>
 </div>

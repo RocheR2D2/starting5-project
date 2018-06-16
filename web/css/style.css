@@ -3746,3 +3746,10 @@ body.fixed-left .side-menu.left {
     color: #424242;
     font-weight: bold;
 }
+
+
+/* BATTLE */
+
+.battle-status{
+    margin-bottom: 10px;
+}
