@@ -1,16 +1,19 @@
-<div class="wow fadeInUpBig" style="margin:150px;">
-    <div class="row text-center">
+<div class="wow fadeInUpBig">
+    <div class="row text-center pack-players">
         {% for player in packContent %}
-            <div class="col-md-4">
                 {% include 'starting5/players/player.html.twig' with {'player': player.player} %}
-            </div>
         {% endfor %}
-        <div class="col-md-6 text-center">
-            {{ trainerStadium.trainer.firstname }}
-            {{ trainerStadium.trainer.lastname }}
+
+        <div class="extra-card">
+            <p class="text"><u>Entraîneur</u></p>
+            <i class="far fa-user"></i>
+            <p class="text">{{ trainerStadium.trainer.firstname }}
+                {{ trainerStadium.trainer.lastname }}</p>
         </div>
-        <div class="col-md-6 text-center">
-            {{ trainerStadium.stadium.name }}
+        <div class="extra-card">
+            <p class="text"><u>Stade</u></p>
+            <img src="{{ asset('images/stadium.png') }}" alt="">
+            <p class="text">{{ trainerStadium.stadium.name }}</p>
         </div>
     </div>
 </div>

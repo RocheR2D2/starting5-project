@@ -1,24 +1,28 @@
 {% for player in myPlayers %}
-    <div class="col-md-2 my-players wow bounceIn">
+    <div class="col-md-3 my-players wow bounceIn">
         {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
-        <button class="btn btn-danger discard discard-{{ player.playerId.id }}">Discard</button>
+        <button class="btn btn-danger discard" id="{{ player.playerId.id }}"><i class="fas fa-user-times"></i></button>
     </div>
-    <script type="text/javascript">
-        $(".discard-{{ player.playerId.id }}").click(function () {
-            $.ajax({
-                url: '{{ path('discard.player') }}',
-                type: 'POST',
-                data: 'userPlayerId=' + {{ player.playerId.id }} + '&page='+ currentPage,
-                beforeSend: function () {
-                    loading.show();
-                },
-                complete: function () {
-                    loading.hide();
-                },
-                success: function (success) {
-                    $('.myPlayers').empty().append(success);
-                }
-            });
-        });
-    </script>
 {% endfor %}
+
+<script type="text/javascript">
+    $(".discard").click(function () {
+
+        var playerId = $(this).attr("id");
+
+        $.ajax({
+            url: '{{ path('discard.player') }}',
+            type: 'POST',
+            data: 'userPlayerId=' + playerId + '&page='+ currentPage,
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.myPlayers').empty().append(success);
+            }
+        });
+    });
+</script>
