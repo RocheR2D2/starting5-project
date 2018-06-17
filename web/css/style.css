@@ -3614,7 +3614,7 @@ body.fixed-left .side-menu.left {
 }
 
 
-.myPlayersList .d-flex-players{
+.myPlayersList .d-flex-players, .battle-my-team .d-flex-players{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
