@@ -1,12 +1,16 @@
 {% extends 'base.html.twig' %}
 
+  {% block header %}
+      <h2>
+          {{ name }}
+      </h2>
+  {% endblock header %}
+
 {% block body %}
 
     <div class="container">
         <div class="col-lg-12 mx-auto">
-            <h2>
-                {{ name }}
-            </h2>
+
             <div id="battle">
                 <a href="">Battle</a>
             </div>

@@ -2,22 +2,40 @@
 
 {% block body %}
 
-    <div class="container">
+    <div class="container battle-details">
         <div class="col-lg-12 mx-auto">
-            <a href="{{ path('battle.list') }}">Back</a>
-            {% include 'starting5/battle/battle.html.twig' with {'battle' : battle} %}
-            <h2>My Players</h2>
+          <div class="row">
+              <div>
+                  <a href="{{ path('battle.list') }}">Back</a>
+              </div>
+              <div class="col-lg-12 text-center">
+                  <img src="{{ asset('images/teams/' ~ battle.playerTwoId.team.teamId ~ '.svg') }}" width="70" alt="">
+                  {{ battle.playerTwoId.username }}
+                  {{ battle.playerTwoScore }}
+
+                  -
+
+                  {{ battle.playerOneScore }}
+                  {{ battle.playerOneId.username }}
+                  <img src="{{ asset('images/teams/' ~ battle.playerOneId.team.teamId ~ '.svg') }}" width="70" alt="">
+              </div>
+          </div>
         {% if players | length > 0 %}
-            <div class="row">
-                <div class="col-md-1"></div>
-                {% for player in players %}
-                    <div class="col-md-2 text-center">
-                        {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
-                        <p class="btn btn-danger">A.P : {{ player.actionPoint }} </p>
-                    </div>
-                {% endfor %}
-                <div class="col-md-1"></div>
+<div class="col-lg-12">
+
+            <div class="myTeams-container">
+                <h2 class="title">My players</h2>
+                <div class="d-flex-players">
+                    {% for player in players %}
+                        <div class="players-container">
+                            {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
+                            <span class="badge badge-pill badge-danger">A.P : {{ player.actionPoint }}</span>
+                        </div>
+                    {% endfor %}
+
+                </div>
             </div>
+
         {% endif %}
             <hr>
             {% if rounds | length > 0 %}
@@ -30,6 +48,7 @@
                 </div>
             {% endif %}
         </div>
+    </div>
     </div>
 
 {% endblock %}
