@@ -3889,3 +3889,20 @@ body.fixed-left .side-menu.left {
     color: #FFF;
     z-index: 10;
 }
+
+.create-team .item-player.disabled .btn-player{
+    background-color: #9e9e9e;
+    background-image: none;
+    cursor: not-allowed;
+}
+
+.create-team .item-player.disabled .btn-player:active{
+    background-color: #9e9e9e!important;
+    background-image: none!important;
+    cursor: not-allowed!important;
+}
+
+.create-team .item-player.disabled .btn-player img{
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
