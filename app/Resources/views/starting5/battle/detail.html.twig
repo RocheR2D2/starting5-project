@@ -44,7 +44,7 @@
                     {% for player in players %}
                         <div class="players-container">
                             {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
-                            <span class="badge badge-pill badge-danger">A.P : {{ player.actionPoint }}</span>
+                            <span class="badge badge-pill badge-warning" data-toggle="tooltip" data-placement="top" title="Action point remaining"><i class="fas fa-bolt"></i> {{ player.actionPoint }}</span>
                         </div>
                     {% endfor %}
 

@@ -417,8 +417,6 @@ app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scop
 
             $scope.players = filterPlayers;
 
-            console.log($scope.players);
-
             $scope.loadingPlayers = false;
             $timeout(function(){
                 var width = $(".container-players").width();

@@ -3803,9 +3803,10 @@ body.fixed-left .side-menu.left {
     text-align: center;
 }
 
-.battle-details .myTeams-container .players-container .badge-danger{
+.battle-details .myTeams-container .players-container .badge-warning{
     font-size: 1em;
     margin-bottom: 15px;
+    color: #FFF;
 }
 
 .battle-details .round-container{
@@ -3880,10 +3881,11 @@ body.fixed-left .side-menu.left {
     margin-bottom: 30px;
 }
 
-.input-player .actionPoint{
+.create-team .item-player .actionPoint{
     position: absolute;
     right: 5px;
     top: 5px;
     font-size: 1em;
     color: #FFF;
+    z-index: 10;
 }
