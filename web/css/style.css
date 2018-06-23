@@ -3879,3 +3879,11 @@ body.fixed-left .side-menu.left {
     display: inline-block;
     margin-bottom: 30px;
 }
+
+.input-player .actionPoint{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-size: 1em;
+    color: #FFF;
+}
