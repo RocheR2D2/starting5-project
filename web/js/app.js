@@ -360,8 +360,8 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
 /* ### BATTLE MODE ### */
 
 app.factory("ServiceBattle", function ($http) {
-    var getPlayer = function () {
-        return $http.get("/app_dev.php/team/getPlayers", {responseType: "json"});
+    var getPlayer = function (battleId,roundId) {
+        return $http.post("/app_dev.php/json/myBattlePlayers/" + battleId + "/" + roundId, {responseType: "json"});
     };
 
     return {
@@ -389,12 +389,36 @@ app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scop
 
     getPlayers();
 
-    $scope.getPlayers = getPlayers();
-
     function getPlayers(){
 
-        ServiceBattle.getPlayer().then(function(res){
-            $scope.players = res.data;
+        var route = window.location.pathname;
+        var url = route.split("/battle/")[1];
+        url = url.split("/play/");
+
+        var battleId = url[0];
+        var roundId = url[1];
+
+        if(!battleId || !roundId){
+            return false;
+        }
+
+        ServiceBattle.getPlayer(battleId,roundId).then(function(res){
+
+            var players = res.data[1];
+            var filterPlayers = [];
+
+            //Filter to get only players stats with action point
+            for(var i =0;i<players.length;i++){
+
+                players[i].playerId.actionPoint = players[i].actionPoint;
+
+                filterPlayers.push(players[i].playerId);
+            }
+
+            $scope.players = filterPlayers;
+
+            console.log($scope.players);
+
             $scope.loadingPlayers = false;
             $timeout(function(){
                 var width = $(".container-players").width();
