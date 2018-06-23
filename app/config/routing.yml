@@ -275,3 +275,8 @@ play.create:
     path:     /battle/new/play
     defaults: { _controller: AppBundle:Round:createPlay }
     methods:  [POST]
+
+get.myBattlePlayers:
+    path:     /json/myBattlePlayers/{battleId}/{roundId}
+    defaults: { _controller: AppBundle:Round:getBattlePlayers }
+    methods:  [POST]
