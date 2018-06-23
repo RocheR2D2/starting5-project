@@ -1,16 +1,17 @@
-<div>
-    <h2>
-        Play #{{ round.round }}
+<div class="col-lg-3 col-md-3 round-card {% if (round.done or round.round == activeRound) and loop.last == false %} done {% endif %}">
+    <div>
+        <h2>Round #{{ round.round }}</h2>
         {% if round.done == NULL and round.round == activeRound %}
             <a href="{{ path('round.detail', {'battleId' : battle.id, 'roundId' : round.id}) }}" class="btn btn-success">PLAY</a>
+        {% elseif(round.done ==true and (round.attackerPoints != 0 or round.defenderPoints != 0)) %}
+            <a href="{{ path('round.detail', {'battleId' : battle.id, 'roundId' : round.id}) }}" class="btn btn-danger">OVER</a>
         {% else %}
-            <a href="{{ path('round.detail', {'battleId' : battle.id, 'roundId' : round.id}) }}" class="btn btn-primary">OVER</a>
+            <span class="btn btn-secondary">Not started</span>
         {% endif %}
-    </h2>
+    </div>
     {% if round.done == true %}
-        <h4>Score: {{ round.attackerId.username }} {{ round.attackerPoints }} - {{ round.defenderPoints }} {{ round.defenderId.username }}</h4>
+        <p class="score">Score: {{ round.attackerId.username }} {{ round.attackerPoints }} - {{ round.defenderPoints }} {{ round.defenderId.username }}</p>
     {% else %}
-        <h4>Score: NaN</h4>
+        <p class="score">Not started</p>
     {% endif %}
 </div>
-<hr>
