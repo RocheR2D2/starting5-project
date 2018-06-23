@@ -12,6 +12,7 @@ use AppBundle\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class RoundController extends Controller
 {
@@ -195,19 +196,34 @@ class RoundController extends Controller
         $playType = $play->getPlayType();
 
         if (isset($this->playTypeMapping[$playType->getId()])) {
-            $playTypeTemplate = 'starting5/battle/round/type/' . $this->playTypeMapping[$playType->getId()];
 
-            $battlePlayers = $this->battlePlayers->findBy(['userId' => $this->getUser(), 'battleId' => $battleId]);
 
-            return $this->render($playTypeTemplate, [
+            return $this->render('starting5/battle/round/type/2v2.html.twig', [
                 'playerType' => $playerType,
-                'battlePlayers' => $battlePlayers,
                 'battleId' => $battleId,
                 'roundId' => $roundId,
             ]);
         }
 
         return null;
+    }
+
+    public function getBattlePlayersAction($battleId, $roundId)
+    {
+        $this->isAuthorized($battleId, $roundId);
+        $this->hasPlayersPlayed($battleId, $roundId);
+        $user = $this->getUser();
+        $play = $this->battleRound->findOneBy(['battleId' => $battleId, 'id' => $roundId]);
+        $playType = $play->getPlayType();
+        $battlePlayers = $this->battlePlayers->findBy(['userId' => $user, 'battleId' => $battleId]);
+
+        $battleDetails = array($playType->getId(),$battlePlayers);
+
+        $serializer = $this->container->get('serializer');
+        $result = $serializer->serialize($battleDetails, 'json');
+        $response = new Response($result);
+
+        return $response;
     }
 
     public function createPlayAction(Request $request)
