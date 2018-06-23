@@ -111,6 +111,7 @@ app.factory("ServiceFive", function ($http) {
 
 });
 
+
 app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, ServiceFive, $timeout){
 
     var route = window.location.pathname;
@@ -354,6 +355,110 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
     }
 
 }]);
+
+
+/* ### BATTLE MODE ### */
+
+app.factory("ServiceBattle", function ($http) {
+    var getPlayer = function () {
+        return $http.get("/app_dev.php/team/getPlayers", {responseType: "json"});
+    };
+
+    return {
+        getPlayer: getPlayer
+    };
+
+});
+
+
+app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scope, ServiceBattle, $timeout){
+
+
+    $scope.player1 = {};
+    $scope.player2 = {};
+    $scope.player3 = {};
+
+
+    $scope.players = {};
+    $scope.loadingPlayers = true;
+
+    $scope.selectedPlayer = {};
+    $scope.selectedPoste = '';
+
+    $scope.sendingTeam = false;
+
+    getPlayers();
+
+    $scope.getPlayers = getPlayers();
+
+    function getPlayers(){
+
+        ServiceBattle.getPlayer().then(function(res){
+            $scope.players = res.data;
+            $scope.loadingPlayers = false;
+            $timeout(function(){
+                var width = $(".container-players").width();
+                $(".sendTeam").css("width", width);
+            })
+
+        }, function(err){
+            console.log(err);
+        })
+
+    }
+
+
+    $scope.clearplayer3 = function(){
+        $scope.players.push($scope.player3);
+        $scope.player3 = {};
+    }
+
+    $scope.clearplayer1 = function(){
+        $scope.players.push($scope.player1);
+        $scope.player1 = {};
+    }
+
+    $scope.clearplayer2 = function(){
+        $scope.players.push($scope.player2);
+        $scope.player2 = {};
+    }
+
+
+    $scope.dropCallback = function (evt, ui) {
+        // the model
+        var obj = ui.draggable.scope().dndDragItem;
+
+        for(var j=0;j<$scope.players.length;j++){
+            if($scope.players[j].playerId == obj.playerId){
+                $scope.players.splice(j,1);
+                return false;
+            }
+        }
+    };
+
+    $scope.dragCallback = function(evt, ui, player){
+        $scope.selectedPlayer = player;
+        $scope.selectedPoste = player.position;
+        $scope.$apply();
+    }
+
+    $scope.dragStopCallback = function(){
+        $scope.selectedPlayer = {};
+        $scope.selectedPoste = "";
+        $scope.$apply();
+    }
+
+    window.onresize = resizeBtn;
+
+    function resizeBtn() {
+        if (window.innerWidth > 1250) {
+            var width = $(".container-players").width();
+            $(".sendTeam").css("width", width);
+        }
+    }
+
+}]);
+
 
 /*
  Template Name: Upcube - Bootstrap 4 Admin Dashboard

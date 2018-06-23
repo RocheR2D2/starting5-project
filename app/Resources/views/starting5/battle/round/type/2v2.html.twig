@@ -2,15 +2,128 @@
 
 {% block body %}
 
-    <div class="container">
-        <div class="col-lg-12 mx-auto">
-            <a href="{{ path('battle.detail', {'battleId': battleId}) }}">Back</a>
-            <h1>MAKE YOUR {{ playerType }} PLAY !</h1>
-            {% include 'starting5/battle/round/type/play.html.twig' with {'position' : 0} %}
-            {% include 'starting5/battle/round/type/play.html.twig' with {'position' : 1} %}
-        </div>
-    </div>
+    <section class="create-team"  ng-controller="Battle">
+        <div class="create-team-overflow">
+            <div class="row create-team-overflow">
+                <div class="col-lg-9 col-md-9 left-column">
 
-    {% include 'starting5/battle/round/type/confirm.html.twig' with { 'playType' : 2 } %}
+                    <a href="{{ path('battle.detail', {'battleId': battleId}) }}">Back</a>
+                    <h1 class="text-center">MAKE YOUR {{ playerType }} PLAY !</h1>
+
+                    <div class="line">
+                        <!-- player1 -->
+                        <div class="input-player" ng-class="{'selected': player1.fullName, 'low': player1.rating < 80 }" data-drop="true"
+                             data-jqyoui-options ng-model="player1" jqyoui-droppable="{onDrop: 'dropCallback'}">
+                            <div class="triangle-top"></div>
+                            <button ng-if="player1.fullName" class="btn btn-danger btn-remove" ng-click="clearplayer1()"><i class="fas fa-user-times" aria-hidden="true"></i></button>
+
+                            <div class="portrait">
+                                <i class="fa fa-ban"></i>
+                                <i ng-show="!player1.fullName" class="fa fa-user"></i>
+                                <p ng-show="!player1.fullName">Player 1</p>
+                                <div ng-show="player1.fullName" class="description">
+                                    <div class="top-left">
+                                        <span class="rating" ng-bind="player1.rating"></span>
+                                        <span class="position" ng-bind="player1.position"></span>
+                                    </div>
+                                    <div>
+                                        <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{player1.playerId}]}.png" alt="">
+                                    </div>
+                                    <div class="bottom">
+                                        <div>
+                                            <p class="name" data-drag="false" data-jqyoui-options ng-model="player1">{[{player1.fullName}]}</p>
+                                            <p class="posi">Small Forward</p>
+                                        </div>
+                                        <div>
+                                            <ul class="list-stats">
+                                                <li>
+                                                    ATQ : <b>{[{player1.offensiveRating}]}</b>
+                                                </li>
+                                                <li>
+                                                    DEF : <b>{[{player1.defensiveRating}]}</b>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="triangle-bottom"></div>
+                        </div>
+
+                        <!-- player2 -->
+                        <div class="">
+                            <div class="input-player" ng-class="{'selected': player2.fullName, 'low': player2.rating < 80 }" data-drop="true"
+                                 data-jqyoui-options ng-model="player2" jqyoui-droppable="{onDrop: 'dropCallback'}">
+                                <button ng-if="player2.fullName" class="btn btn-danger btn-remove" ng-click="clearplayer2()"><i class="fas fa-user-times" aria-hidden="true"></i></button>
+                                <div class="triangle-top"></div>
+                                <div class="portrait">
+                                    <i class="fa fa-ban"></i>
+                                    <i ng-show="!player2.fullName" class="fa fa-user"></i>
+                                    <p ng-show="!player2.fullName">Player 2</p>
+                                    <div ng-show="player2.fullName" class="description">
+                                        <div class="top-left">
+                                            <span class="rating" ng-bind="player2.rating"></span>
+                                            <span class="position" ng-bind="player2.position"></span>
+                                        </div>
+                                        <div>
+                                            <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{player2.playerId}]}.png" alt="">
+                                        </div>
+                                        <div class="bottom">
+                                            <div>
+                                                <p class="name" data-drag="false" data-jqyoui-options ng-model="player2">{[{player2.fullName}]}</p>
+                                                <p class="posi">Power Forward</p>
+                                            </div>
+                                            <div>
+                                                <ul class="list-stats">
+                                                    <li>
+                                                        ATQ : <b>{[{player2.offensiveRating}]}</b>
+                                                    </li>
+                                                    <li>
+                                                        DEF : <b>{[{player2.defensiveRating}]}</b>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="triangle-bottom"></div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+                <div class="col-lg-3 col-md-3 container-players" ng-class="selectedPlayer.fullName ? 'selected':''">
+                    <div class="list-player" ng-if="!loadingPlayers">
+                        <div class="item-player" ng-repeat="player in players track by $index" data-drop="true" ng-model="players" jqyoui-droppable="{ index: {[{$index}]} }">
+                            <div class="btn btn-player" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="players" jqyoui-draggable="{index: {[{$index}]},placeholder:true,animate: false, onDrag: 'dragCallback(player)', onStop : 'dragStopCallback()'}" ng-hide="!player.fullName">
+                                <div class="left-side">
+                                    <p>{[{player.rating}]} - {[{player.position}]}</p>
+                                    <p class="name">{[{player.fullName}]}</p>
+                                </div>
+                                <div class="right-side">
+                                    <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{player.playerId}]}.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sendTeam" ng-if="!loadingPlayers">
+                        <button class="btn waves-effect" ng-class="{'secondary': !player1.fullName || !player2.fullName} " ng-click="sendTeam()">Confirm my play</button>
+                    </div>
+                    <div class="loading-players" ng-if="loadingPlayers">
+                        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                        <p>Chargement des joueurs</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <script src="{{ asset('assets/vendor/jquery-ui/jquery-ui.js') }}" type="text/javascript"></script>
 
 {% endblock %}
