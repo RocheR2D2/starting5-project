@@ -271,6 +271,13 @@ round.detail:
             battleId: '\d+'
             roundId: '\d+'
 
+round.detail.played:
+    path:     /battle/{battleId}/played/{roundId}
+    defaults: { _controller: AppBundle:Round:detailPlayed }
+    requirements:
+            battleId: '\d+'
+            roundId: '\d+'
+
 play.create:
     path:     /battle/new/play
     defaults: { _controller: AppBundle:Round:createPlay }

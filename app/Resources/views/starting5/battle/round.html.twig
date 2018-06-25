@@ -4,7 +4,7 @@
         {% if round.done == NULL and round.round == activeRound %}
             <a href="{{ path('round.detail', {'battleId' : battle.id, 'roundId' : round.id}) }}" class="btn btn-success">PLAY</a>
         {% elseif(round.done ==true and (round.attackerPoints != 0 or round.defenderPoints != 0)) %}
-            <a href="{{ path('round.detail', {'battleId' : battle.id, 'roundId' : round.id}) }}" class="btn btn-danger">OVER</a>
+            <a href="{{ path('round.detail.played', {'battleId' : battle.id, 'roundId' : round.id}) }}" class="btn btn-danger">OVER</a>
         {% else %}
             <span class="btn btn-secondary">Not started</span>
         {% endif %}

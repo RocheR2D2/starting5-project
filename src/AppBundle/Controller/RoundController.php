@@ -162,35 +162,6 @@ class RoundController extends Controller
             die('FORBIDDEN');
         }
 
-        $isPlayed = $this->isPlayed($roundId, $user, $battleId);
-        if ($isPlayed) {
-            $battle = $this->battle->find($battleId);
-            $battleRoundType = $round->getPlayType();
-            $attacker = $round->getAttackerId();
-            $defender = $round->getDefenderId();
-
-            $offPlayers = $this->battlePlays->findBy(['userId' => $attacker, 'battleRoundId' => $roundId]);
-            $defPlayers = $this->battlePlays->findBy(['userId' => $defender, 'battleRoundId' => $roundId]);
-            $roundResult = [];
-
-            if (!empty($defPlayers) && !empty($offPlayers)
-                && count($offPlayers) == $battleRoundType->getId() && count($defPlayers) == $battleRoundType->getId()
-                && count($offPlayers) == count($defPlayers)) {
-
-                $roundResult['score'] = $attacker->getUsername() . ' ' . $round->getAttackerPoints() . ' - ' . $round->getDefenderPoints() . ' ' . $defender->getUsername();
-                $roundResult['battleScore'] = $battle->getPlayerTwoId()->getUsername() . ' ' . $battle->getPlayerTwoScore() . ' - ' . $battle->getPlayerOneScore() . ' ' . $battle->getPlayerOneId()->getUsername();
-            }
-
-            return $this->render('starting5/battle/round/played.html.twig', [
-                'attacker' => $attacker,
-                'defender' => $defender,
-                'offPlayers' => $offPlayers,
-                'defPlayers' => $defPlayers,
-                'roundResult' => $roundResult,
-                'battleId' => $battleId
-            ]);
-        }
-
         $play = $this->battleRound->findOneBy(['battleId' => $battleId, 'id' => $roundId]);
         $playerType = $this->battleRound->battleTypeLabel($battleId, $roundId, $user);
         $playType = $play->getPlayType();
@@ -206,6 +177,36 @@ class RoundController extends Controller
         }
 
         return null;
+    }
+
+    public function detailPlayedAction($battleId,$roundId)
+    {
+        $round = $this->battleRound->find($roundId);
+        $battle = $this->battle->find($battleId);
+        $battleRoundType = $round->getPlayType();
+        $attacker = $round->getAttackerId();
+        $defender = $round->getDefenderId();
+
+        $offPlayers = $this->battlePlays->findBy(['userId' => $attacker, 'battleRoundId' => $roundId]);
+        $defPlayers = $this->battlePlays->findBy(['userId' => $defender, 'battleRoundId' => $roundId]);
+        $roundResult = [];
+
+        if (!empty($defPlayers) && !empty($offPlayers)
+            && count($offPlayers) == $battleRoundType->getId() && count($defPlayers) == $battleRoundType->getId()
+            && count($offPlayers) == count($defPlayers)) {
+
+            $roundResult['score'] = $attacker->getUsername() . ' ' . $round->getAttackerPoints() . ' - ' . $round->getDefenderPoints() . ' ' . $defender->getUsername();
+            $roundResult['battleScore'] = $battle->getPlayerTwoId()->getUsername() . ' ' . $battle->getPlayerTwoScore() . ' - ' . $battle->getPlayerOneScore() . ' ' . $battle->getPlayerOneId()->getUsername();
+        }
+
+        return $this->render('starting5/battle/round/played.html.twig', [
+            'attacker' => $attacker,
+            'defender' => $defender,
+            'offPlayers' => $offPlayers,
+            'defPlayers' => $defPlayers,
+            'roundResult' => $roundResult,
+            'battleId' => $battleId
+        ]);
     }
 
     public function getBattlePlayersAction($battleId, $roundId)
