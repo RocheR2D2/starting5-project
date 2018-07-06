@@ -364,8 +364,13 @@ app.factory("ServiceBattle", function ($http) {
         return $http.post("/app_dev.php/json/myBattlePlayers/" + battleId + "/" + roundId, {responseType: "json"});
     };
 
+    var sendTeam = function(pathSubmit,data){
+        return $http.post(pathSubmit, data);
+    }
+
     return {
-        getPlayer: getPlayer
+        getPlayer: getPlayer,
+        sendTeam: sendTeam
     };
 
 });
@@ -385,7 +390,13 @@ app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scop
     $scope.selectedPlayer = {};
     $scope.selectedPoste = '';
 
+    $scope.playType = 0;
+    $scope.battleId = 0;
+    $scope.roundId = 0;
+
     $scope.sendingTeam = false;
+
+    $scope.sendingDone = false;
 
     getPlayers();
 
@@ -402,8 +413,12 @@ app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scop
             return false;
         }
 
+        $scope.battleId = battleId;
+        $scope.roundId = roundId;
+
         ServiceBattle.getPlayer(battleId,roundId).then(function(res){
 
+            $scope.playType = res.data[0];
             var players = res.data[1];
             var filterPlayers = [];
 
@@ -468,6 +483,56 @@ app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scop
         $scope.selectedPlayer = {};
         $scope.selectedPoste = "";
         $scope.$apply();
+    }
+
+    $scope.sendTeam = function(){
+
+        var data;
+
+        switch($scope.playType){
+            case 1 :
+                data = {
+                    '0': $scope.player1.playerId,
+                    'playType': $scope.playType,
+                    'roundId': $scope.roundId,
+                    'battleId': $scope.battleId,
+                    'isCritical' : false
+                };
+                break;
+            case 2:
+                data = {
+                    '0': $scope.player1.playerId,
+                    '1': $scope.player2.playerId,
+                    'playType': $scope.playType,
+                    'roundId': $scope.roundId,
+                    'battleId': $scope.battleId,
+                    'isCritical' : false
+                };
+                break;
+            case 3:
+                data = {
+                    '0': $scope.player1.playerId,
+                    '1': $scope.player2.playerId,
+                    '2': $scope.player3.playerId,
+                    'playType': $scope.playType,
+                    'roundId': $scope.roundId,
+                    'battleId': $scope.battleId,
+                    'isCritical' : false
+                };
+                break;
+        }
+
+
+        var pathSubmit = '/app_dev.php/battle/new/play';
+
+        ServiceBattle.sendTeam(pathSubmit,data)
+            .then(function(response){
+                $scope.sendingDone = true;
+                window.location = "/app_dev.php/battle/" + $scope.battleId + "/played/" + $scope.roundId;
+            },
+            function(error){
+                console.log(error);
+            })
     }
 
     window.onresize = resizeBtn;
