@@ -229,15 +229,22 @@ class RoundController extends Controller
 
     public function createPlayAction(Request $request)
     {
-        $players = $request->request->all();
+        $data = $request->getContent();
+        $data = json_decode($data, true);
+
+        $battleRoundId = $data['roundId'];
+        $battleId = $data['battleId'];
+        $isCritical = $data['isCritical'];
+
+
+        $players = $data['players'];
         $players = $this->createPlayersData($players);
         $user = $this->getUser();
-        $battleRoundId = $request->request->get('roundId');
-        $battleId = $request->request->get('battleId');
+
         $battleRound = $this->battleRound->find($battleRoundId);
         $isAttacker = $this->battleRound->isAttacker($battleId, $battleRoundId, $user);
 
-        $criticalPlayer = $this->NBAPlayers->find($request->request->get('isCritical'));
+        $criticalPlayer = $this->NBAPlayers->find($isCritical);
 
         foreach ($players as $key => $data) {
             $isCritical = false;
@@ -275,6 +282,8 @@ class RoundController extends Controller
             $this->em->persist($battlePlayer);
             $this->em->flush();
         }
+
+        return new Response("Battle created");
     }
 
     public function createPlayersData($players)

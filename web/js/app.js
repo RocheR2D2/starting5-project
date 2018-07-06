@@ -492,7 +492,7 @@ app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scop
         switch($scope.playType){
             case 1 :
                 data = {
-                    '0': $scope.player1.playerId,
+                    'players' : [$scope.player1.playerId],
                     'playType': $scope.playType,
                     'roundId': $scope.roundId,
                     'battleId': $scope.battleId,
@@ -501,8 +501,7 @@ app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scop
                 break;
             case 2:
                 data = {
-                    '0': $scope.player1.playerId,
-                    '1': $scope.player2.playerId,
+                    'players': [$scope.player1.playerId, $scope.player2.playerId],
                     'playType': $scope.playType,
                     'roundId': $scope.roundId,
                     'battleId': $scope.battleId,
@@ -511,9 +510,7 @@ app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scop
                 break;
             case 3:
                 data = {
-                    '0': $scope.player1.playerId,
-                    '1': $scope.player2.playerId,
-                    '2': $scope.player3.playerId,
+                    'players': [$scope.player1.playerId, $scope.player2.playerId, $scope.player3.playerId],
                     'playType': $scope.playType,
                     'roundId': $scope.roundId,
                     'battleId': $scope.battleId,
