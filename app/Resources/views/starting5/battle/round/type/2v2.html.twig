@@ -155,7 +155,7 @@
                         </div>
                     </div>
                     <div class="sendTeam" ng-if="!loadingPlayers">
-                        <button class="btn waves-effect" ng-class="{'secondary': !player1.fullName || !player2.fullName} " ng-click="sendTeam()">Confirm my play</button>
+                        <button class="btn waves-effect" ng-class="{'secondary': !player1.fullName || ((!player1.fullName || !player2.fullName) && playType >= 2) || ((!player1.fullName || !player2.fullName || !player3.fullName) && playType >= 3) } " ng-click="sendTeam()">Confirm my play</button>
                     </div>
                     <div class="loading-players" ng-if="loadingPlayers">
                         <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
