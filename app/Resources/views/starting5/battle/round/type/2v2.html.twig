@@ -32,7 +32,7 @@
                                     <div class="bottom">
                                         <div>
                                             <p class="name" data-drag="false" data-jqyoui-options ng-model="player1">{[{player1.fullName}]}</p>
-                                            <p class="posi">Small Forward</p>
+
                                         </div>
                                         <div>
                                             <ul class="list-stats">
@@ -51,8 +51,8 @@
                             <div class="triangle-bottom"></div>
                         </div>
 
+                        {% if playerTypeNumber >= 2 %}
                         <!-- player2 -->
-                        <div class="">
                             <div class="input-player" ng-class="{'selected': player2.fullName, 'low': player2.rating < 80 }" data-drop="true"
                                  data-jqyoui-options ng-model="player2" jqyoui-droppable="{onDrop: 'dropCallback'}">
                                 <button ng-if="player2.fullName" class="btn btn-danger btn-remove" ng-click="clearplayer2()"><i class="fas fa-user-times" aria-hidden="true"></i></button>
@@ -72,7 +72,7 @@
                                         <div class="bottom">
                                             <div>
                                                 <p class="name" data-drag="false" data-jqyoui-options ng-model="player2">{[{player2.fullName}]}</p>
-                                                <p class="posi">Power Forward</p>
+
                                             </div>
                                             <div>
                                                 <ul class="list-stats">
@@ -89,9 +89,49 @@
                                 </div>
                                 <div class="triangle-bottom"></div>
                             </div>
-                        </div>
+                        {% endif %}
 
 
+                        {% if playerTypeNumber >= 3 %}
+                        <!-- player3 -->
+                            <div class="input-player" ng-class="{'selected': player3.fullName, 'low': player3.rating < 80 }" data-drop="true"
+                                 data-jqyoui-options ng-model="player3" jqyoui-droppable="{onDrop: 'dropCallback'}">
+                                <button ng-if="player3.fullName" class="btn btn-danger btn-remove" ng-click="clearplayer3()"><i class="fas fa-user-times" aria-hidden="true"></i></button>
+                                <div class="triangle-top"></div>
+                                <div class="portrait">
+                                    <i class="fa fa-ban"></i>
+                                    <i ng-show="!player3.fullName" class="fa fa-user"></i>
+                                    <p ng-show="!player3.fullName">Player 3</p>
+                                    <div ng-show="player3.fullName" class="description">
+                                        <div class="top-left">
+                                            <span class="rating" ng-bind="player3.rating"></span>
+                                            <span class="position" ng-bind="player3.position"></span>
+                                        </div>
+                                        <div>
+                                            <img ng-src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{[{player3.playerId}]}.png" alt="">
+                                        </div>
+                                        <div class="bottom">
+                                            <div>
+                                                <p class="name" data-drag="false" data-jqyoui-options ng-model="player3">{[{player3.fullName}]}</p>
+
+                                            </div>
+                                            <div>
+                                                <ul class="list-stats">
+                                                    <li>
+                                                        ATQ : <b>{[{player3.offensiveRating}]}</b>
+                                                    </li>
+                                                    <li>
+                                                        DEF : <b>{[{player3.defensiveRating}]}</b>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="triangle-bottom"></div>
+                            </div>
+
+                        {% endif %}
                     </div>
 
 

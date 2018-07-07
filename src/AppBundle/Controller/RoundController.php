@@ -171,6 +171,7 @@ class RoundController extends Controller
 
             return $this->render('starting5/battle/round/type/2v2.html.twig', [
                 'playerType' => $playerType,
+                'playerTypeNumber' => $playType->getId(),
                 'battleId' => $battleId,
                 'roundId' => $roundId,
             ]);
