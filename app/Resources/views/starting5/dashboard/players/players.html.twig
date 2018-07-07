@@ -1,14 +1,14 @@
 {% for player in myPlayers %}
-    <div class="col-md-4 my-players wow bounceIn">
-        {% include 'starting5/players/player.html.twig' with {'player': player} %}
-        <button class="btn btn-danger discard discard-{{ player.id }}">Discard</button>
+    <div class="col-md-2 my-players wow bounceIn">
+        {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
+        <button class="btn btn-danger discard discard-{{ player.playerId.id }}">Discard</button>
     </div>
     <script type="text/javascript">
-        $(".discard-{{ player.id }}").click(function () {
+        $(".discard-{{ player.playerId.id }}").click(function () {
             $.ajax({
                 url: '{{ path('discard.player') }}',
                 type: 'POST',
-                data: 'userPlayerId=' + {{ player.id }},
+                data: 'userPlayerId=' + {{ player.playerId.id }} + '&page='+ currentPage,
                 beforeSend: function () {
                     loading.show();
                 },
@@ -16,7 +16,6 @@
                     loading.hide();
                 },
                 success: function (success) {
-                    console.log(status);
                     $('.myPlayers').empty().append(success);
                 }
             });

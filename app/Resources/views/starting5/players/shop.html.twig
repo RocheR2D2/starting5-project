@@ -1,0 +1,68 @@
+<div {% if app.user.quizPoints > price %} id="shop-player-{{ player.playerId }}" {% endif %}>
+    <div class="text-center">
+        <img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{{ player.playerId }}.png"
+             alt="{{ player.teamId.teamId }}"
+             width="100px"
+             class="wow fadeInUp">
+    </div>
+    <p class="text-center" class="wow fadeInDown">
+        {% if player.rating > '84' and player.rating <= '87' %} R
+        {% elseif player.rating > '87' and player.rating <= '90' %} SR
+        {% elseif player.rating > '90' and player.rating <= '95' %} UR
+        {% elseif player.rating > '95' %} E
+        {% else %} N
+        {% endif %}
+        <br>
+        <span class="wow fadeInUp">
+            {{ player.firstname }} {{ player.lastname }}
+        </span>
+        <br>
+        <span class="wow fadeInDown">
+            {{ player.position }} -
+            {% if(player.rating == 'O') %} RK
+            {% else %} {{ player.rating }}
+            {% endif %}
+        </span>
+        <img src="{{ asset('images/teams/' ~ player.teamId.teamId ~ '.svg') }}"
+             alt="{{ player.teamId.teamId }}"
+             width="50px"
+             class="wow fadeInUp">
+    </p>
+    <div class="text-center wow fadeInDown">
+        {% if(isMyPlayer) %}
+            {% if app.user.quizPoints >= price %}
+                <button class="btn btn-primary" id="shop-{{ player.id }}">{{ price }}$</button>
+                {% else %}
+                <button class="btn btn-danger" disabled>{{ price }}$</button>
+            {% endif %}
+        {% else %}
+            <button class="btn btn-success" disabled>Packed</button>
+        {% endif %}
+    </div>
+    <script type="text/javascript">
+        var loading = $('.loading');
+        $("#shop-{{ player.id }}").click(function () {
+            $.ajax({
+                url: '{{ path('shopPlayers.buy') }}',
+                type: 'POST',
+                data: 'playerId=' + {{ player.id }},
+                beforeSend: function () {
+                    loading.show();
+                },
+                complete: function () {
+                    loading.hide();
+                },
+                success: function (success) {
+                    $("#shop-player-{{ player.playerId }}").empty();
+                    $("#user_points").empty();
+                    $("#lastPlayers").empty();
+                    $("#countMyPlayers").empty();
+                    $("#countMyPlayers").append(success.countMyPlayers);
+                    $("#lastPlayers").append(success.lastPlayers);
+                    $("#user_points").append(success.points);
+                    $("#shop-player-{{ player.playerId }}").append(success.shopPlayer);
+                }
+            });
+        });
+    </script>
+</div>

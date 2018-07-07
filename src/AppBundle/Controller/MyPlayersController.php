@@ -4,26 +4,33 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\NBAPlayers;
 use AppBundle\Entity\UsersPlayers;
-use AppBundle\Repository\NBAPlayersRepository;
-use AppBundle\Repository\UsersPlayersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MyPlayersController extends Controller
 {
+    protected $userPlayers;
+    protected $nbaPlayers;
+    private $em;
+
+    public function __construct(ObjectManager $entityManager)
+    {
+        $this->em = $entityManager;
+        $this->userPlayers = $this->em->getRepository(UsersPlayers::class);
+        $this->nbaPlayers = $this->em->getRepository(NBAPlayers::class);
+    }
+
     public function indexAction(Request $request)
     {
-        $userPlayers = $this->getDoctrine()->getRepository(UsersPlayers::class);
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         $playersView = $this->playersAction();
-        $count = count($userPlayers->findBy(['userId' => $this->getUser()]));
+        $count = count($this->userPlayers->findBy(['userId' => $this->getUser()]));
 
-            return $this->render('starting5/dashboard/players/index.html.twig', [
+        return $this->render('starting5/dashboard/players/index.html.twig', [
             'name' => "Starting 5",
             'players' => $playersView,
             'count' => $count
@@ -32,20 +39,14 @@ class MyPlayersController extends Controller
 
     public function playersAction()
     {
-        $userPlayers = $this->getDoctrine()->getRepository(UsersPlayers::class);
-        $nbaPlayers = $this->getDoctrine()->getRepository(NBAPlayers::class);
-        $myPlayers = $this->getMyPlayers($this->getUser(), $userPlayers, $nbaPlayers, 0);
-
         return $this->render('starting5/dashboard/players/players.html.twig', [
-            'myPlayers' => $myPlayers,
+            'myPlayers' => $this->getMyPlayers(),
         ]);
     }
 
     public function guardAction()
     {
-        $userPlayers = $this->getDoctrine()->getRepository(UsersPlayers::class);
-        $nbaPlayers = $this->getDoctrine()->getRepository(NBAPlayers::class);
-        $myPlayers = $this->getMyGuards($this->getUser(), $userPlayers, $nbaPlayers);
+        $myPlayers = $this->getMyGuards($this->getUser(), $this->userPlayers, $this->nbaPlayers);
 
         return $this->render('starting5/dashboard/players/guard.html.twig', [
             'name' => "Starting 5",
@@ -55,9 +56,7 @@ class MyPlayersController extends Controller
 
     public function forwardAction()
     {
-        $userPlayers = $this->getDoctrine()->getRepository(UsersPlayers::class);
-        $nbaPlayers = $this->getDoctrine()->getRepository(NBAPlayers::class);
-        $myPlayers = $this->getMyForwards($this->getUser(), $userPlayers, $nbaPlayers);
+        $myPlayers = $this->getMyForwards($this->getUser(), $this->userPlayers, $this->nbaPlayers);
 
         return $this->render('starting5/dashboard/players/forward.html.twig', [
             'name' => "Starting 5",
@@ -67,9 +66,7 @@ class MyPlayersController extends Controller
 
     public function centerAction()
     {
-        $userPlayers = $this->getDoctrine()->getRepository(UsersPlayers::class);
-        $nbaPlayers = $this->getDoctrine()->getRepository(NBAPlayers::class);
-        $myPlayers = $this->getMyCenters($this->getUser(), $userPlayers, $nbaPlayers);
+        $myPlayers = $this->getMyCenters($this->getUser(), $this->userPlayers, $this->nbaPlayers);
 
         return $this->render('starting5/dashboard/players/center.html.twig', [
             'name' => "Starting 5",
@@ -77,23 +74,14 @@ class MyPlayersController extends Controller
         ]);
     }
 
-    public function getMyPlayers($user, $userTeamRepository, $playerRepository, $current = 1)
+    public function getMyPlayers($current = 0)
     {
-        $userPlayers = $userTeamRepository->findBy(['userId' => $user], null, 9, 0);
+        $userPlayers = $this->userPlayers->findBy(['userId' => $this->getUser()], ['rating' => 'DESC'], 18, 0);
         if($current > 0){
-            $userPlayers = $userTeamRepository->findBy(['userId' => $user], null, 9, 9 * $current);
-        }
-        $myPlayers = new ArrayCollection();
-        foreach ($userPlayers as $myPlayer) {
-            $playerId = $myPlayer->getPlayerId()->getPlayerId();
-            $personId = $myPlayer->getPlayerId()->getId();
-            $isDuplicate = $userTeamRepository->findBy(['playerId' => $personId]);
-            $this->checkDuplicatedPlayers(count($isDuplicate), $personId, $userTeamRepository);
-            $player = $playerRepository->getProfile($playerId);
-            $myPlayers[] = $player;
+            $userPlayers = $this->userPlayers->findBy(['userId' => $this->getUser()], ['rating' => 'DESC'], 18, 20 * $current);
         }
 
-        return $myPlayers;
+        return $userPlayers;
     }
 
     public function checkDuplicatedPlayers($count, $personId, $userTeamRepository)
@@ -109,65 +97,32 @@ class MyPlayersController extends Controller
         }
     }
 
-    public function getMyGuards($user, $userTeamRepository, $playerRepository)
+    public function getMyGuards($user, $userTeamRepository)
     {
-        $userPlayers = $userTeamRepository->findBy(['userId' => $user]);
-        $myPlayers = new ArrayCollection();
-        foreach ($userPlayers as $myPlayer) {
-            $playerId = $myPlayer->getPlayerId()->getPlayerId();
-            $player = $playerRepository->getProfile($playerId);
-            $playerPosition = explode('-', $player['pos']);
-            if (isset($playerPosition[0]) && $playerPosition[0] == 'G') {
-                $myPlayers[] = $player;
-            } elseif (isset($playerPosition[0]) && isset($playerPosition[1]) && $playerPosition[1] == 'G') {
-                $myPlayers[] = $player;
-            }
-        }
+        $userPlayers = $userTeamRepository->findBy(['userId' => $user, 'position' => ['G' ,'F-G','G-F']]);
 
-        return $myPlayers;
+        return $userPlayers;
     }
 
-    public function getMyForwards($user, $userTeamRepository, $playerRepository)
+    public function getMyForwards($user, $userTeamRepository)
     {
-        $userPlayers = $userTeamRepository->findBy(['userId' => $user]);
-        $myPlayers = new ArrayCollection();
-        foreach ($userPlayers as $myPlayer) {
-            $playerId = $myPlayer->getPlayerId()->getPlayerId();
-            $player = $playerRepository->getProfile($playerId);
-            $playerPosition = explode('-', $player['pos']);
-            if (isset($playerPosition[0]) && $playerPosition[0] == 'F') {
-                $myPlayers[] = $player;
-            } elseif (isset($playerPosition[0]) && isset($playerPosition[1]) && $playerPosition[1] == 'F') {
-                $myPlayers[] = $player;
-            }
-        }
+        $userPlayers = $userTeamRepository->findBy(['userId' => $user, 'position' => ['F' ,'F-C','C-F']]);
 
-        return $myPlayers;
+        return $userPlayers;
     }
 
-    public function getMyCenters($user, $userTeamRepository, $playerRepository)
+    public function getMyCenters($user, $userTeamRepository)
     {
-        $userPlayers = $userTeamRepository->findBy(['userId' => $user]);
-        $myPlayers = new ArrayCollection();
-        foreach ($userPlayers as $myPlayer) {
-            $playerId = $myPlayer->getPlayerId()->getPlayerId();
-            $player = $playerRepository->getProfile($playerId);
-            $playerPosition = explode('-', $player['pos']);
-            if (isset($playerPosition[0]) && $playerPosition[0] == 'C') {
-                $myPlayers[] = $player;
-            } elseif (isset($playerPosition[0]) && isset($playerPosition[1]) && $playerPosition[1] == 'C') {
-                $myPlayers[] = $player;
-            }
-        }
+        $userPlayers = $userTeamRepository->findBy(['userId' => $user, 'position' => ['C' ,'F-C','C-F']]);
 
-        return $myPlayers;
+        return $userPlayers;
     }
 
     public function discardPlayerAction(Request $request)
     {
-        $nbaPlayers = $this->getDoctrine()->getRepository(UsersPlayers::class);
         $playerId = $data = $request->request->get('userPlayerId');
-        $player = $nbaPlayers->findOneBy(['playerId' => $playerId]);
+        $page = $data = $request->request->get('page');
+        $player = $this->userPlayers->findOneBy(['playerId' => $playerId]);
 
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -177,16 +132,14 @@ class MyPlayersController extends Controller
         $em->flush();
         $em->clear();
 
-        $response = new Response($this->playersAjax());
+        $response = new Response($this->playersAjax($page));
 
         return $response;
     }
 
     public function playersAjax($page = 1)
     {
-        $userPlayers = $this->getDoctrine()->getRepository(UsersPlayers::class);
-        $nbaPlayers = $this->getDoctrine()->getRepository(NBAPlayers::class);
-        $myPlayers = $this->getMyPlayers($this->getUser(), $userPlayers, $nbaPlayers, $page);
+        $myPlayers = $this->getMyPlayers($page);
 
         return $this->renderView('starting5/dashboard/players/players.html.twig', [
             'myPlayers' => $myPlayers,
@@ -195,7 +148,7 @@ class MyPlayersController extends Controller
 
     public function playersNextAction(Request $request)
     {
-        $page = $data = $request->request->get('page');
+        $page = $request->request->get('page');
         $response = new Response($this->playersAjax($page));
 
         return $response;

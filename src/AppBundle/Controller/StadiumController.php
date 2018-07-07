@@ -3,15 +3,28 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Stadium;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Entity\UserStadium;
+use AppBundle\Entity\UserTrainer;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class StadiumController extends Controller
 {
+    private $em;
+    private $userStadium;
+    private $userTrainer;
+
+    public function __construct(ObjectManager $objectManager)
+    {
+        $this->em = $objectManager;
+        $this->userStadium = $this->em->getRepository(UserStadium::class);
+        $this->userTrainer = $this->em->getRepository(UserTrainer::class);
+    }
+
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -47,5 +60,27 @@ class StadiumController extends Controller
             'form' => $form->createView(),
             'stadiums' => $stadiums
         ));
+    }
+
+    public function myStadiumsAction()
+    {
+        $user = $this->getUser();
+        $myStadiums = $this->userStadium->findBy(['userId' => $user]);
+        $serializer = $this->container->get('serializer');
+        $result = $serializer->serialize($myStadiums, 'json');
+        $response = new Response($result);
+
+        return $response;
+    }
+
+    public function myTrainersAction()
+    {
+        $user = $this->getUser();
+        $myTrainers = $this->userTrainer->findBy(['userId' => $user]);
+        $serializer = $this->container->get('serializer');
+        $result = $serializer->serialize($myTrainers, 'json');
+        $response = new Response($result);
+
+        return $response;
     }
 }

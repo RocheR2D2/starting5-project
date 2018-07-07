@@ -22,6 +22,7 @@ class UsersPlayersRepository extends \Doctrine\ORM\EntityRepository
     public $allGuards;
     public $allForwards;
     public $allCenters;
+    public $countMyPlayers;
 
     public function __construct(EntityManager $em, Mapping\ClassMetadata $class)
     {
@@ -81,5 +82,32 @@ class UsersPlayersRepository extends \Doctrine\ORM\EntityRepository
         }
 
         return $players;
+    }
+
+
+    /**
+     * @param $user
+     * @return array|ArrayCollection
+     */
+    public function getMyPlayers($user)
+    {
+        $myPlayers = [];
+        if ($user) {
+            $players = $this->findBy(['userId' => $user], ['rating' => 'DESC']);
+            foreach ($players as $player) {
+                $myPlayers[] = $player->getPlayerId();
+            }
+
+            return $myPlayers;
+        }
+
+        return null;
+    }
+
+    public function countMyPlayers($user)
+    {
+        $myPlayers = $this->findBy(['userId' =>$user]);
+
+        return count($myPlayers);
     }
 }

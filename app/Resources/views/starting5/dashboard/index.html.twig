@@ -1,12 +1,11 @@
 {% extends 'base.html.twig' %}
 
     {% block header %}
-        <h1>Mon 5 Majeur</h1>
+        Mon 5 Majeur
     {% endblock header %}
 
 {% block body %}
 
-    <section id="about">
         <div class="container">
             <div class="row">
                 <h2>My 5IVE
@@ -23,34 +22,7 @@
             </div>
             {% if userTeams|length > 0 %}
                 {% for team in teams %}
-                    <h2>{{ team['data']['name'] }} <a href="{{ path('user.team.edit', {'id': team['data']['id'] }) }}" class="btn btn-info">Edit this 5IVE</a></h2>
-                    <p>{{ team['data']['trainer'].fullName }}</p>
-                    <p>{{ team['data']['stadium'].name }}</p>
-                    <div class="row">
-                        <div class="col-md-4">
-                            {% set player = team['players']['pointGuard'] %}
-                            {% include 'starting5/players/player.html.twig' with {'player': player} %}
-                        </div>
-                        <div class="col-md-4">
-                            {% set player = team['players']['shootingGuard'] %}
-                            {% include 'starting5/players/player.html.twig' with {'player': player} %}
-                        </div>
-                        <div class="col-md-4">
-                            {% set player = team['players']['smallForward'] %}
-                            {% include 'starting5/players/player.html.twig' with {'player': player} %}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            {% set player = team['players']['powerForward'] %}
-                            {% include 'starting5/players/player.html.twig' with {'player': player} %}
-                        </div>
-                        <div class="col-md-5">
-                            {% set player = team['players']['center'] %}
-                            {% include 'starting5/players/player.html.twig' with {'player': player} %}
-                        </div>
-                    </div>
-                    <hr>
+                    {% include 'starting5/dashboard/team.html.twig' with {'team' : team } %}
                 {% endfor %}
             {% else %}
                 <p class="alert alert-danger">
@@ -58,5 +30,4 @@
                 </p>
             {% endif %}
         </div>
-    </section>
 {% endblock %}

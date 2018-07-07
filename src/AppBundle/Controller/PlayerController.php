@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\NBAPlayers;
 use AppBundle\Entity\Player;
 use AppBundle\Form\PlayerType;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
@@ -15,12 +16,22 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PlayerController extends Controller
 {
+    private $em;
+    private $NBAPlayersRepository;
+    private $playerRepository;
+
+    public function __construct(ObjectManager $em)
+    {
+        $this->em = $em;
+        $this->NBAPlayersRepository = $this->em->getRepository(NBAPlayers::class);
+        $this->playerRepository = $this->em->getRepository(NBAPlayers::class);
+    }
+
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(){
-        $NBAPlayersRepository = $this->getDoctrine()->getRepository(NBAPlayers::class);
-        $guards = $NBAPlayersRepository->getGuards();
+        $guards = $this->NBAPlayersRepository->getGuards();
 
         return $this->render('starting5/players/index.html.twig', [
             'guards' => $guards
@@ -28,8 +39,7 @@ class PlayerController extends Controller
     }
 
     public function guardsAction(){
-        $NBAPlayersRepository = $this->getDoctrine()->getRepository(NBAPlayers::class);
-        $guards = $NBAPlayersRepository->getGuards();
+        $guards = $this->NBAPlayersRepository->getGuards();
 
         return $this->render('starting5/players/guards/index.html.twig', [
             'guards' => $guards
@@ -37,8 +47,7 @@ class PlayerController extends Controller
     }
 
     public function forwardsAction(){
-        $NBAPlayersRepository = $this->getDoctrine()->getRepository(NBAPlayers::class);
-        $forwards = $NBAPlayersRepository->getForwards();
+        $forwards = $this->NBAPlayersRepository->getForwards();
 
         return $this->render('starting5/players/forward/index.html.twig', [
             'forwards' => $forwards
@@ -46,8 +55,7 @@ class PlayerController extends Controller
     }
 
     public function centersAction(){
-        $NBAPlayersRepository = $this->getDoctrine()->getRepository(NBAPlayers::class);
-        $centers = $NBAPlayersRepository->getCenters();
+        $centers = $this->NBAPlayersRepository->getCenters();
 
         return $this->render('starting5/players/center/index.html.twig', [
             'centers' => $centers
@@ -55,8 +63,7 @@ class PlayerController extends Controller
     }
 
     public function playerAction($playerId){
-        $NBAPlayersRepository = $this->getDoctrine()->getRepository(NBAPlayers::class);
-        $player = $NBAPlayersRepository->getProfile($playerId);
+        $player = $this->NBAPlayersRepository->getProfile($playerId);
 
         return $this->render('starting5/players/profile.html.twig', [
             'player' => $player
@@ -68,9 +75,8 @@ class PlayerController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request){
-        $playerRepository = $this->getDoctrine()->getRepository(Player::class);
-        $players = $playerRepository->findAll();
-        $player = new Player();
+        $players = $this->playerRepository->findAll();
+        $player = new NBAPlayers();
 
         $NBAPlayersRepository = $this->getDoctrine()->getRepository(NBAPlayers::class);
         $guards = $NBAPlayersRepository->getGuards();
@@ -132,7 +138,7 @@ class PlayerController extends Controller
 
     public function editAction(Request $request, $id)
     {
-        $playerRepository = $this->getDoctrine()->getRepository(Player::class);
+        $playerRepository = $this->getDoctrine()->getRepository(NBAPlayers::class);
         $player = $playerRepository->find($id);
         $form = $this->createForm(PlayerType::class, $player);
 
@@ -152,5 +158,38 @@ class PlayerController extends Controller
             'player' => $player,
             'id' => $id
         ));
+    }
+
+    public function updateOffensiveRatingAction()
+    {
+        $nbaPlayers = $this->NBAPlayersRepository->findAll();
+        foreach ($nbaPlayers as $nbaPlayer) {
+            $nbaPlayer->setOffensiveRating($this->NBAPlayersRepository->getOffensiveRating($nbaPlayer->getPlayerId()));
+            $this->em->persist($nbaPlayer);
+            $this->em->flush();
+        }
+        die('DONE SHIT MAN');
+    }
+
+    public function updateDefensiveRatingAction()
+    {
+        $nbaPlayers = $this->NBAPlayersRepository->findAll();
+        foreach ($nbaPlayers as $nbaPlayer) {
+            $nbaPlayer->setDefensiveRating($this->NBAPlayersRepository->getDefensiveRating($nbaPlayer->getPlayerId()));
+            $this->em->persist($nbaPlayer);
+            $this->em->flush();
+        }
+        die('DONE SHIT MAN');
+    }
+
+    public function updatePlayerRarityAction()
+    {
+        $nbaPlayers = $this->NBAPlayersRepository->findAll();
+        foreach ($nbaPlayers as $nbaPlayer) {
+            $nbaPlayer->setRarity($this->NBAPlayersRepository->getRarity($nbaPlayer));
+            $this->em->persist($nbaPlayer);
+            $this->em->flush();
+        }
+        die('DONE SHIT MAN');
     }
 }

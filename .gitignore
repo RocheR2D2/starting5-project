@@ -15,7 +15,9 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+/web/assets/vendor/
 .env
 .idea
 docker/logs/nginx/*
 /database-backup/*
+bower_components/

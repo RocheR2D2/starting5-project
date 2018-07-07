@@ -1,0 +1,80 @@
+<h1>Point Guards available</h1>
+Selected Player : <span id="pg-selected">{{ pg }}</span>
+<div style="visibility: hidden">
+    <select id="form_pointGuard" name="form[pointGuard]">
+        <label for="form_pointGuard" class="required">Select My Point Guard</label>
+        {% for player in guards %}
+            <option value="{{ player.playerId }}">{{ player.firstname }} {{ player.lastname }}</option>
+        {% endfor %}
+    </select>
+</div>
+<div class="pointGuards">
+    {% include 'starting5/dashboard/positions/pointGuards.html.twig' with {'guards':guards} %}
+</div>
+{% include 'starting5/dashboard/positions/pagination/pg.html.twig' with {'gCount':gCount} %}
+
+<h1>Shooting Guards available</h1>
+Selected Player : <span id="sg-selected">{{ sg }}</span>
+<div style="visibility: hidden">
+    <label for="form_shootingGuard" class="required">Select My Shooting Guard</label>
+    <select id="form_shootingGuard" name="form[shootingGuard]">
+        {% for player in guards %}
+            <option value="{{ player.playerId }}">{{ player.firstname }} {{ player.lastname }}</option>
+        {% endfor %}
+    </select>
+</div>
+<div class="shootingGuards">
+    {% include 'starting5/dashboard/positions/shootingGuards.html.twig' with {'guards':guards} %}
+</div>
+{% include 'starting5/dashboard/positions/pagination/sg.html.twig' with {'gCount':gCount} %}
+
+
+
+<h1>Small Forwards available</h1>
+Selected Player : <span id="sf-selected">{{ sf }}</span>
+<div style="visibility: hidden">
+    <label for="form_smallForward" class="required">Select My Small Forward</label>
+    <select id="form_smallForward" name="form[smallForward]">
+        {% for player in forwards %}
+            <option value="{{ player.playerId }}">{{ player.firstname }} {{ player.lastname }}</option>
+        {% endfor %}
+    </select>
+</div>
+<div class="smallForwards">
+    {% include 'starting5/dashboard/positions/smallForwards.html.twig' with {'forwards':forwards} %}
+</div>
+{% include 'starting5/dashboard/positions/pagination/sf.html.twig' with {'fCount':fCount} %}
+
+
+
+<h1>Power Forwards available</h1>
+Selected Player : <span id="pf-selected">{{ pf }}</span>
+<div style="visibility: hidden">
+    <label for="form_powerForward" class="required">Select My Power Forward</label>
+    <select id="form_powerForward" name="form[powerForward]">
+        {% for player in forwards %}
+            <option value="{{ player.playerId }}">{{ player.firstname }} {{ player.lastname }}</option>
+        {% endfor %}
+    </select>
+</div>
+<div class="powerForwards">
+    {% include 'starting5/dashboard/positions/powerForwards.html.twig' with {'forwards':forwards} %}
+</div>
+{% include 'starting5/dashboard/positions/pagination/pf.html.twig' with {'fCount':fCount} %}
+
+
+<h1>Centers available</h1>
+Selected Player : <span id="c-selected">{{ c }}</span>
+<div style="visibility: hidden">
+    <label for="form_center" class="required">Select My Center</label>
+    <select id="form_center" name="form[center]">
+        {% for player in centers %}
+            <option value="{{ player.playerId }}">{{ player.firstname }} {{ player.lastname }}</option>
+        {% endfor %}
+    </select>
+</div>
+<div class="centers">
+    {% include 'starting5/dashboard/positions/centers.html.twig' with {'centers':centers} %}
+</div>
+{% include 'starting5/dashboard/positions/pagination/c.html.twig' with {'cCount':cCount} %}
+<hr>

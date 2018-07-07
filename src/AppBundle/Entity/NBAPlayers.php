@@ -94,6 +94,24 @@ class NBAPlayers
      * @ORM\JoinColumn(name="team_id", referencedColumnName="id")
      */
     public $teamId;
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="offensiveRating", type="integer", nullable=true)
+     */
+    public $offensiveRating;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="defensiveRating", type="integer", nullable=true)
+     */
+    public $defensiveRating;
+    /**
+     * @var string
+     * @ORM\Column(name="rarity", type="string", nullable=true)
+     */
+    public $rarity;
 
     /**
      * Get id
@@ -158,6 +176,9 @@ class NBAPlayers
     public function setLastname($lastname)
     {
         $this->lastname = $lastname;
+    }
+    public function getFullName(){
+        return $this->firstname.' '.$this->lastname;
     }
     /**
      * @return float
@@ -283,6 +304,50 @@ class NBAPlayers
     public function setTeamId($teamId)
     {
         $this->teamId = $teamId;
+    }
+    /**
+     * @return int
+     */
+    public function getOffensiveRating()
+    {
+        return $this->offensiveRating;
+    }
+
+    /**
+     * @param int $offensiveRating
+     */
+    public function setOffensiveRating($offensiveRating)
+    {
+        $this->offensiveRating = $offensiveRating;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefensiveRating()
+    {
+        return $this->defensiveRating;
+    }
+
+    /**
+     * @param int $defensiveRating
+     */
+    public function setDefensiveRating($defensiveRating)
+    {
+        $this->defensiveRating = $defensiveRating;
+    }
+
+    /**
+     * @param string $rarity
+     */
+    public function setRarity($rarity)
+    {
+        $this->rarity = $rarity;
+    }
+
+    public function getRarity()
+    {
+        return $this->rarity;
     }
 }
 

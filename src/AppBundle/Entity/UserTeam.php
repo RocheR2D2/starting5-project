@@ -31,27 +31,27 @@ class UserTeam
      * @ORM\ManyToOne(targetEntity="NBAPlayers", inversedBy="userTeam")
      * @ORM\JoinColumn(name="point_guard", referencedColumnName="id")
      */
-    private $pointGuard;
+    public $pointGuard;
     /**
      * @ORM\ManyToOne(targetEntity="NBAPlayers", inversedBy="userTeam")
      * @ORM\JoinColumn(name="shooting_guard", referencedColumnName="id")
      */
-    private $shootingGuard;
+    public $shootingGuard;
     /**
      * @ORM\ManyToOne(targetEntity="NBAPlayers", inversedBy="userTeam")
      * @ORM\JoinColumn(name="power_forward", referencedColumnName="id")
      */
-    private $powerForward;
+    public $powerForward;
     /**
      * @ORM\ManyToOne(targetEntity="NBAPlayers", inversedBy="userTeam")
      * @ORM\JoinColumn(name="small_forward", referencedColumnName="id")
      */
-    private $smallForward;
+    public $smallForward;
     /**
      * @ORM\ManyToOne(targetEntity="NBAPlayers", inversedBy="userTeam")
      * @ORM\JoinColumn(name="center", referencedColumnName="id")
      */
-    private $center;
+    public $center;
     /**
      * @ORM\ManyToOne(targetEntity="Trainer", inversedBy="userTeam")
      * @ORM\JoinColumn(name="trainer_id", referencedColumnName="id")
@@ -79,6 +79,30 @@ class UserTeam
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="team_rating", type="integer")
+     */
+    private $teamRating;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="off_rating", type="integer")
+     */
+    private $offRating;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="def_rating", type="integer")
+     */
+    private $defRating;
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="active", type="boolean")
+     */
+    private $active;
 
     /**
      * Get id
@@ -272,6 +296,59 @@ class UserTeam
     public function setUser($user)
     {
         $this->user = $user;
+    }
+
+    public function getTeamRating()
+    {
+        return $this->teamRating;
+    }
+
+    public function getOffRating()
+    {
+        return $this->offRating;
+    }
+
+    public function getDefRating()
+    {
+        return $this->defRating;
+    }
+    /**
+     * @param int $teamRating
+     */
+    public function setTeamRating($teamRating)
+    {
+        $this->teamRating = $teamRating;
+    }
+
+    /**
+     * @param int $offRating
+     */
+    public function setOffRating($offRating)
+    {
+        $this->offRating = $offRating;
+    }
+
+    /**
+     * @param int $defRating
+     */
+    public function setDefRating($defRating)
+    {
+        $this->defRating = $defRating;
+    }
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param bool $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
     }
 }
 

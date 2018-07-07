@@ -1,0 +1,58 @@
+<div class="col-md-12">
+    <div class="pagination">
+        <button type="button" class="btn btn-info" id="sg-previous-page" disabled="disabled">Previous</button>
+        &nbsp
+        <button type="button" class="btn btn-info" id="sg-next-page">Next</button>
+    </div>
+</div>
+<script>
+    var currentPageSg = 0;
+    var loading = $('.loading');
+    var allGuards = {{ gCount }};
+    $('#sg-next-page').click(function () {
+        currentPageSg += 1;
+        if((currentPageSg + 1) * 9 >= allGuards){
+            $(this).prop("disabled", true);
+        }
+        $("#sg-previous-page").prop("disabled", false);
+        $.ajax({
+            url: '{{ path('shootingGuards.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPageSg +
+            '&selectedSg=' + $("#form_shootingGuard option:selected").val() +
+            '&selectedPg=' + $("#form_pointGuard option:selected").val(),
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.shootingGuards').append(success);
+            }
+        });
+    });
+    $("#sg-previous-page").click(function () {
+        currentPageSg -= 1;
+        if (currentPageSg == 0) {
+            $("#sg-previous-page").prop("disabled", true);
+        }
+        $('#sg-next-page').prop("disabled", false);
+        $.ajax({
+            url: '{{ path('shootingGuards.next') }}',
+            type: 'POST',
+            data: 'page=' + currentPageSg +
+            '&selectedSg=' + $("#form_shootingGuard option:selected").val() +
+            '&selectedPg=' + $("#form_pointGuard option:selected").val(),
+            beforeSend: function () {
+                loading.show();
+            },
+            complete: function () {
+                loading.hide();
+            },
+            success: function (success) {
+                $('.shootingGuards').append(success);
+            }
+        });
+    });
+</script>

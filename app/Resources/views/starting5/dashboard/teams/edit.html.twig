@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block header %}
-    <h2>Edit {{ userTeam.name }}</h2>
+    Edit {{ userTeam.name }}
 {% endblock header %}
 
 {% block body %}
@@ -11,7 +11,7 @@
            <div class="row">
                <div class="col-lg-8 mx-auto">
                    <p>
-                       <a href="{{ path('dashboard') }}">Retour</a>
+                       <a href="{{ path('my-teams') }}">Retour</a>
                    </p>
                    {{ form_start(form, { 'action': path('user.team.edit', {'id': userTeam.id}) }) }}
                    <div class="form-group">
@@ -26,6 +26,8 @@
                    <div>
                        <input type="submit" class="btn btn-primary" value="{{ 'Edit Team'|trans }}"/>
                    </div>
+                   {% include 'starting5/dashboard/teams/select.html.twig'
+                   with {'guards': guards, 'forwards': forwards, 'centers': centers, 'gCount': gCount, 'fCount': fCount, 'cCount': cCount} %}
                    {{ form_end(form) }}
                </div>
            </div>

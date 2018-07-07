@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>Upcube - Responsive Flat Admin Dashboard</title>
+    <meta content="Admin Dashboard" name="description" />
+    <meta content="ThemeDesign" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+
+    <link rel="stylesheet" href="{{ asset('plugins/morris/morris.css') }}"/>
+
+    <link href="{{ asset('css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/icons.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css">
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <link href="{{ asset('css/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('css/scrolling-nav.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+    <script src="{{ asset('js/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <script src="{{ asset('js/scrolling-nav.js') }}"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <script src="{{ asset('js/app.js') }}"></script>
+</head>
+<body class="fixed-left">
+
+<div class="loading">Loading&#8230;</div>
+
+<!-- Loader -->
+<div id="preloader"><div id="status"><div class="spinner"></div></div></div>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <div class="left side-menu">
+        <button type="button" class="button-menu-mobile button-menu-mobile-topbar open-left waves-effect">
+            <i class="ion-close"></i>
+        </button>
+
+        <!-- LOGO -->
+        <div class="topbar-left">
+            <div class="text-center">
+                <!--<a href="index.html" class="logo">Admiry</a>-->
+                <a href="/" class="logo"><img src="" height="24" alt="logo"></a>
+            </div>
+        </div>
+
+        <div class="sidebar-inner slimscrollleft">
+
+            <div class="user-details">
+                <div class="text-center">
+                    <img src="" alt="" class="rounded-circle">
+                </div>
+                <div class="user-info">
+                    <h4 class="font-16">{{ app.user.username }}</h4>
+                </div>
+            </div>
+
+            <div id="sidebar-menu">
+                <ul>
+                    <li class="menu-title">Main</li>
+
+                    <li>
+                        <a href="{{ path('my-teams') }}" class="waves-effect">
+                            <i class="ti-home"></i>
+                            <span> 5IVE <span class="badge badge-primary pull-right">3</span></span>
+                        </a>
+                        <a href="{{ path('user.players') }}" class="waves-effect">
+                            <i class="ti-home"></i>
+                            <span> My Players </span>
+                        </a>
+                        <a href="{{ path('pack.opening') }}" class="waves-effect">
+                            <i class="ti-home"></i>
+                            <span> Packs</span>
+                        </a>
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <a href="{{ path('fos_user_profile_show') }}" class="waves-effect">
+                            <i class="ti-home"></i>
+                            <span> {{ app.user.username }} </span>
+                        </a>
+                        <a href="{{ path('fos_user_security_logout') }}" class="waves-effect">
+                            <i class="ti-home"></i>
+                            <span> {{ 'Logout'|trans({}, 'FOSUserBundle') }}</span>
+                        </a>
+                    {% else %}
+                        <a href="{{ path('fos_user_security_login') }}" class="waves-effect">
+                            <i class="ti-home"></i>
+                            <span> {{ 'Log in'|trans({}, 'FOSUserBundle') }}</span>
+                        </a>
+                        <a href="{{ path('fos_user_registration_register') }}" class="waves-effect">
+                            <i class="ti-home"></i>
+                            <span> {{ 'Sign up'|trans({}, 'FOSUserBundle') }}</span>
+                        </a>
+                    {% endif %}
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('admin') }}" class="waves-effect">
+                            <i class="ti-home"></i>
+                            <span> {{ 'Admin'|trans({}, 'FOSUserBundle') }}</span>
+                        </a>
+                    {% endif %}
+
+                    </li>
+
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div> <!-- end sidebarinner -->
+    </div>
+    <!-- Left Sidebar End -->
+
+    <!-- Start right Content here -->
+
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+
+            <!-- Top Bar Start -->
+            <div class="topbar">
+
+                <nav class="navbar-custom">
+
+                    <ul class="list-inline float-right mb-0">
+                        <li class="list-inline-item dropdown notification-list">
+                            <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button"
+                               aria-haspopup="false" aria-expanded="false">
+                                <i class="mdi mdi-email-outline noti-icon"></i>
+                                <span class="badge badge-danger noti-icon-badge">5</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-menu-lg">
+                                <!-- item-->
+                                <div class="dropdown-item noti-title">
+                                    <h5><span class="badge badge-danger float-right">745</span>Messages</h5>
+                                </div>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon"><img src="" alt="user-img" class="img-fluid rounded-circle" /> </div>
+                                    <p class="notify-details"><b>Charles M. Jones</b><small class="text-muted">Dummy text of the printing and typesetting industry.</small></p>
+                                </a>
+
+                                <!-- All-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    View All
+                                </a>
+
+                            </div>
+                        </li>
+
+                        <li class="list-inline-item dropdown notification-list">
+                            <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button"
+                               aria-haspopup="false" aria-expanded="false">
+                                <i class="mdi mdi-bell-outline noti-icon"></i>
+                                <span class="badge badge-success noti-icon-badge">3</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-menu-lg">
+                                <!-- item-->
+                                <div class="dropdown-item noti-title">
+                                    <h5><span class="badge badge-danger float-right">87</span>Notification</h5>
+                                </div>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-primary"><i class="mdi mdi-cart-outline"></i></div>
+                                    <p class="notify-details"><b>Your order is placed</b><small class="text-muted">Dummy text of the printing and typesetting industry.</small></p>
+                                </a>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-success"><i class="mdi mdi-message"></i></div>
+                                    <p class="notify-details"><b>New Message received</b><small class="text-muted">You have 87 unread messages</small></p>
+                                </a>
+
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-warning"><i class="mdi mdi-martini"></i></div>
+                                    <p class="notify-details"><b>Your item is shipped</b><small class="text-muted">It is a long established fact that a reader will</small></p>
+                                </a>
+
+                                <!-- All-->
+                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    View All
+                                </a>
+
+                            </div>
+                        </li>
+
+                        <li class="list-inline-item dropdown notification-list">
+                            <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button"
+                               aria-haspopup="false" aria-expanded="false">
+                                <img src="" alt="user" class="rounded-circle">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                                <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle m-r-5 text-muted"></i> Profile</a>
+                                <a class="dropdown-item" href="#"><span class="badge badge-success pull-right">5</span><i class="mdi mdi-settings m-r-5 text-muted"></i> Settings</a>
+                                <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline m-r-5 text-muted"></i> Lock screen</a>
+                                <a class="dropdown-item" href="#"><i class="mdi mdi-logout m-r-5 text-muted"></i> Logout</a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                    <ul class="list-inline menu-left mb-0">
+                        <li class="list-inline-item">
+                            <button type="button" class="button-menu-mobile open-left waves-effect">
+                                <i class="ion-navicon"></i>
+                            </button>
+                        </li>
+                        <li class="hide-phone list-inline-item app-search">
+                            <h3 class="page-title">Dashboard</h3>
+                        </li>
+                    </ul>
+
+                    <div class="clearfix"></div>
+
+                </nav>
+
+            </div>
+            <!-- Top Bar End -->
+
+            <div class="page-content-wrapper ">
+
+                <div class="container-fluid">
+
+                    <div class="row">
+
+                        {% block body %}{% endblock %}
+
+                    </div>
+                    <!-- end row -->
+
+
+                </div><!-- container -->
+
+
+            </div> <!-- Page content Wrapper -->
+
+        </div> <!-- content -->
+
+        <footer class="footer">
+            Copyright &copy; Starting5 2018
+        </footer>
+
+    </div>
+    <!-- End Right content here -->
+
+</div>
+<!-- END wrapper -->
+
+
+<!-- jQuery  -->
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/popper.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/modernizr.min.js') }}"></script>
+<script src="{{ asset('js/detect.js') }}"></script>
+<script src="{{ asset('js/fastclick.js') }}"></script>
+<script src="{{ asset('js/jquery.slimscroll.js') }}"></script>
+<script src="{{ asset('js/jquery.blockUI.js') }}"></script>
+<script src="{{ asset('js/waves.js') }}"></script>
+<script src="{{ asset('js/jquery.nicescroll.js') }}"></script>
+<script src="{{ asset('js/jquery.scrollTo.min.js') }}"></script>
+
+<!--Morris Chart-->
+<script src="{{ asset('plugins/morris/morris.min.js') }}"></script>
+<script src="{{ asset('plugins/raphael/raphael-min.js') }}"></script>
+
+<script src="{{ asset('pages/dashborad.js') }}"></script>
+
+<!-- App js -->
+<script src="{{ asset('js/app.js') }}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+<script type="text/javascript">
+    new WOW().init();
+    $('.loading').hide();
+</script>
+
+</body>
+</html>

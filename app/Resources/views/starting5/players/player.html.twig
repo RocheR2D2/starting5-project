@@ -1,9 +1,26 @@
-<div class="text-center">
-    <img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{{ player.playerId }}.png" alt="{{ player.teamId.teamId }}"
-         width="100px">
+<div id="player-{{ player.playerId }}">
+    <div class="text-center">
+        <img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{{ player.playerId }}.png"
+             alt="{{ player.teamId.teamId }}"
+             width="100px"
+             class="wow fadeInUp">
+    </div>
+    <p class="text-center" class="wow fadeInDown">
+        {{ player.rarity }}
+        <br>
+        <span class="wow fadeInUp">
+            {{ player.firstname }} {{ player.lastname }}
+        </span>
+        <br>
+        <span class="wow fadeInDown">
+            {{ player.position }} -
+            {{ player.rating }}
+        </span>
+        <img src="{{ asset('images/teams/' ~ player.teamId.teamId ~ '.svg') }}"
+             alt="{{ player.teamId.teamId }}"
+             width="50px"
+             class="wow fadeInUp">
+        <br>
+        <span class="text-center">OFF {{ player.offensiveRating }} - DEF {{ player.defensiveRating }}</p>
+    </p>
 </div>
-<p class="text-center">
-    {{ player.firstname }} {{ player.lastname }} - {{ player.position }} - {{ player.rating }}
-    <img src="{{ asset('images/teams/' ~ player.teamId.teamId ~ '.svg') }}" alt="{{ player.teamId.teamId }}"
-         width="50px">
-</p>
