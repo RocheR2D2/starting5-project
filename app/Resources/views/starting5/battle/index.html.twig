@@ -19,7 +19,6 @@
                <div id="myTeam" class="col-md-12 battle-my-team">
                    {% include 'starting5/battle/myTeam.html.twig' with {'team' : activeTeam }  %}
                </div>
-               <div class="col-md-12"><h2>VS</h2></div>
                <div id="opponent" class="col-md-12"></div>
                <div id="confrontButton" class="col-md-12"></div>
            </div>
@@ -40,8 +39,10 @@
                         },
                         success: function (success) {
                             opponent.empty(); confrontButton.empty();
+                            opponent.append("<div class='col-md-12'><h2>VS</h2></div>");
                             opponent.append(success.opponent);
                             confrontButton.append(success.button);
+                            $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                         }
                     });
                 });

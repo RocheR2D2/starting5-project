@@ -3876,13 +3876,21 @@ body.fixed-left .side-menu.left {
     margin-top:35px;
 }
 
-.battle-played .played-warning{
+.battle-played .played-warning, .noTeamFound{
     text-align: center;
     padding: 20px 10px;
     color: #FFF;
     font-size: 1.5em;
     max-width: 450px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.battle-played .played-warning .fa-exclamation-circle, .noTeamFound .fa-exclamation-circle{
+    margin-right: 10px;
 }
 
 .battle-played .defensive .title{
