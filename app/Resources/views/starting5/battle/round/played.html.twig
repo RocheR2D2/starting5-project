@@ -38,8 +38,8 @@
                         {% endfor %}
                     </div>
                 {% else %}
-                    <div class="bg-danger">
-                        {{ attacker.username }} hasn't played yed !
+                    <div class="bg-danger played-warning">
+                        <i class="fas fa-exclamation-circle"></i> {{ attacker.username }} hasn't played yed !
                     </div>
                 {% endif %}
 
