@@ -487,6 +487,8 @@ app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scop
 
     $scope.sendTeam = function(){
 
+        $scope.sendingTeam = true;
+
         var data;
 
         switch($scope.playType){
@@ -524,6 +526,7 @@ app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scop
 
         ServiceBattle.sendTeam(pathSubmit,data)
             .then(function(response){
+                $scope.sendingTeam = false;
                 $scope.sendingDone = true;
                 window.location = "/app_dev.php/battle/" + $scope.battleId + "/played/" + $scope.roundId;
             },
