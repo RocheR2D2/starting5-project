@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html lang="zxx" class="no-js">
+<html lang="fr" class="no-js">
 <head>
     <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon-->
     <link rel="shortcut icon" href="img/fav.png">
-    <!-- Author Meta -->
-    <meta name="author" content="CodePixar">
     <!-- Meta Description -->
     <meta name="description" content="">
     <!-- Meta Keyword -->
@@ -35,13 +33,13 @@
             <div class="header-wrap">
                 <div class="header-top d-flex justify-content-between align-items-center">
                     <div class="logo">
-                        <a href="index.html"><img src="img/logo.png" alt=""></a>
+                        <a href="{{ url('homepage') }}"><img src="img/logo.png" alt=""></a>
                     </div>
                     <div class="main-menubar d-flex align-items-center">
                         <nav class="hide">
-                            <a href="index.html">Home</a>
-                            <a href="generic.html">Generic</a>
-                            <a href="elements.html">Elements</a>
+                            <a href="{{ url('homepage') }}">Home</a>
+                            <a href="{{ url('dashboard') }}">STARTING5</a>
+                            <a href="#contact">Contact Us</a>
                         </nav>
                         <div class="menu-bar"><span class="lnr lnr-menu"></span></div>
                     </div>
@@ -56,7 +54,7 @@
                     <div class="banner-content text-center">
                         <span class="text-white top text-uppercase">Créer ton 5 Majeur avec</span>
                         <h1 class="text-white text-uppercase">Starting5</h1>
-                        <a href="#" class="primary-btn d-inline-flex align-items-center"><span class="mr-10">Get Started</span><span class="lnr lnr-arrow-right"></span></a>
+                        <a href="{{ url('dashboard') }}" class="primary-btn d-inline-flex align-items-center"><span class="mr-10">Créer votre FIV5</span><span class="lnr lnr-arrow-right"></span></a>
                     </div>
                 </div>
             </div>
@@ -73,8 +71,8 @@
                             <span class="lnr lnr-sun"></span>
                         </div>
                         <div class="desc">
-                            <h6 class="title text-uppercase">Stunning Visuals</h6>
-                            <p>Here, I focus on a range of items and features that we use in life without giving them a second thought such as Coca Cola, body</p>
+                            <h6 class="title text-uppercase">Déloquer des joueurs</h6>
+                            <p>Ouvrez des packs quotidiennement afin d'obtenir un maximum de carte et enrichir votre collection de joueurs NBA !</p>
                         </div>
                     </div>
                 </div>
@@ -84,8 +82,8 @@
                             <span class="lnr lnr-code"></span>
                         </div>
                         <div class="desc">
-                            <h6 class="title text-uppercase">Clean Code</h6>
-                            <p>Over 92% of computers are infected with Adware and spyware. Such software is rarely accompanied by uninstall utility </p>
+                            <h6 class="title text-uppercase">Créer votre équipe</h6>
+                            <p>Choisissez les meilleurs joueurs de votre collection, et créer votre 5 majeurs de rêve !</p>
                         </div>
                     </div>
                 </div>
@@ -95,8 +93,8 @@
                             <span class="lnr lnr-clock"></span>
                         </div>
                         <div class="desc">
-                            <h6 class="title text-uppercase">Punctuality</h6>
-                            <p>If you own an Iphone, you’ve probably already worked out how much fun it is to use it to watch movies-it has that nice big screen</p>
+                            <h6 class="title text-uppercase">Confronter votre équipe</h6>
+                            <p>Défiez les autres 5 majeurs d'autres joueurs, et dominer la ligue !</p>
                         </div>
                     </div>
                 </div>
@@ -256,7 +254,7 @@
     </section>
     <!-- End Subscription Area -->
     <!-- Start Footer Widget Area -->
-    <section class="footer-widget-area">
+    <section class="footer-widget-area" id="contact">
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
