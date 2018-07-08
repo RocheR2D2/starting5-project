@@ -182,6 +182,8 @@ class RoundController extends Controller
 
     public function detailPlayedAction($battleId,$roundId)
     {
+        $this->hasPlayersPlayed($battleId, $roundId);
+
         $round = $this->battleRound->find($roundId);
         $battle = $this->battle->find($battleId);
         $battleRoundType = $round->getPlayType();

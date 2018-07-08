@@ -1,16 +1,20 @@
 <div class="col-lg-3 col-md-3 col-xs-6 round-card {% if (round.done or round.round == activeRound) and loop.last == false %} done {% endif %}">
     <div>
         <h2>Round #{{ round.round }}</h2>
-        {% if round.done == NULL and round.round == activeRound %}
+        {% if round.done == NULL and round.round == activeRound and playMade is empty %}
             <a href="{{ path('round.detail', {'battleId' : battle.id, 'roundId' : round.id}) }}" class="btn btn-success">PLAY</a>
-        {% elseif(round.done ==true and (round.attackerPoints != 0 or round.defenderPoints != 0)) %}
+        {% elseif(round.done == true and (round.attackerPoints != 0 or round.defenderPoints != 0)) %}
             <a href="{{ path('round.detail.played', {'battleId' : battle.id, 'roundId' : round.id}) }}" class="btn btn-danger">OVER</a>
+        {% elseif (round.done == NULL and round.round == activeRound and playMade is not empty) %}
+            <a href="{{ path('round.detail.played', {'battleId' : battle.id, 'roundId' : round.id}) }}" class="btn btn-primary">WAITING</a>
         {% else %}
             <span class="btn btn-secondary">Not started</span>
         {% endif %}
     </div>
     {% if round.done == true %}
         <p class="score">Score: {{ round.attackerId.username }} {{ round.attackerPoints }} - {{ round.defenderPoints }} {{ round.defenderId.username }}</p>
+    {% elseif(round.done is null and playMade is not empty and round.round == activeRound) %}
+        <p class="score">Waiting for opponent ...</p>
     {% else %}
         <p class="score">Not started</p>
     {% endif %}
