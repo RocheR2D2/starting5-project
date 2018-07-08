@@ -10,80 +10,171 @@
                 <h2>Home Battles</h2>
                 <div class="row" id="home">
                         <div class="col-md-4">
-                            ACTIVE
-                            {% if homeActiveBattle | length > 0 %}
+                            <table class="table">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">ACTIVE</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if homeActiveBattle | length > 0 %}
                                 {% for battle in homeActiveBattle %}
-                                    {% include 'starting5/battle/battle.html.twig' with {'battle' : battle} %}
-                                {% endfor %}
-                            {% else %}
-                                <div class="bg-danger">
-                                    No Battle.
-                                </div>
-                            {% endif %}
+                                <tr>
+                                    <td class="bg-white">
+                                        {% include 'starting5/battle/battle.html.twig' with {'battle' : battle} %}
+                                    </td>
+                                </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td class="bg-danger">
+                                                No Battle.
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+
+                                </tbody>
+                            </table>
                         </div>
                     <div class="col-md-4">
-                        WAITING...
-                        {% if homeWaitingBattle | length > 0 %}
+                        <table class="table">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">WAITING</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if homeWaitingBattle | length > 0 %}
                             {% for battle in homeWaitingBattle %}
-                                {% include 'starting5/battle/battle.html.twig' with {'battle' : battle} %}
-                            {% endfor %}
-                        {% else %}
-                            <div class="bg-danger">
-                                No Battle.
-                            </div>
-                        {% endif %}
+                            <tr>
+
+                                        <td class="bg-white">
+                                            {% include 'starting5/battle/battle.html.twig' with {'battle' : battle} %}
+                                        </td>
+                            </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td class="bg-danger">
+                                            No Battle.
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="col-md-4">
-                        OVER
-                        {% if homeOverBattle | length > 0 %}
+                        <table class="table">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">OVER</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if homeOverBattle | length > 0 %}
                             {% for battle in homeOverBattle %}
-                                {% include 'starting5/battle/battle.html.twig' with {'battle' : battle} %}
-                            {% endfor %}
-                        {% else %}
-                            <div class="bg-danger">
-                                No Battle.
-                            </div>
-                        {% endif %}
+                            <tr>
+                                        <td class="bg-white">
+                                            {% include 'starting5/battle/battle.html.twig' with {'battle' : battle} %}
+                                        </td>
+                            </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td class="bg-danger">
+                                            No Battle.
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <hr>
                 <h2>Away Battles</h2>
                 <div class="row" id="away">
                        <div class="col-md-4">
-                           ACTIVE
-                           {% if awayActiveBattle | length > 0 %}
-                               {% for battle in awayActiveBattle %}
-                                   {% include 'starting5/battle/battle.html.twig' with {'battle' : battle} %}
-                               {% endfor %}
-                           {% else %}
-                               <div class="bg-danger">
-                                   No Battle.
-                               </div>
-                           {% endif %}
+                           <table class="table">
+                               <thead class="thead-dark">
+                               <tr>
+                                   <th scope="col">ACTIVE</th>
+                               </tr>
+                               </thead>
+                               <tbody>
+                               {% if awayActiveBattle | length > 0 %}
+                                   {% for battle in awayActiveBattle %}
+                                       <tr>
+                                           <td class="bg-white">
+                                               {% include 'starting5/battle/battle.html.twig' with {'battle' : battle} %}
+                                           </td>
+                                       </tr>
+                                   {% endfor %}
+                               {% else %}
+                                   <tr>
+                                       <td class="bg-danger">
+                                           No Battle.
+                                       </td>
+                                   </tr>
+                               {% endif %}
+
+                               </tbody>
+                           </table>
                        </div>
                     <div class="col-md-4">
-                        INVITATION
-                        {% if awayInvitationBattle | length > 0 %}
-                            {% for battle in awayInvitationBattle %}
-                                {% include 'starting5/battle/battle.html.twig' with {'battle' : battle} %}
-                            {% endfor %}
-                        {% else %}
-                            <div class="bg-danger">
-                                No Battle.
-                            </div>
-                        {% endif %}
+                        <table class="table">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">INVITATION</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if awayInvitationBattle | length > 0 %}
+                                {% for battle in awayInvitationBattle %}
+                                    <tr>
+                                        <td class="bg-white">
+                                            {% include 'starting5/battle/battle.html.twig' with {'battle' : battle} %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td class="bg-danger">
+                                        No Battle.
+                                    </td>
+                                </tr>
+                            {% endif %}
+
+                            </tbody>
+                        </table>
                     </div>
                     <div class="col-md-4">
-                        OVER
-                        {% if awayOverBattle | length > 0 %}
-                            {% for battle in awayOverBattle %}
-                                {% include 'starting5/battle/battle.html.twig' with {'battle' : battle} %}
-                            {% endfor %}
-                        {% else %}
-                            <div class="bg-danger">
-                                No Battle.
-                            </div>
-                        {% endif %}
+                        <table class="table">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">OVER</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if awayOverBattle | length > 0 %}
+                                {% for battle in awayOverBattle %}
+                                    <tr>
+                                        <td class="bg-white">
+                                            {% include 'starting5/battle/battle.html.twig' with {'battle' : battle} %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td class="bg-danger">
+                                        No Battle.
+                                    </td>
+                                </tr>
+                            {% endif %}
+
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

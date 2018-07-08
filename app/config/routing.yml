@@ -98,6 +98,11 @@ user.team.new.createTeam:
     defaults: { _controller: AppBundle:Dashboard:createTeam }
     methods:  [POST]
 
+user.team.edit.editTeam:
+      path:     /team/editTeam
+      defaults: { _controller: AppBundle:Dashboard:editTeam }
+      methods:  [POST]
+
 user.team.edit:
     path:     /team/{id}/edit
     defaults: { _controller: AppBundle:Dashboard:edit }
@@ -266,7 +271,19 @@ round.detail:
             battleId: '\d+'
             roundId: '\d+'
 
+round.detail.played:
+    path:     /battle/{battleId}/played/{roundId}
+    defaults: { _controller: AppBundle:Round:detailPlayed }
+    requirements:
+            battleId: '\d+'
+            roundId: '\d+'
+
 play.create:
     path:     /battle/new/play
     defaults: { _controller: AppBundle:Round:createPlay }
+    methods:  [POST]
+
+get.myBattlePlayers:
+    path:     /json/myBattlePlayers/{battleId}/{roundId}
+    defaults: { _controller: AppBundle:Round:getBattlePlayers }
     methods:  [POST]

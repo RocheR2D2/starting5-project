@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Battle;
 use AppBundle\Entity\BattlePlayers;
+use AppBundle\Entity\BattlePlays;
 use AppBundle\Entity\BattleRound;
 use AppBundle\Entity\NBAPlayers;
 use AppBundle\Entity\PlayType;
@@ -22,6 +23,7 @@ class BattleController extends Controller
     private $battleRound;
     private $battlePlayers;
     private $playType;
+    private $battlePlay;
     private $attackDefenseRound = [];
     private $defenseAttackRound = [];
 
@@ -34,6 +36,7 @@ class BattleController extends Controller
         $this->battleRound = $this->em->getRepository(BattleRound::class);
         $this->battlePlayers = $this->em->getRepository(BattlePlayers::class);
         $this->playType = $this->em->getRepository(PlayType::class);
+        $this->battlePlay = $this->em->getRepository(BattlePlays::class);
         $this->attackDefenseRound = $this->playType->getAttackDefenseRound();
         $this->defenseAttackRound = $this->playType->getDefenseAttackRound();
     }
@@ -169,12 +172,18 @@ class BattleController extends Controller
         $playerOnePlayers = $this->battlePlayers->findBy(['battleId' => $battle, 'userId' => $this->getUser()]);
         $rounds = $this->battleRound->findBy(['battleId' => $battle], ['round' => 'ASC']);
         $activeRound = $this->battleRound->getActiveRound($battle);
+        $playerBattleRound = $this->battleRound->findOneBy(['round' => $activeRound, 'attackerId' => $this->getUser(), 'battleId' => $battleId]);
+        if(empty($playerBattleRound)) {
+            $playerBattleRound = $this->battleRound->findOneBy(['round' => $activeRound, 'defenderId' => $this->getUser(),'battleId' => $battleId]);
+        }
+        $isPlayMade = $this->battlePlay->findBy(['userId' => $this->getUser(), 'battleRoundId' => $playerBattleRound]);
 
         return $this->render('starting5/battle/detail.html.twig', [
             'battle' => $battle,
             'rounds' => $rounds,
             'players' => $playerOnePlayers,
-            'activeRound'=> $activeRound
+            'activeRound'=> $activeRound,
+            'playMade' => $isPlayMade
         ]);
     }
 

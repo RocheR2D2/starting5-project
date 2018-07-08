@@ -6,9 +6,9 @@
 
 {% block body %}
 
-        <div class="container">
+        <div class="container myPlayersList">
             <div class="row">
-                <h2>My 5IVE
+                <h2>
                     {% if(countTeam < 3) %}
                     <a href="{% if(countTeam < 3) %}{{ path('user.team.new') }}{% endif %}" class="btn btn-primary">
                             {% if userTeams|length > 0 %}
@@ -20,8 +20,11 @@
                     {% endif %}
                 </h2>
             </div>
+
+
             {% if userTeams|length > 0 %}
                 {% for team in teams %}
+
                     {% include 'starting5/dashboard/team.html.twig' with {'team' : team } %}
                 {% endfor %}
             {% else %}
@@ -29,5 +32,7 @@
                     NO 5IVE AVAILABLE
                 </p>
             {% endif %}
+
         </div>
+
 {% endblock %}

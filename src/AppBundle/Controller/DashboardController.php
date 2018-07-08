@@ -159,10 +159,10 @@ class DashboardController extends Controller
         $userTeam->setDislike(0);
         $userTeam->setName($teamName);
         $trainerRepo = $this->getDoctrine()->getRepository(Trainer::class);
-        $trainer = $trainerRepo->find($trainer["trainerId"]["id"]);
+        $trainer = $trainerRepo->find($trainer["id"]);
 
         $stadiumRepo = $this->getDoctrine()->getRepository(Stadium::class);
-        $stadium = $stadiumRepo->find($stadium["stadiumId"]["id"]);
+        $stadium = $stadiumRepo->find($stadium["id"]);
 
         $userTeam->setTrainerId($trainer);
         $userTeam->setStadiumId($stadium);
@@ -175,54 +175,54 @@ class DashboardController extends Controller
 
     }
 
-    public function editAction(Request $request, $id)
+    public function editAction($id)
     {
-        $user = $this->getUser();
         $userTeam = $this->userTeamDoctrine->find($id);
-        $form = $this->createForm(UserTeamType::class, $userTeam);
-
-        $pg = $this->userTeamDoctrine->find($id)->getPointGuard()->getFullName();
-        $sg = $this->userTeamDoctrine->find($id)->getShootingGuard()->getFullName();
-        $sf = $this->userTeamDoctrine->find($id)->getSmallForward()->getFullName();
-        $pf = $this->userTeamDoctrine->find($id)->getPowerForward()->getFullName();
-        $c = $this->userTeamDoctrine->find($id)->getCenter()->getFullName();
-
-        $guards = $this->userPlayers->getGuards($user);
-        $gCount = $this->userPlayers->allGuards;
-        $forwards = $this->userPlayers->getForwards($user);
-        $fCount = $this->userPlayers->allForwards;
-        $centers = $this->userPlayers->getCenters($user);
-        $cCount = $this->userPlayers->allCenters;
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $request->request->get('form');
-            $this->setNewPlayers($userTeam, $this->nbaPlayers, $data);
-            $em = $this->getDoctrine()->getManager();
-            $userTeam = $form->getData();
-            $em->persist($userTeam);
-            $em->flush();
-
-            return $this->redirectToRoute('user.team.edit', ['id' => $id]);
-        }
 
         return $this->render('starting5/dashboard/teams/edit.html.twig', array(
-            'form' => $form->createView(),
-            'userTeam' => $userTeam,
-            'id' => $id,
-            'guards' => $guards,
-            'gCount' => $gCount,
-            'forwards' => $forwards,
-            'centers' => $centers,
-            'fCount' => $fCount,
-            'cCount' => $cCount,
-            'pg' => $pg,
-            'sg' => $sg,
-            'sf' => $sf,
-            'pf' => $pf,
-            'c' => $c,
+            'userTeam' => $userTeam
         ));
+    }
+
+    public function editTeamAction(Request $request)
+    {
+        $data = $request->getContent();
+        $data = json_decode($data, true);
+
+        $id = $data["id"];
+
+        $teamName = $data["teamName"];
+        $players = $data["players"];
+        $stadium = $data["stadium"];
+        $trainer = $data["trainer"];
+
+        $user = $this->getUser();
+
+        $userTeamRepo = $this->getDoctrine()->getRepository(UserTeam::class);
+        $userTeam = $userTeamRepo->find($id);
+
+        $playerDoctrine = $this->getDoctrine()->getRepository(NBAPlayers::class);
+        $this->setNewPlayers($userTeam, $playerDoctrine, $players);
+        $this->setTeamRating($userTeam, $players);
+        $userTeam->setUser($user);
+        $userTeam->setLike(0);
+        $userTeam->setDislike(0);
+        $userTeam->setName($teamName);
+        $trainerRepo = $this->getDoctrine()->getRepository(Trainer::class);
+        $trainer = $trainerRepo->find($trainer["id"]);
+
+        $stadiumRepo = $this->getDoctrine()->getRepository(Stadium::class);
+        $stadium = $stadiumRepo->find($stadium["id"]);
+
+        $userTeam->setTrainerId($trainer);
+        $userTeam->setStadiumId($stadium);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($userTeam);
+        $em->flush();
+
+        return new Response("done");
+
     }
 
     public function setPlayers($players, $pointGuard, $shootingGuard, $smallForward, $powerForward, $center)
