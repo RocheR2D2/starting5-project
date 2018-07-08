@@ -1,33 +1,33 @@
-<h2>{{ team['data']['name'] }} <a href="{{ path('user.team.edit', {'id': team['data']['id'] }) }}" class="btn btn-info">Edit this 5IVE</a></h2>
-<div>
-    <span>{{ team['data']['trainer'].fullName }}</span>
-    <span>{{ team['data']['stadium'].name }}</span>
-    <span>Average : {{ team['data']['teamRating'] }}</span>
-    <span>Off. Rating : {{ team['data']['offRating'] }}</span>
-    <span>Def. Rating : {{ team['data']['defRating'] }}</span>
-</div>
-<div class="row">
-    <div class="col-md-4">
+<div class="myTeams-container">
+    <h2 class="title">{{ team['data']['name'] }}</h2>
+    <a href="{{ path('user.team.edit', {'id': team['data']['id'] }) }}" class="btn btn-info edit">Edit this 5IVE</a>
+    <div class="details-grid">
+        <div class="item"><u class="text">Entraîneur</u><i class="far fa-user"></i><span class="text">{{ team['data']['trainer'].fullName }}</span></div>
+        <div class="item border-left-right"><u class="text">Stade</u><img src="{{ asset('images/stadium.png') }}" alt=""><span class="text">{{ team['data']['stadium'].name }}</span></div>
+        <div class="item "><u class="text">Rating global</u><i class="far fa-star"></i> <span class="text">{{ team['data']['teamRating'] }}</span></div>
+        <div class="item border-left-right"><u class="text">Rating offensive</u><img src="{{ asset('images/sword.png') }}" alt=""><span class="text">{{ team['data']['offRating'] }}</span></div>
+        <div class="item"><u class="text">Rating defensive</u><i class="fas fa-shield-alt"></i><span class="text">{{ team['data']['defRating'] }}</span></div>
+    </div>
+    <div class="d-flex-players">
+
         {% set player = team['players']['pointGuard'] %}
         {% include 'starting5/players/player.html.twig' with {'player': player} %}
-    </div>
-    <div class="col-md-4">
+
+
         {% set player = team['players']['shootingGuard'] %}
         {% include 'starting5/players/player.html.twig' with {'player': player} %}
-    </div>
-    <div class="col-md-4">
+
         {% set player = team['players']['smallForward'] %}
         {% include 'starting5/players/player.html.twig' with {'player': player} %}
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-5">
+
+
+
         {% set player = team['players']['powerForward'] %}
         {% include 'starting5/players/player.html.twig' with {'player': player} %}
-    </div>
-    <div class="col-md-5">
+
+
         {% set player = team['players']['center'] %}
         {% include 'starting5/players/player.html.twig' with {'player': player} %}
+
     </div>
 </div>
-<hr>

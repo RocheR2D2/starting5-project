@@ -1,10 +1,13 @@
-<div class="wow fadeInUpBig" style="margin:10px;">
-    <div class="row text-center">
+<hr style="width: 50%;margin:0 auto 50px auto">
+<div class="wow fadeInUpBig">
+    <div class="row text-center pack-players">
         {% if duplicatePlayers|length > 0 %}
             {% for player in duplicatePlayers %}
-                <div class="col-md-4">
+                <div style="position:relative;">
                     {% include 'starting5/players/player.html.twig' with {'player': player.player } %}
-                    <span>+ {{ player.refund }}</span>
+
+                    <span class="badge badge-pill badge-primary">+ {{ player.refund }} <i class="fas fa-trophy"></i></span>
+
                 </div>
             {% endfor %}
         {% endif %}

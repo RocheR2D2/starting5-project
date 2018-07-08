@@ -2,65 +2,77 @@
 
 {% block body %}
 
-    <div class="container">
-        <a href="{{ path('battle.detail', {'battleId': battleId}) }}">Back</a>
-        {% if roundResult is not empty %}
-            <div class="col-md-12">
-                Round Score : {{ roundResult.score }}
-                Battle Score : {{ roundResult.battleScore }}
+    <div class="battle-details battle-played">
+        <div class="top-head">
+            <div class="return-link">
+            <a href="{{ path('battle.detail', {'battleId': battleId}) }}">Back</a>
             </div>
-            <hr>
-        {% endif %}
-        <div class="col-md-6">
-            <h2>OFFENSIVE PLAY BY {{ attacker.username }}</h2>
-            {% if offPlayers | length > 0 %}
-                <div class="row">
-                    {% for player in offPlayers %}
-                        <div class="col-md-4 text-center">
-                            {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
-                            <span class="btn btn-danger">A.P : {{ player.battlePlayerId.actionPoint }} </span>
-                            <span class="btn btn-success">
-                                OR : {{ player.playerId.offensiveRating }}
-                                {% if player.bonus >= 0 %}
-                                    + {{ player.bonus }}
-                                {% else %}
-                                    {{ player.bonus }}
-                                {% endif %}
-                            </span>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="bg-danger">
-                    {{ attacker.username }} hasn't played yed !
+            {% if roundResult is not empty %}
+                <div class="col-md-12 text-center">
+                    <p><u>Round Score</u>: <b>{{ roundResult.score }}</b></p>
+                    <p><u>Battle Score</u>: <b>{{ roundResult.battleScore }}</b></p>
                 </div>
             {% endif %}
         </div>
-        <div class="col-md-6">
-            <h2>DEFENSIVE PLAY BY {{ defender.username }}</h2>
-            {% if defPlayers | length > 0 %}
-                <div class="row">
-                {% for player in defPlayers %}
-                    <div class="col-md-4 text-center">
-                        {% include 'starting5/players/player.html.twig' with { 'player': player.playerId } %}
-                        <span class="btn btn-danger">A.P : {{ player.battlePlayerId.actionPoint }} </span>
-                        <span class="btn btn-warning">
-                            DR : {{ player.playerId.defensiveRating }}
-                            {% if player.bonus >= 0 %}
-                                + {{ player.bonus }}
-                            {% else %}
-                                {{ player.bonus }}
-                            {% endif %}
-                        </span>
+
+        <div class="container">
+            <div class="myTeams-container">
+                <h2 class="title">OFFENSIVE PLAY BY {{ attacker.username }}</h2>
+                {% if offPlayers | length > 0 %}
+                    <div class="d-flex-players">
+                        {% for player in offPlayers %}
+                            <div class="col-md-4 text-center">
+                                {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}
+                                <div class="badge badge-light badge-rating">
+                                 <img src="{{ asset('images/sword.png') }}" alt="">
+                                   <span>
+                                        : {{ player.playerId.offensiveRating }}
+                                       {% if player.bonus >= 0 %}
+                                           + {{ player.bonus }}
+                                       {% else %}
+                                           {{ player.bonus }}
+                                       {% endif %}
+                                   </span>
+                            </div>
+                            </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
-            {% else %}
-                <div class="bg-danger">
-                    {{ defender.username }} hasn't played yet !
+                {% else %}
+                    <div class="bg-danger played-warning">
+                        <i class="fas fa-exclamation-circle"></i> {{ attacker.username }} hasn't played yet !
+                    </div>
+                {% endif %}
+
+                <h2 class="text-center">VS</h2>
+                <div class="defensive">
+                {% if defPlayers | length > 0 %}
+                    <div class="d-flex-players">
+                        {% for player in defPlayers %}
+                            <div class="col-md-4 text-center">
+                                <div class="badge badge-light badge-rating">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>
+                                  : {{ player.playerId.defensiveRating }}
+                                        {% if player.bonus >= 0 %}
+                                            + {{ player.bonus }}
+                                        {% else %}
+                                            {{ player.bonus }}
+                                        {% endif %}
+                              </span>
+                                </div>
+                                {% include 'starting5/players/player.html.twig' with { 'player': player.playerId } %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                        <h2 class="title">DEFENSIVE PLAY BY {{ defender.username }}</h2>
                 </div>
-                </div>
-            {% endif %}
+                {% else %}
+                    <div class="bg-danger">
+                        {{ defender.username }} hasn't played yet !
+                    </div>
+                    </div>
+                {% endif %}
+            </div>
         </div>
-    </div>
 
 {% endblock %}
