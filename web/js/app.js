@@ -4,6 +4,11 @@ app.config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 })
 
+var base_url = window.location.origin;
+if(window.location.href.indexOf("app_dev.php") > -1){
+    base_url += "/app_dev.php";
+}
+
 /* ### ADMIN QUIZZ ### */
 
 app.controller('adminQuizz', [ '$scope', function($scope){
@@ -18,11 +23,11 @@ app.controller('adminQuizz', [ '$scope', function($scope){
 
 app.factory("ServiceQuizz", function ($http) {
         var getRandomQuizz = function () {
-            return $http.post("/app_dev.php/quizz/getRandomQuizz", {responseType: "json"});
+            return $http.post( base_url + "/quizz/getRandomQuizz", {responseType: "json"});
         };
 
         var validateQuizz = function ($id,$answer) {
-            return $http.post("/app_dev.php/quizz/validateQuizz", {"id":$id,"answer":$answer});
+            return $http.post( base_url + "/quizz/validateQuizz", {"id":$id,"answer":$answer});
         };
 
     return {
@@ -78,27 +83,27 @@ app.controller('Quizz', [ '$scope', '$http', 'ServiceQuizz' , function($scope, $
 
 app.factory("ServiceFive", function ($http) {
     var getPlayer = function () {
-        return $http.get("/app_dev.php/team/getPlayers", {responseType: "json"});
+        return $http.get(base_url + "/team/getPlayers", {responseType: "json"});
     };
 
     var sendTeam = function(team, edit){
         if(edit){
-            return $http.post("/app_dev.php/team/editTeam", team);
+            return $http.post(base_url + "/team/editTeam", team);
         }else{
-            return $http.post("/app_dev.php/team/createTeam", team);
+            return $http.post(base_url + "/team/createTeam", team);
         }
     };
 
     var getStadiums = function(){
-        return $http.get("/app_dev.php/json/myStadiums", {responseType: "json"});
+        return $http.get(base_url + "/json/myStadiums", {responseType: "json"});
     };
 
     var getTrainers = function(){
-        return $http.get("/app_dev.php/json/myTrainers", {responseType: "json"});
+        return $http.get(base_url + "/json/myTrainers", {responseType: "json"});
     };
 
     var getInfosEdit = function (id){
-        return $http.get("/app_dev.php/json/" + id + "/myTeam/", {responseType: "json"});
+        return $http.get(base_url + "/json/" + id + "/myTeam/", {responseType: "json"});
     }
 
     return {
@@ -337,7 +342,7 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
                 $scope.sendingDone = true;
                 $("#createTeam").modal("hide");
 
-                window.location.href= "/app_dev.php/my-teams";
+                window.location.href= base_url + "/my-teams";
 
 
         }, function(err){
@@ -361,7 +366,7 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
 
 app.factory("ServiceBattle", function ($http) {
     var getPlayer = function (battleId,roundId) {
-        return $http.post("/app_dev.php/json/myBattlePlayers/" + battleId + "/" + roundId, {responseType: "json"});
+        return $http.post(base_url + "/json/myBattlePlayers/" + battleId + "/" + roundId, {responseType: "json"});
     };
 
     var sendTeam = function(pathSubmit,data){
@@ -528,7 +533,7 @@ app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scop
             .then(function(response){
                 $scope.sendingTeam = false;
                 $scope.sendingDone = true;
-                window.location = "/app_dev.php/battle/" + $scope.battleId + "/played/" + $scope.roundId;
+                window.location = base_url + "/battle/" + $scope.battleId + "/played/" + $scope.roundId;
             },
             function(error){
                 console.log(error);
