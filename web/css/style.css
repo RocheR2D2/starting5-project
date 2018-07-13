@@ -3274,6 +3274,12 @@ body.fixed-left .side-menu.left {
     flex-direction: column;
     left: 5px;
     top: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-player .playerTeam{
+    height: 42px!important;
 }
 
 .input-player .portrait .description .top-left .rating{
@@ -3291,7 +3297,6 @@ body.fixed-left .side-menu.left {
 .input-player .portrait .description .top-left .position{
     color: #424242;
     font-weight: 600;
-    padding-left: 13px;
 }
 
 .input-player .portrait .description img{
@@ -3316,7 +3321,9 @@ body.fixed-left .side-menu.left {
     margin: 0;
     float: left;
     width: 100%;
-    font-size: 0.8rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #4e4e4e;
 }
 
 .input-player .portrait .list-stats{

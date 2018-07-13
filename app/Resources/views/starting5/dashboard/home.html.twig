@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-md-12">
                     <h2>Players in your shop</h2>
-                    <div class="row">
+                    <div class="row lastPLayers">
                         {% if(shopPlayers|length > 0) %}
                         {% for shopPlayer in shopPlayers %}
                             {% include 'starting5/players/shop.html.twig' with
