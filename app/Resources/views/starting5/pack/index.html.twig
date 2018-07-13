@@ -7,11 +7,17 @@
 {% block body %}
 
     <div class="container">
+        {% if points <= 0 %}
+            <div class="badge">
+               You don't have points. Make some quizz to earn it.
+            </div>
+            {%  else %}
         <div class="pack-list text-center">
             {% include 'starting5/pack/packs.html.twig' with {'packs': packs} %}
         </div>
 
         <div class="pack-content"></div>
         <div class="duplicate-players"></div>
+            {% endif %}
     </div>
 {% endblock %}

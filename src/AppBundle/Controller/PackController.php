@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\NBAPlayers;
 use AppBundle\Entity\Stadium;
 use AppBundle\Entity\Trainer;
+use AppBundle\Entity\User;
 use AppBundle\Entity\UsersPlayers;
 use AppBundle\Entity\UserStadium;
 use AppBundle\Entity\UserTrainer;
@@ -58,6 +59,12 @@ class PackController extends Controller
     public function packOpeningAction()
     {
         $userPlayers = $this->userPlayerRepository->findBy(['userId' => $this->getUser()]);
+
+        $UserRepo = $this->em->getRepository(User::class);
+        $user = $UserRepo->find($this->getUser());
+
+        $points = $user->getQuizPoints();
+
         /** @var integer $countPlayers */
         $countPlayers = count($userPlayers) + 3;
         /** @var array $packs */
@@ -65,7 +72,8 @@ class PackController extends Controller
 
         return $this->render('starting5/pack/index.html.twig', [
             'count' => $countPlayers,
-            'packs' => $packs
+            'packs' => $packs,
+            'points' => $points
         ]);
     }
 
