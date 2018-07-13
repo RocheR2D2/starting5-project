@@ -3681,7 +3681,7 @@ body.fixed-left .side-menu.left {
     margin-top: 25px;
 }
 
-.pack-list .pack{
+.pack-list .pack, .pack-list .pack-disable{
     background-size: cover;
     background-position: center;
     height: 350px;
@@ -3695,6 +3695,15 @@ body.fixed-left .side-menu.left {
     transition: 0.5s all ease-in-out;
 }
 
+.pack-list .pack-disable{
+    cursor: not-allowed;
+    filter: grayscale(1);
+}
+
+.pack-list .pack-disable img{
+    height: 100%;
+}
+
 .pack-list .pack img{
     height: 100%;
     transition: 0.3s all cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -3705,7 +3714,7 @@ body.fixed-left .side-menu.left {
     transform: scale(1.2);
 }
 
-.pack-list .pack .pack-name{
+.pack-list .pack .pack-name,.pack-list .pack-disable .pack-name{
     position: absolute;
     bottom: 0;
     color: #FFF;
@@ -3717,23 +3726,23 @@ body.fixed-left .side-menu.left {
     font-weight: bold;
 }
 
-.pack-list .pack .pack-name p{
+.pack-list .pack .pack-name p, .pack-list .pack-disable .pack-name p{
     margin: 0;
 }
 
-.pack-list .pack .pack-name p.silver{
+.pack-list .pack .pack-name p.silver, .pack-list .pack-disable .pack-name p.silver{
     color: #C0C0C0;
 }
 
-.pack-list .pack .pack-name p.golden{
+.pack-list .pack .pack-name p.golden, .pack-list .pack-disable .pack-name p.golden{
     color: #FFD700;
 }
 
-.pack-list .pack .pack-name p.giga{
+.pack-list .pack .pack-name p.giga, .pack-list .pack-disable .pack-name p.giga{
     color: #e2d1c3;
 }
 
-.pack-list .pack .pack-name p.super-rare{
+.pack-list .pack .pack-name p.super-rare, .pack-list .pack-disable .pack-name p.super-rare{
     color: #ff4200;
 }
 
@@ -3876,7 +3885,7 @@ body.fixed-left .side-menu.left {
     margin-top:35px;
 }
 
-.battle-played .played-warning, .noTeamFound{
+.battle-played .played-warning, .noTeamFound, .customWarningBadge{
     text-align: center;
     padding: 20px 10px;
     color: #FFF;
@@ -3889,7 +3898,11 @@ body.fixed-left .side-menu.left {
     justify-content: center;
 }
 
-.battle-played .played-warning .fa-exclamation-circle, .noTeamFound .fa-exclamation-circle{
+.customWarningBadge{
+    max-width: 100%;
+}
+
+.battle-played .played-warning .fa-exclamation-circle, .noTeamFound .fa-exclamation-circle, .customWarningBadge .fa-exclamation-circle{
     margin-right: 10px;
 }
 
