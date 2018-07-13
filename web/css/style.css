@@ -3422,7 +3422,7 @@ body.fixed-left .side-menu.left {
     color: #8e2500;
 }
 
- .sendTeam .btn .ti-basketball, .btn-battle-mode .ti-basketball{
+ .sendTeam .btn .ti-basketball, .btn-battle-mode .ti-basketball, .btn-battle-mode .fa-search{
     margin-right: 5px;
      transition: 0.5s all;
 }
@@ -3956,4 +3956,8 @@ body.fixed-left .side-menu.left {
 
 #opponent{
     display:none;
+}
+
+#confront{
+    margin-top: -35px;
 }
