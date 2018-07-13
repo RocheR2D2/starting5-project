@@ -158,6 +158,7 @@ class DashboardController extends Controller
         $userTeam->setLike(0);
         $userTeam->setDislike(0);
         $userTeam->setName($teamName);
+        $userTeam->setActive(1);
         $trainerRepo = $this->getDoctrine()->getRepository(Trainer::class);
         $trainer = $trainerRepo->find($trainer["id"]);
 

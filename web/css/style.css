@@ -3606,13 +3606,13 @@ body.fixed-left .side-menu.left {
 /* MY TEAMS */
 
 .myTeams-container{
-    background-color: #DCD9D4;
+    background-color: #f1f1f1;
     background-image: linear-gradient(to bottom, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%), radial-gradient(at 50% 0%, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.50) 50%);
     background-blend-mode: soft-light,screen;
     padding: 20px 20px 0px 20px;
     border-radius: 3px;
     position: relative;
-    box-shadow: 3px 6px 20px -2px #424242;
+    box-shadow: 0px 6px 20px -5px #424242;
     margin-bottom: 40px;
 }
 
@@ -3621,7 +3621,7 @@ body.fixed-left .side-menu.left {
     text-align: center;
     width: 100%;
     color: #8e2500;
-    font-size: 3.5em;
+    font-size: 3em;
     text-shadow: 0px 2px 6px #42424270;
     margin-bottom: 35px;
 }
@@ -3963,7 +3963,7 @@ body.fixed-left .side-menu.left {
     margin-top:35px;
 }
 
-.battle-played .played-warning, .noTeamFound, .customWarningBadge{
+.battle-played .played-warning, .noTeamFound, .customWarningBadge, .customWarningBadge-fluid{
     text-align: center;
     padding: 20px 10px;
     color: #FFF;
@@ -3977,7 +3977,7 @@ body.fixed-left .side-menu.left {
 }
 
 .customWarningBadge-fluid{
-    max-width: 100%;
+    max-width: 100%!important;
 }
 
 .battle-played .played-warning .fa-exclamation-circle, .noTeamFound .fa-exclamation-circle, .customWarningBadge .fa-exclamation-circle{
