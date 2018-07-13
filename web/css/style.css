@@ -3586,6 +3586,7 @@ body.fixed-left .side-menu.left {
     justify-content: center;
     align-items: center;
     text-align: center;
+    flex:1;
 }
 
 .myTeams-container .details-grid .item .far, .myTeams-container .details-grid .item .fas{
@@ -3951,4 +3952,8 @@ body.fixed-left .side-menu.left {
 .create-team .item-player.disabled .btn-player img{
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
+}
+
+#opponent{
+    display:none;
 }
