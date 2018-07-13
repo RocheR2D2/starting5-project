@@ -5,14 +5,14 @@
     {% endblock header %}
 
 {% block body %}
-        <div class="container">
+        <div class="container dashboard">
             <div class="row">
                 {% include 'starting5/battle/button.html.twig' %}
-                <div class="col-md-12" id="lastPlayers">
+                <div class="col-md-12 myTeams-container" id="lastPlayers">
                     {% include 'starting5/players/lastPlayers.html.twig' with {'lastPlayers': lastPlayers} %}
                 </div>
-                <div class="col-md-12">
-                    <h2>Players in your shop</h2>
+                <div class="col-md-12 myTeams-container">
+                    <h2 class="title">Players in your shop</h2>
                     <div class="row lastPLayers">
                         {% if(shopPlayers|length > 0) %}
                         {% for shopPlayer in shopPlayers %}

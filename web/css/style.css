@@ -3382,6 +3382,16 @@ body.fixed-left .side-menu.left {
     padding: 0;
 }
 
+ .shop-btn{
+     margin-bottom: 20px;
+     margin-top: -15px;
+ }
+
+ .dashboard .myTeams-container .title{
+     margin-bottom: 60px;
+     margin-top: 20px;
+ }
+
  .line{
     width: 100%;
     display: flex;
