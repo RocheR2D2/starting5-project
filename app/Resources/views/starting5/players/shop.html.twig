@@ -1,41 +1,51 @@
 <div {% if app.user.quizPoints > price %} id="shop-player-{{ player.playerId }}" {% endif %}>
-    <div id="player-{{ player.playerId }}">
-        <div class="text-center">
-            <img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{{ player.playerId }}.png"
-                 alt="{{ player.teamId.teamId }}"
-                 width="100px"
-                 class="wow fadeInUp">
+<div class="input-player wow fadeInUp selected {% if player.rating < 80 %}low{% endif %}" id="player-{{ player.playerId }}">
+    <div class="triangle-top"></div>
+    <div class="portrait">
+        <div class="description">
+            <div class="top-left">
+                <span class="rating">{{ player.rating }}</span>
+                <span>
+                    <img src="{{ asset('images/teams/' ~ player.teamId.teamId ~ '.svg') }}"
+                         alt="{{ player.teamId.teamId }}"
+                         class="playerTeam">
+                </span>
+            </div>
+            <div>
+                <img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{{ player.playerId }}.png"
+                     alt="{{ player.teamId.teamId }}">
+            </div>
+            <div class="bottom">
+                <div>
+                    <p class="name">{{ player.firstname }} {{ player.lastname }}</p>
+                    <p class="posi">{{ player.position }}</p>
+                </div>
+                <div>
+                    <ul class="list-stats">
+                        <li>
+                            ATQ : <b>{{ player.offensiveRating }}</b>
+                        </li>
+                        <li>
+                            DEF : <b>{{ player.defensiveRating }}</b>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <p class="text-center" class="wow fadeInDown">
-            {{ player.rarity }}
-            <br>
-            <span class="wow fadeInUp">
-            {{ player.firstname }} {{ player.lastname }}
-        </span>
-            <br>
-            <span class="wow fadeInDown">
-            {{ player.position }} -
-                {{ player.rating }}
-        </span>
-            <img src="{{ asset('images/teams/' ~ player.teamId.teamId ~ '.svg') }}"
-                 alt="{{ player.teamId.teamId }}"
-                 width="50px"
-                 class="wow fadeInUp">
-            <br>
-            <span class="text-center">OFF {{ player.offensiveRating }} - DEF {{ player.defensiveRating }}</p>
-        </p>
     </div>
-    <div class="text-center wow fadeInDown">
-        {% if(isMyPlayer) %}
-            {% if app.user.quizPoints >= price %}
-                <button class="btn btn-primary" id="shop-{{ player.id }}">{{ price }}$</button>
-                {% else %}
-                <button class="btn btn-danger" disabled>{{ price }}$</button>
-            {% endif %}
+    <div class="triangle-bottom"></div>
+</div>
+<div class="text-center shop-btn">
+    {% if(isMyPlayer) %}
+        {% if app.user.quizPoints >= price %}
+            <button class="btn btn-primary" id="shop-{{ player.id }}">{{ price }}$</button>
         {% else %}
-            <button class="btn btn-success" disabled>Packed</button>
+            <button class="btn btn-danger" disabled>{{ price }}$</button>
         {% endif %}
-    </div>
+    {% else %}
+        <button class="btn btn-success" disabled>Packed</button>
+    {% endif %}
+</div>
     <script type="text/javascript">
         var loading = $('.loading');
         $("#shop-{{ player.id }}").click(function () {

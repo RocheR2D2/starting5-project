@@ -24,8 +24,8 @@
                     {% include 'starting5/dashboard/team.html.twig' with {'team' : team } %}
                 {% endfor %}
             {% else %}
-                <p class="alert alert-danger">
-                    NO 5IVE AVAILABLE
+                <p class="bg-danger customWarningBadge">
+                    <i class="fas fa-exclamation-circle"></i> NO 5IVE AVAILABLE
                 </p>
             {% endif %}
 
