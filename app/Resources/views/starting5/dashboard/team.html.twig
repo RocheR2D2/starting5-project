@@ -1,13 +1,6 @@
 <div class="myTeams-container">
     <h2 class="title">{{ team['data']['name'] }}</h2>
     <a href="{{ path('user.team.edit', {'id': team['data']['id'] }) }}" class="btn btn-info edit">Edit this 5IVE</a>
-    <div class="details-grid">
-        <div class="item"><u class="text">Entraîneur</u><i class="far fa-user"></i><span class="text">{{ team['data']['trainer'].fullName }}</span></div>
-        <div class="item border-left-right"><u class="text">Stade</u><img src="{{ asset('images/stadium.png') }}" alt=""><span class="text">{{ team['data']['stadium'].name }}</span></div>
-        <div class="item "><u class="text">Rating global</u><i class="far fa-star"></i> <span class="text">{{ team['data']['teamRating'] }}</span></div>
-        <div class="item border-left-right"><u class="text">Rating offensive</u><img src="{{ asset('images/sword.png') }}" alt=""><span class="text">{{ team['data']['offRating'] }}</span></div>
-        <div class="item"><u class="text">Rating defensive</u><i class="fas fa-shield-alt"></i><span class="text">{{ team['data']['defRating'] }}</span></div>
-    </div>
     <div class="d-flex-players">
 
         {% set player = team['players']['pointGuard'] %}
@@ -29,5 +22,14 @@
         {% set player = team['players']['center'] %}
         {% include 'starting5/players/player.html.twig' with {'player': player} %}
 
+    </div>
+    <div class="details-grid">
+        <div class="item">
+            <i class="far fa-user"></i><span class="text">{{ team['data']['trainer'].fullName }}</span>
+        </div>
+        <div class="item"><img src="{{ asset('images/stadium.png') }}" alt=""><span class="text">{{ team['data']['stadium'].name }}</span></div>
+        <div class="item "><i class="far fa-star"></i> <span class="text">{{ team['data']['teamRating'] }}</span></div>
+        <div class="item"><img src="{{ asset('images/sword.png') }}" alt=""><span class="text">{{ team['data']['offRating'] }}</span></div>
+        <div class="item"><i class="fas fa-shield-alt"></i><span class="text">{{ team['data']['defRating'] }}</span></div>
     </div>
 </div>

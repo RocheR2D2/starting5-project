@@ -3,5 +3,11 @@
 {% block header %} Create my Five! {% endblock %}
 
 {% block body %}
-    {% include 'starting5/dashboard/teams/dragdrop.html.twig' %}
+    {% if(userTeam is null) %}
+        {% include 'starting5/dashboard/teams/dragdrop.html.twig' %}
+    {% else %}
+        <div class="bg-danger">
+            You've already make a TEAM !
+        </div>
+    {% endif %}
 {% endblock %}
