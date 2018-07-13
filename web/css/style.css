@@ -5,6 +5,10 @@ html {
     background: #eff3f6
 }
 
+a {
+    color: #8e2500;
+}
+
 .spinner:after,
 .spinner:before {
     content: ''
@@ -3401,15 +3405,12 @@ body.fixed-left .side-menu.left {
     width: 100%;
     border-radius: 0;
     padding: 9px 0;
-    background-image: linear-gradient(to bottom, #fdfcfb 0%, #e2d1c3 100%);
     color: #8e2500;
-    font-weight: bolder;
     font-size: 1.1em;
     text-transform: uppercase;
     display: flex;
     align-items: center;
     justify-content: center;
-     border: 1px solid #8e2500;
      transition: 0.5s all;
 }
 
@@ -3545,14 +3546,10 @@ body.fixed-left .side-menu.left {
 /* MY TEAMS */
 
 .myTeams-container{
-    background-color: #DCD9D4;
-    background-image: linear-gradient(to bottom, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%), radial-gradient(at 50% 0%, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.50) 50%);
-    background-blend-mode: soft-light,screen;
-    padding: 20px 20px 0px 20px;
-    border-radius: 3px;
+    padding: 20px 20px 20px 20px;
     position: relative;
-    box-shadow: 3px 6px 20px -2px #424242;
     margin-bottom: 40px;
+    background:white;
 }
 
 
@@ -3561,7 +3558,6 @@ body.fixed-left .side-menu.left {
     width: 100%;
     color: #8e2500;
     font-size: 3.5em;
-    text-shadow: 0px 2px 6px #42424270;
     margin-bottom: 35px;
 }
 
@@ -3617,6 +3613,7 @@ body.fixed-left .side-menu.left {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    margin-top: 50px;
 }
 
 
@@ -3624,6 +3621,7 @@ body.fixed-left .side-menu.left {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    margin-top: 50px;
 }
 
 /* ALL PLAYERS */
@@ -3738,16 +3736,12 @@ body.fixed-left .side-menu.left {
 }
 
 .extra-card{
-    border: 1px solid #8e2500;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    background-color: #DCD9D4;
-    background-image: linear-gradient(to bottom, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%), radial-gradient(at 50% 0%, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.50) 50%);
-    background-blend-mode: soft-light,screen;
+    background-color: white;
     border-radius: 3px;
     position: relative;
-    box-shadow: 3px 6px 20px -2px #424242;
     margin-bottom: 50px;
     align-items: center;
 }
@@ -3859,7 +3853,6 @@ body.fixed-left .side-menu.left {
     justify-content: center;
     width: 100px;
     margin: 0 auto 15px auto;
-    border: 1px solid #825000;
 }
 
 .battle-played .badge-rating img{
@@ -3873,6 +3866,10 @@ body.fixed-left .side-menu.left {
 }
 
 .battle-played .defensive .input-player{
+     margin-top:35px;
+ }
+
+.battle-played .offensive .input-player{
     margin-top:35px;
 }
 
@@ -3922,4 +3919,13 @@ body.fixed-left .side-menu.left {
 .create-team .item-player.disabled .btn-player img{
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
+}
+
+#404block {
+    position: absolute;
+    top:0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/404.jpg');
+    background-size: cover;
 }

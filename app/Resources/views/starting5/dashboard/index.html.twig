@@ -9,13 +9,9 @@
         <div class="container myPlayersList">
             <div class="row">
                 <h2>
-                    {% if(countTeam < 3) %}
-                    <a href="{% if(countTeam < 3) %}{{ path('user.team.new') }}{% endif %}" class="btn btn-primary">
-                            {% if userTeams|length > 0 %}
-                                Create Another 5IVE
-                            {% else %}
-                                Create My First 5IVE
-                            {% endif %}
+                    {% if(countTeam < 1) %}
+                    <a href="{{ path('user.team.new') }}" class="btn btn-primary">
+                        Create My 5IVE
                     </a>
                     {% endif %}
                 </h2>
