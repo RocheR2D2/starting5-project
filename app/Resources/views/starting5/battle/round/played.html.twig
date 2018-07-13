@@ -5,7 +5,7 @@
     <div class="battle-details battle-played">
         <div class="top-head">
             <div class="return-link">
-            <a href="{{ path('battle.detail', {'battleId': battleId}) }}">Back</a>
+            <a class="btn btn-outline-dark" href="{{ path('battle.detail', {'battleId': battleId}) }}">Back</a>
             </div>
             {% if roundResult is not empty %}
                 <div class="col-md-12 text-center">
