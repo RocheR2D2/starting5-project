@@ -2522,6 +2522,10 @@ pre[class*=language-] {
     background-color: #fff
 }
 
+.topbar-left a:hover, .topbar-left a:active, .topbar-left a:focus{
+    color: #8e2500
+}
+
 .logo {
     color: #0a1832!important;
     font-size: 20px;
@@ -3613,8 +3617,6 @@ body.fixed-left .side-menu.left {
     padding: 20px 20px 0px 20px;
     border-radius: 3px;
     position: relative;
-    box-shadow: 0px 6px 20px -5px #424242;
-    padding: 20px 20px 20px 20px;
     margin-bottom: 40px;
     background:white;
 }
