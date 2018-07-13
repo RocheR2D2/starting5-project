@@ -3853,7 +3853,6 @@ body.fixed-left .side-menu.left {
     justify-content: center;
     width: 100px;
     margin: 0 auto 15px auto;
-    border: 1px solid #825000;
 }
 
 .battle-played .badge-rating img{
@@ -3867,6 +3866,10 @@ body.fixed-left .side-menu.left {
 }
 
 .battle-played .defensive .input-player{
+     margin-top:35px;
+ }
+
+.battle-played .offensive .input-player{
     margin-top:35px;
 }
 
