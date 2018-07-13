@@ -142,7 +142,14 @@
                         <div class="item-player" ng-class="player.actionPoint <= 0 ? 'disabled': ''" ng-repeat="player in players track by $index" data-drop="true" ng-model="players" jqyoui-droppable="{ index: {[{$index}]} }">
                             <div class="btn btn-player" data-drag="{[{ player.actionPoint <= 0 ? false : true }]}" data-jqyoui-options="{revert: 'invalid'}" ng-model="players" jqyoui-draggable="{index: {[{$index}]},placeholder:true,animate: false, onDrag: 'dragCallback(player)', onStop : 'dragStopCallback()'}" ng-hide="!player.fullName">
                                 <div class="left-side">
-                                    <p>{[{player.rating}]} - {[{player.position}]}</p>
+                                    <p>{[{player.rating}]} - {[{player.position}]}
+                                        <span class="stats">
+                                       <i class="fas fa-shield-alt"></i>
+                                            {[{ player.defensiveRating }]}
+                                            <img src="{{ asset('images/sword.png') }}" alt="">
+                                            {[{ player.offensiveRating }]}
+                                        </span>
+                                    </p>
                                     <p class="name">{[{player.fullName}]}</p>
                                 </div>
                                 <div class="right-side">

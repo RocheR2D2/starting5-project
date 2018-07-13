@@ -3449,6 +3449,18 @@ body.fixed-left .side-menu.left {
     border-color:#000;
 }
 
+ .btn-player .stats img, .btn-player .stats .fa-shield-alt{
+     width: 20px;
+ }
+
+.btn-player .stats img{
+    filter: brightness(0) invert(1);
+}
+
+.btn-player .stats{
+    margin-left: 30px;
+}
+
 
  .sendTeam .btn.secondary{
     opacity: 0.65;
@@ -3941,6 +3953,10 @@ body.fixed-left .side-menu.left {
     background-color: #9e9e9e;
     background-image: none;
     cursor: not-allowed;
+}
+
+.create-team .item-player.disabled .btn-player .fa-shield-alt{
+    color: #000;
 }
 
 .create-team .item-player.disabled .btn-player:active{
