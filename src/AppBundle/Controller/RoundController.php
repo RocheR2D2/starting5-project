@@ -161,7 +161,6 @@ class RoundController extends Controller
 
             if (isset($this->playTypeMapping[$playType->getId()])) {
 
-
                 return $this->render('starting5/battle/round/type/2v2.html.twig', [
                     'playerType' => $playerType,
                     'playerTypeNumber' => $playType->getId(),
@@ -171,7 +170,7 @@ class RoundController extends Controller
             }
         }
 
-        die('forbidden');
+        return $this->render('starting5/404.html.twig');
     }
 
     public function detailPlayedAction($battleId,$roundId)
