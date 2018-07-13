@@ -3642,28 +3642,40 @@ body.fixed-left .side-menu.left {
     flex-direction: row;
     flex-wrap: wrap;
     margin-bottom: 40px;
+    width: 70%;
+    min-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .myTeams-container .details-grid .item{
     min-width: 20%;
-    height: 160px;
+    height: 100px;
     display: flex;
-    flex-direction : column;;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
-    flex:1;
+    flex: 1;
+}
+
+.myTeams-container .details-grid .item img{
+    width: 35px;
 }
 
 .myTeams-container .details-grid .item .far, .myTeams-container .details-grid .item .fas{
     color: #8e2500;
-    font-size: 64px;
+    font-size: 30px;
+}
+
+.myTeams-container .details-grid .item .badge{
+    background-color: #8e2500!important;
+    color: #FFF!important;
 }
 
 .myTeams-container .details-grid .item .text{
-    font-size: 1.2em;
+    font-size: 1em;
     color: #424242;
-    font-weight: bold;
     margin-top: 5px;
 }
 
@@ -3692,7 +3704,7 @@ body.fixed-left .side-menu.left {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 /* ALL PLAYERS */
