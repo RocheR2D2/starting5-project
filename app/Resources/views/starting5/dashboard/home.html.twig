@@ -24,19 +24,43 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="col-md-8">
-                    <div>
-                        <h2>Your collection</h2>
-                        <span id="countMyPlayers">{{ countMyPlayers }}</span> / <span>{{ countAllPlayers }}</span> NBA Players
+                <div class="col-md-12 myTeams-container">
+                    <h2 class="title">Your collection</h2>
+                    <div class="collection">
+                    <div class="item">
+                        <p class="text">
+                           <u>NBA Players</u>
+                        </p>
+                        <i class="fas fa-user ico"></i>
+                        <div class="text">
+                            <span id="countMyPlayers">{{ countMyPlayers }}</span> / <span>{{ countAllPlayers }}</span>
+                        </div>
                     </div>
-                    <div>
-                        <span id="countMyPlayers">{{ countMyStadiums }}</span> / <span>{{ countAllStadiums }}</span> NBA Stadiums
+                    <div class="item">
+                        <p class="text">
+                           <u>NBA Stadiums</u>
+                        </p>
+                        <img src="{{ asset('images/stadium.png') }}" alt="">
+                        <div class="text">
+                            <span id="countMyPlayers">{{ countMyStadiums }}</span> / <span>{{ countAllStadiums }}</span>
+                        </div>
                     </div>
-                    <div>
-                        <span id="countMyPlayers">{{ countMyTrainers }}</span> / <span>{{ countAllTrainers }}</span> NBA Head Coaches
+                    <div class="item">
+                        <p class="text">
+                            <u>NBA Head Coaches</u>
+                        </p>
+                        <i class="fas fa-user-tie ico"></i>
+                        <div class="text">
+                            <span id="countMyPlayers">{{ countMyTrainers }}</span> / <span>{{ countAllTrainers }}</span>
+                        </div>
                     </div>
-                    <div>
-                        <h2>Open Pack: {{ app.user.openPack }}</h2>
+                    <div class="item">
+                        <p class="text">
+                            <u>Open Pack</u>
+                        </p>
+                        <i class="ti-package ico"></i>
+                        <p class="text">{{ app.user.openPack }}</p>
+                    </div>
                     </div>
                 </div>
             </div>

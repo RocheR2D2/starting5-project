@@ -3392,6 +3392,38 @@ body.fixed-left .side-menu.left {
      margin-top: 20px;
  }
 
+ .collection{
+     display: flex;
+     flex-direction: row;
+     margin-bottom: 35px;
+ }
+
+.collection .item .text {
+    font-size: 1.2em;
+    color: #424242;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.collection .item .ico{
+    font-size: 64px;
+    margin-bottom: 15px;
+    color: #8e2500;
+}
+
+ .collection .item{
+     display: flex;
+     flex-direction: column;
+     justify-content: space-around;
+     align-items: center;
+     flex: 1;
+     background-color: #ffffffb3;
+     border: 1px solid #ccc;
+     padding: 10px;
+     margin: 0 10px;
+     border-radius: 5px;
+ }
+
  .line{
     width: 100%;
     display: flex;
