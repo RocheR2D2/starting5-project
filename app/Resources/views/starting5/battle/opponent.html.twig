@@ -1,28 +1,34 @@
-<h2>{{ team.name }}</h2>
-<p>{{ team.trainerId.fullName }} {{ team.stadiumId.name }}</p>
-<p>Average : {{ team.teamRating }} Off. Rating : {{ team.offRating }} Def. Rating : {{ team.defRating }}</p>
-<div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-2">
-        {% set player = team.pointGuard %}
-        {% include 'starting5/players/player.html.twig' with {'player': player} %}
-    </div>
-    <div class="col-md-2">
-        {% set player = team.shootingGuard %}
-        {% include 'starting5/players/player.html.twig' with {'player': player} %}
-    </div>
-    <div class="col-md-2">
-        {% set player = team.smallForward %}
-        {% include 'starting5/players/player.html.twig' with {'player': player} %}
-    </div>
-    <div class="col-md-2">
-        {% set player = team.powerForward %}
-        {% include 'starting5/players/player.html.twig' with {'player': player} %}
-    </div>
-    <div class="col-md-2">
-        {% set player = team.center %}
-        {% include 'starting5/players/player.html.twig' with {'player': player} %}
-    </div>
-    <div class="col-md-1"></div>
+<div class="myTeams-container">
+    {% if(team) %}
+        <h2 class="title">{{ team.name }}</h2>
+        <div>
+            <span class="badge badge-default">Head coach</span> <span class="badge badge-primary">{{ team.trainerId.fullName }}</span>
+            <span class="badge badge-default">Stadium</span> <span class="badge badge-dark">{{ team.stadiumId.name }}</span>
+            <span class="badge badge-default">Team Rating</span> <span class="badge badge-danger">{{ team.teamRating }}</span>
+            <span class="badge badge-default">Offensive Rating</span> <span class="badge badge-warning">{{ team.offRating }}</span>
+            <span class="badge badge-default">Defensive Rating</span> <span class="badge badge-warning">{{ team.defRating }}</span>
+        </div>
+        <div class="d-flex-players">
+
+            {% set player = team.pointGuard %}
+            {% include 'starting5/players/player.html.twig' with {'player': player} %}
+
+            {% set player = team.shootingGuard %}
+            {% include 'starting5/players/player.html.twig' with {'player': player} %}
+
+            {% set player = team.smallForward %}
+            {% include 'starting5/players/player.html.twig' with {'player': player} %}
+
+            {% set player = team.powerForward %}
+            {% include 'starting5/players/player.html.twig' with {'player': player} %}
+
+            {% set player = team.center %}
+            {% include 'starting5/players/player.html.twig' with {'player': player} %}
+
+        </div>
+    {% else %}
+        <div class="bg-danger">
+            You have no active TEAM !
+        </div>
+    {% endif %}
 </div>
-<hr>
