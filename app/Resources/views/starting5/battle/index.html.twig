@@ -10,11 +10,15 @@
 
     <div class="container">
         <div class="col-lg-12 mx-auto">
-
+            {% if(activeTeam) %}
             <div id="battle">
                 <h2><a class="btn btn-battle-mode waves-effect" href=""><span class="ti-basketball"></span>Find an opponent</a></h2>
             </div>
-
+                {% else %}
+                    <div id="no-battle">
+                        <h2><a class="btn btn-battle-mode waves-effect" href="{{ path('my-teams') }}"><span class="ti-basketball"></span>Create a TEAM !</a></h2>
+                    </div>
+            {% endif %}
            <div class="row text-center">
                <div id="myTeam" class="col-md-12 battle-my-team">
                    {% include 'starting5/battle/myTeam.html.twig' with {'team' : activeTeam }  %}
