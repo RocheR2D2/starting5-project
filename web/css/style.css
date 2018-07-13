@@ -3726,6 +3726,22 @@ body.fixed-left .side-menu.left {
     font-weight: bold;
 }
 
+.pack-list .pack-price{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+}
+
+.pack-list .pack-disable .pack-price {
+    color: #717171;
+}
+
+.pack-list .pack-price .ti-cup{
+    margin-left:10px;
+}
+
 .pack-list .pack .pack-name p, .pack-list .pack-disable .pack-name p{
     margin: 0;
 }
