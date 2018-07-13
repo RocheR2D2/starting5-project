@@ -47,7 +47,7 @@ class BattleController extends Controller
         $isBattlePlayerTwo = $this->battle->findOneBy(['id' => $battleId, 'playerTwoId' => $this->getUser()]);
 
         if(!$isBattlePlayerOne && !$isBattlePlayerTwo) {
-            die('OK 1');
+            return $this->render('starting5/404.html.twig');
         }
     }
 
@@ -145,7 +145,7 @@ class BattleController extends Controller
         $this->em->persist($battle);
         $this->em->flush();
 
-        die('ok');
+        die('Challenge accepted');
     }
 
     public function declineAction(Request $request)
@@ -161,7 +161,7 @@ class BattleController extends Controller
         $this->em->persist($battle);
         $this->em->flush();
 
-        die('ok2');
+        die('Challenge declined');
     }
 
     public function detailAction($battleId)

@@ -1,12 +1,13 @@
 <div class="myTeams-container">
+    {% if(team) %}
     <h2 class="title">{{ team.name }}</h2>
-    <div class="details-grid">
-        <div class="item"><u class="text">Entraîneur</u><i class="far fa-user"></i><span class="text">{{ team.trainerId.fullName }}</span></div>
-        <div class="item border-left-right"><u class="text">Stade</u><img src="{{ asset('images/stadium.png') }}" alt=""><span class="text">{{ team.stadiumId.name }}</span></div>
-        <div class="item "><u class="text">Rating global</u><i class="far fa-star"></i> <span class="text">{{ team.teamRating }}</span></div>
-        <div class="item border-left-right"><u class="text">Rating offensive</u><img src="{{ asset('images/sword.png') }}" alt=""><span class="text">{{ team.offRating }}</span></div>
-        <div class="item"><u class="text">Rating defensive</u><i class="fas fa-shield-alt"></i><span class="text">{{ team.defRating }}</span></div>
-    </div>
+        <div>
+            <span class="badge badge-default">Head coach</span> <span class="badge badge-primary">{{ team.trainerId.fullName }}</span>
+            <span class="badge badge-default">Stadium</span> <span class="badge badge-dark">{{ team.stadiumId.name }}</span>
+            <span class="badge badge-default">Team Rating</span> <span class="badge badge-danger">{{ team.teamRating }}</span>
+            <span class="badge badge-default">Offensive Rating</span> <span class="badge badge-warning">{{ team.offRating }}</span>
+            <span class="badge badge-default">Defensive Rating</span> <span class="badge badge-warning">{{ team.defRating }}</span>
+        </div>
     <div class="d-flex-players">
 
             {% set player = team.pointGuard %}
@@ -25,4 +26,9 @@
             {% include 'starting5/players/player.html.twig' with {'player': player} %}
 
     </div>
+        {% else %}
+            <div class="bg-danger played-warning">
+                <i class="fas fa-exclamation-circle"></i> You have no active TEAM !
+            </div>
+    {% endif %}
 </div>

@@ -152,32 +152,25 @@ class RoundController extends Controller
         $this->isAuthorized($battleId, $roundId);
         $this->hasPlayersPlayed($battleId, $roundId);
         $user = $this->getUser();
-        $round = $this->battleRound->find($roundId);
-        $previousRoundInt = $round->getRound() - 1;
-        if ($round->getRound() == 1) {
-            $previousRoundInt = 1;
-        }
-        $previousRound = $this->battleRound->findOneBy(['battleId' => $battleId, 'round' => $previousRoundInt]);
-        if (!$previousRound->isDone() && $round->getRound() != 1) {
-            die('FORBIDDEN');
-        }
 
         $play = $this->battleRound->findOneBy(['battleId' => $battleId, 'id' => $roundId]);
-        $playerType = $this->battleRound->battleTypeLabel($battleId, $roundId, $user);
-        $playType = $play->getPlayType();
+        $isPlayed = $this->battlePlays->findBy(['battleRoundId' => $roundId, 'userId' => $user]);
+        if(empty($isPlayed)) {
+            $playerType = $this->battleRound->battleTypeLabel($battleId, $roundId, $user);
+            $playType = $play->getPlayType();
 
-        if (isset($this->playTypeMapping[$playType->getId()])) {
+            if (isset($this->playTypeMapping[$playType->getId()])) {
 
-
-            return $this->render('starting5/battle/round/type/2v2.html.twig', [
-                'playerType' => $playerType,
-                'playerTypeNumber' => $playType->getId(),
-                'battleId' => $battleId,
-                'roundId' => $roundId,
-            ]);
+                return $this->render('starting5/battle/round/type/2v2.html.twig', [
+                    'playerType' => $playerType,
+                    'playerTypeNumber' => $playType->getId(),
+                    'battleId' => $battleId,
+                    'roundId' => $roundId,
+                ]);
+            }
         }
 
-        return null;
+        return $this->render('starting5/404.html.twig');
     }
 
     public function detailPlayedAction($battleId,$roundId)
