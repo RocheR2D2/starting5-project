@@ -391,7 +391,7 @@ class DashboardController extends Controller
         $playerDoctrine = $this->getDoctrine()->getRepository(NBAPlayers::class);
         $this->setNewPlayers($publicTeam, $playerDoctrine, $players);
         $this->setTeamRating($publicTeam, $players);
-        $publicTeam->setUser($username);
+        $publicTeam->setUsername($username);
         $publicTeam->setLike(0);
         $publicTeam->setDislike(0);
         $publicTeam->setName($teamName);

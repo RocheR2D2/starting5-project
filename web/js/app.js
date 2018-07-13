@@ -90,9 +90,11 @@ app.factory("ServiceFive", function ($http) {
         }
     };
 
-    var sendTeam = function(team, edit){
-        if(edit){
+    var sendTeam = function(team, route){
+        if(route == "edit"){
             return $http.post(base_url + "/team/editTeam", team);
+        }else if(route == "public"){
+            return $http.post(base_url + "/team/createPublicTeam", team);
         }else{
             return $http.post(base_url + "/team/createTeam", team);
         }
@@ -164,6 +166,7 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
     $scope.loadingStadiums = false;
 
     $scope.teamName = "";
+    $scope.username = "";
 
     $scope.editTeamId = null;
 
@@ -343,13 +346,16 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
             "trainer" : $scope.trainer
         };
 
-        var edit = false;
-        if(route == 'edit'){
-            team.id = $scope.editTeamId;
-            edit = true;
+        if(route == 'public'){
+            team.username = $scope.username;
         }
 
-        ServiceFive.sendTeam(team, edit).then(function(res){
+        if(route == 'edit'){
+            team.id = $scope.editTeamId;
+        }
+
+
+        ServiceFive.sendTeam(team, route).then(function(res){
             $scope.sendingTeam = false;
 
             //reset players
@@ -556,7 +562,11 @@ app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scop
             .then(function(response){
                 $scope.sendingTeam = false;
                 $scope.sendingDone = true;
-                window.location = base_url + "/battle/" + $scope.battleId + "/played/" + $scope.roundId;
+                if(route == "public"){
+                    //public route
+                }else{
+                    window.location = base_url + "/battle/" + $scope.battleId + "/played/" + $scope.roundId;
+                }
             },
             function(error){
                 console.log(error);
