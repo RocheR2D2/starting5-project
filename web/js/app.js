@@ -527,7 +527,7 @@ app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scop
         }
 
 
-        var pathSubmit = '/app_dev.php/battle/new/play';
+        var pathSubmit = base_url + '/battle/new/play’;
 
         ServiceBattle.sendTeam(pathSubmit,data)
             .then(function(response){
