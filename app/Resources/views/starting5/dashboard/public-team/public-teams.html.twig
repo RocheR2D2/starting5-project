@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block header %} All Five! {% endblock %}
+
+{% block body %}
+    {% for publicTeam in publicTeams %}
+
+        <div class="myTeams-container container">
+                <h2 class="title">{{ publicTeam.name }} <span class="username">by {{ publicTeam.username }}</span></h2>
+                <div class="d-flex-players">
+
+                    {% set player = publicTeam.pointGuard %}
+                    {% include 'starting5/players/player.html.twig' with {'player': player} %}
+
+                    {% set player = publicTeam.shootingGuard %}
+                    {% include 'starting5/players/player.html.twig' with {'player': player} %}
+
+                    {% set player = publicTeam.smallForward %}
+                    {% include 'starting5/players/player.html.twig' with {'player': player} %}
+
+                    {% set player = publicTeam.powerForward %}
+                    {% include 'starting5/players/player.html.twig' with {'player': player} %}
+
+                    {% set player = publicTeam.center %}
+                    {% include 'starting5/players/player.html.twig' with {'player': player} %}
+
+                </div>
+
+        </div>
+
+        {% endfor %}
+{% endblock %}
