@@ -4041,16 +4041,8 @@ body.fixed-left .side-menu.left {
     display:none;
 }
 
-#confront{
+#confront {
     margin-top: -35px;
-
-#404block {
-    position: absolute;
-    top:0;
-    width: 100%;
-    height: 100%;
-    background-image: url('../images/404.jpg');
-    background-size: cover;
 }
 
 .public-team .title .username{
@@ -4066,4 +4058,13 @@ body.fixed-left .side-menu.left {
 
 .public-team-link{
     font-size: 2em;
+}
+
+#404block {
+    position: absolute;
+    top:0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/404.jpg');
+    background-size: cover;
 }
