@@ -58,6 +58,11 @@ create.public.team:
     defaults: { _controller: AppBundle:Dashboard:createPublicTeam }
     methods:  [POST]
 
+public-teams:
+  path: /public/teams
+  defaults: { _controller: AppBundle:Dashboard:getPublicTeams }
+  methods:  [GET]
+
 #MY TEAM
 
 my-teams:
