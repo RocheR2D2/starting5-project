@@ -20,9 +20,15 @@
                         {{ render(controller('AppBundle:MyPlayers:players')) }}
                     </div>
                 {% else %}
-                    <div class="row myPlayers">
-                        NO PLAYERS AVAILABLE.
-                        GO OPEN SOME PACK !
+                    <div class="text-center">
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-circle"></i>
+                            NO PLAYERS AVAILABLE.
+                        </div>
+                        <div class="alert alert-warning">
+                            <i class="fas fa-cubes"></i>
+                            <a href="{{ path('pack.opening') }}">GO OPEN SOME PACKS !</a>
+                        </div>
                     </div>
                 {% endif %}
             </div>
