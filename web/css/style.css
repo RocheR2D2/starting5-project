@@ -3936,3 +3936,7 @@ body.fixed-left .side-menu.left {
     text-transform: uppercase;
     font-weight: 100;
 }
+
+.public-team.myTeams-container{
+    margin: 20px auto;
+}
