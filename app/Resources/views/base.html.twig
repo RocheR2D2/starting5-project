@@ -81,7 +81,7 @@
 
             <div id="sidebar-menu">
                 <ul>
-                    <li class="menu-title">Main</li>
+                    <li class="menu-title">Public</li>
                     <li>
                         <a href="{{ path('public-five') }}" class="waves-effect">
                             <i class="ti-basketball"></i>
@@ -91,7 +91,14 @@
                             <i class="ti-basketball"></i>
                             <span> All the 5IVE ! </span>
                         </a>
+                    </li>
+                    <li class="menu-title">Personal</li>
+                    <li>
                         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            <a href="{{ path('my-teams') }}" class="waves-effect">
+                                <i class="ti-basketball"></i>
+                                <span> 5IVE </span>
+                            </a>
                             <a href="{{ path('user.players') }}" class="waves-effect">
                                 <i class="ti-user"></i>
                                 <span> My Players </span>
