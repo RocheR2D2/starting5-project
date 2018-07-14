@@ -150,6 +150,10 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', '$filter', functio
         return $filter('filter')($scope.players, $scope.playerSearch);
     };
 
+    $scope.clearplayerSearch = function(){
+        $scope.playerSearch = "";
+    }
+
     $scope.center = {};
     $scope.smallForward = {};
     $scope.powerForward = {};

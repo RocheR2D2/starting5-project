@@ -212,7 +212,10 @@
             </div>
 
             <div class="col-lg-3 col-md-3 container-players" ng-class="selectedPlayer.fullName ? 'selected':''">
-                <input type="text" ng-show="!loadingPlayers" class="playerSearchbar" placeholder="Rechercer un joueur" ng-model="playerSearch" ng-model-options="{debounce: 500}">
+                <div class="playerSearchbarContainer" ng-show="!loadingPlayers">
+                    <input type="text" class="playerSearchbar" placeholder="Rechercer un joueur" ng-model="playerSearch" ng-model-options="{debounce: 500}">
+                    <i class="fas fa-eraser" ng-show="playerSearch != ''" ng-click="clearplayerSearch()"></i>
+                </div>
                 <div class="list-player" ng-if="!loadingPlayers">
                     <div class="item-player" ng-repeat="player in players | filter:playerSearch track by $index" data-drop="true" ng-model="players" jqyoui-droppable="{ index: {[{$index}]}, applyFilter: 'filterIt' }">
                         <div class="btn btn-player" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="players" jqyoui-draggable="{index: {[{$index}]},placeholder:true,animate: false, onDrag: 'dragCallback(player)', onStop : 'dragStopCallback()', applyFilter: 'filterIt'}" ng-hide="!player.fullName">
