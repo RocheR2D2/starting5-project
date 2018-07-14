@@ -3,6 +3,9 @@
 {% block header %} All Five! {% endblock %}
 
 {% block body %}
+
+    <a class="btn btn-battle-mode waves-effect public-team-link" href="{{ path('public-five') }}" ><span class="ti-basketball"></span> Create my 5IVE !</a>
+
     {% for publicTeam in publicTeams %}
 
         <div class="myTeams-container container public-team">

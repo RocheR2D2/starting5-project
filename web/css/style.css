@@ -3940,3 +3940,7 @@ body.fixed-left .side-menu.left {
 .public-team.myTeams-container{
     margin: 20px auto;
 }
+
+.public-team-link{
+    font-size: 2em;
+}
