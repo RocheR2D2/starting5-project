@@ -35,8 +35,7 @@
     <script src="{{ asset('assets/vendor/angular-dragdrop/src/angular-dragdrop.js') }}" type="text/javascript"></script>
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 </head>
 <body class="fixed-left">
 
@@ -81,14 +80,24 @@
 
             <div id="sidebar-menu">
                 <ul>
-                    <li class="menu-title">Main</li>
-
+                    <li class="menu-title">Public FIVE</li>
                     <li>
-                        <a href="{{ path('my-teams') }}" class="waves-effect">
+                        <a href="{{ path('public-five') }}" class="waves-effect">
                             <i class="ti-basketball"></i>
-                            <span> 5IVE <span class="badge badge-primary pull-right">3</span></span>
+                            <span> 5IVE </span>
                         </a>
+                        <a href="{{ path('public-teams') }}" class="waves-effect">
+                            <i class="ti-basketball"></i>
+                            <span> All the 5IVE ! </span>
+                        </a>
+                    </li>
+                    <li class="menu-title">Battle FIVE</li>
+                    <li>
                         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            <a href="{{ path('my-teams') }}" class="waves-effect">
+                                <i class="ti-basketball"></i>
+                                <span> 5IVE </span>
+                            </a>
                             <a href="{{ path('user.players') }}" class="waves-effect">
                                 <i class="ti-user"></i>
                                 <span> My Players </span>

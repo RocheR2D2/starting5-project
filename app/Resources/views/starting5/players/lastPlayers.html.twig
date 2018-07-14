@@ -1,5 +1,5 @@
-<h2>Last Players</h2>
-<div class="row">
+<h2 class="title">Last Players</h2>
+<div class="row lastPLayers">
     {% if(lastPlayers|length > 0) %}
         {% for player in lastPlayers %}
             {% include 'starting5/players/player.html.twig' with {'player': player.playerId} %}

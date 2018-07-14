@@ -6,32 +6,6 @@
 
 {% block body %}
 
-   <section>
-       <div class="container">
-           <div class="row">
-               <div class="col-lg-8 mx-auto">
-                   <p>
-                       <a href="{{ path('my-teams') }}">Retour</a>
-                   </p>
-                   {{ form_start(form, { 'action': path('user.team.edit', {'id': userTeam.id}) }) }}
-                   <div class="form-group">
-                       {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
-                   </div>
-                   <div class="form-group">
-                       {{ form_row(form.trainerId, {'attr': {'class': 'form-control'}}) }}
-                   </div>
-                   <div class="form-group">
-                       {{ form_row(form.stadiumId, {'attr': {'class': 'form-control'}}) }}
-                   </div>
-                   <div>
-                       <input type="submit" class="btn btn-primary" value="{{ 'Edit Team'|trans }}"/>
-                   </div>
-                   {% include 'starting5/dashboard/teams/select.html.twig'
-                   with {'guards': guards, 'forwards': forwards, 'centers': centers, 'gCount': gCount, 'fCount': fCount, 'cCount': cCount} %}
-                   {{ form_end(form) }}
-               </div>
-           </div>
-       </div>
-   </section>
+    {% include 'starting5/dashboard/teams/dragdrop.html.twig' %}
 
 {% endblock body %}

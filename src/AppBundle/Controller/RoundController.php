@@ -12,6 +12,7 @@ use AppBundle\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class RoundController extends Controller
 {
@@ -151,76 +152,95 @@ class RoundController extends Controller
         $this->isAuthorized($battleId, $roundId);
         $this->hasPlayersPlayed($battleId, $roundId);
         $user = $this->getUser();
-        $round = $this->battleRound->find($roundId);
-        $previousRoundInt = $round->getRound() - 1;
-        if ($round->getRound() == 1) {
-            $previousRoundInt = 1;
-        }
-        $previousRound = $this->battleRound->findOneBy(['battleId' => $battleId, 'round' => $previousRoundInt]);
-        if (!$previousRound->isDone() && $round->getRound() != 1) {
-            die('FORBIDDEN');
-        }
-
-        $isPlayed = $this->isPlayed($roundId, $user, $battleId);
-        if ($isPlayed) {
-            $battle = $this->battle->find($battleId);
-            $battleRoundType = $round->getPlayType();
-            $attacker = $round->getAttackerId();
-            $defender = $round->getDefenderId();
-
-            $offPlayers = $this->battlePlays->findBy(['userId' => $attacker, 'battleRoundId' => $roundId]);
-            $defPlayers = $this->battlePlays->findBy(['userId' => $defender, 'battleRoundId' => $roundId]);
-            $roundResult = [];
-
-            if (!empty($defPlayers) && !empty($offPlayers)
-                && count($offPlayers) == $battleRoundType->getId() && count($defPlayers) == $battleRoundType->getId()
-                && count($offPlayers) == count($defPlayers)) {
-
-                $roundResult['score'] = $attacker->getUsername() . ' ' . $round->getAttackerPoints() . ' - ' . $round->getDefenderPoints() . ' ' . $defender->getUsername();
-                $roundResult['battleScore'] = $battle->getPlayerTwoId()->getUsername() . ' ' . $battle->getPlayerTwoScore() . ' - ' . $battle->getPlayerOneScore() . ' ' . $battle->getPlayerOneId()->getUsername();
-            }
-
-            return $this->render('starting5/battle/round/played.html.twig', [
-                'attacker' => $attacker,
-                'defender' => $defender,
-                'offPlayers' => $offPlayers,
-                'defPlayers' => $defPlayers,
-                'roundResult' => $roundResult,
-                'battleId' => $battleId
-            ]);
-        }
 
         $play = $this->battleRound->findOneBy(['battleId' => $battleId, 'id' => $roundId]);
-        $playerType = $this->battleRound->battleTypeLabel($battleId, $roundId, $user);
-        $playType = $play->getPlayType();
+        $isPlayed = $this->battlePlays->findBy(['battleRoundId' => $roundId, 'userId' => $user]);
+        if(empty($isPlayed)) {
+            $playerType = $this->battleRound->battleTypeLabel($battleId, $roundId, $user);
+            $playType = $play->getPlayType();
 
-        if (isset($this->playTypeMapping[$playType->getId()])) {
-            $playTypeTemplate = 'starting5/battle/round/type/' . $this->playTypeMapping[$playType->getId()];
+            if (isset($this->playTypeMapping[$playType->getId()])) {
 
-            $battlePlayers = $this->battlePlayers->findBy(['userId' => $this->getUser(), 'battleId' => $battleId]);
-
-            return $this->render($playTypeTemplate, [
-                'playerType' => $playerType,
-                'battlePlayers' => $battlePlayers,
-                'battleId' => $battleId,
-                'roundId' => $roundId,
-            ]);
+                return $this->render('starting5/battle/round/type/2v2.html.twig', [
+                    'playerType' => $playerType,
+                    'playerTypeNumber' => $playType->getId(),
+                    'battleId' => $battleId,
+                    'roundId' => $roundId,
+                ]);
+            }
         }
 
-        return null;
+        return $this->render('starting5/404.html.twig');
+    }
+
+    public function detailPlayedAction($battleId,$roundId)
+    {
+        $this->hasPlayersPlayed($battleId, $roundId);
+
+        $round = $this->battleRound->find($roundId);
+        $battle = $this->battle->find($battleId);
+        $battleRoundType = $round->getPlayType();
+        $attacker = $round->getAttackerId();
+        $defender = $round->getDefenderId();
+
+        $offPlayers = $this->battlePlays->findBy(['userId' => $attacker, 'battleRoundId' => $roundId]);
+        $defPlayers = $this->battlePlays->findBy(['userId' => $defender, 'battleRoundId' => $roundId]);
+        $roundResult = [];
+
+        if (!empty($defPlayers) && !empty($offPlayers)
+            && count($offPlayers) == $battleRoundType->getId() && count($defPlayers) == $battleRoundType->getId()
+            && count($offPlayers) == count($defPlayers)) {
+
+            $roundResult['score'] = $attacker->getUsername() . ' ' . $round->getAttackerPoints() . ' - ' . $round->getDefenderPoints() . ' ' . $defender->getUsername();
+            $roundResult['battleScore'] = $battle->getPlayerTwoId()->getUsername() . ' ' . $battle->getPlayerTwoScore() . ' - ' . $battle->getPlayerOneScore() . ' ' . $battle->getPlayerOneId()->getUsername();
+        }
+
+        return $this->render('starting5/battle/round/played.html.twig', [
+            'attacker' => $attacker,
+            'defender' => $defender,
+            'offPlayers' => $offPlayers,
+            'defPlayers' => $defPlayers,
+            'roundResult' => $roundResult,
+            'battleId' => $battleId
+        ]);
+    }
+
+    public function getBattlePlayersAction($battleId, $roundId)
+    {
+        $this->isAuthorized($battleId, $roundId);
+        $this->hasPlayersPlayed($battleId, $roundId);
+        $user = $this->getUser();
+        $play = $this->battleRound->findOneBy(['battleId' => $battleId, 'id' => $roundId]);
+        $playType = $play->getPlayType();
+        $battlePlayers = $this->battlePlayers->findBy(['userId' => $user, 'battleId' => $battleId]);
+
+        $battleDetails = array($playType->getId(),$battlePlayers);
+
+        $serializer = $this->container->get('serializer');
+        $result = $serializer->serialize($battleDetails, 'json');
+        $response = new Response($result);
+
+        return $response;
     }
 
     public function createPlayAction(Request $request)
     {
-        $players = $request->request->all();
+        $data = $request->getContent();
+        $data = json_decode($data, true);
+
+        $battleRoundId = $data['roundId'];
+        $battleId = $data['battleId'];
+        $isCritical = $data['isCritical'];
+
+
+        $players = $data['players'];
         $players = $this->createPlayersData($players);
         $user = $this->getUser();
-        $battleRoundId = $request->request->get('roundId');
-        $battleId = $request->request->get('battleId');
+
         $battleRound = $this->battleRound->find($battleRoundId);
         $isAttacker = $this->battleRound->isAttacker($battleId, $battleRoundId, $user);
 
-        $criticalPlayer = $this->NBAPlayers->find($request->request->get('isCritical'));
+        $criticalPlayer = $this->NBAPlayers->find($isCritical);
 
         foreach ($players as $key => $data) {
             $isCritical = false;
@@ -258,6 +278,8 @@ class RoundController extends Controller
             $this->em->persist($battlePlayer);
             $this->em->flush();
         }
+
+        return new Response("Battle created");
     }
 
     public function createPlayersData($players)

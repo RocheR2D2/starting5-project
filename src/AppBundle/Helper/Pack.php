@@ -66,6 +66,11 @@ class Pack {
 
         $packs = $this->disablePack($user, $silverPack, $goldenPack, $gigaPack, $superRarePack);
 
+        $packs["silver"]["price"] = Pack::SILVER_PACK_PRICE;
+        $packs["golden"]["price"] = Pack::GOLDEN_PACK_PRICE;
+        $packs["giga"]["price"] = Pack::GIGA_PACK_PRICE;
+        $packs["super-rare"]["price"] = Pack::SUPER_RARE_PACK_PRICE;
+
         return $packs;
     }
 

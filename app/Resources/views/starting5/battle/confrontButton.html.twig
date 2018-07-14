@@ -1,8 +1,9 @@
-<div class="bg-warning text-center" id="confront" data-team-id="{{ team.id }}">
+
+<div class="col-md-12 text-center" id="confront" data-team-id="{{ team.id }}">
     <h2>
-        <a href="#">Battle the LineUp by {{ user.username }}</h2>
-        </a>
+        <a class="btn btn-battle-mode waves-effect" href="#"><span class="ti-basketball"></span> Battle the LineUp by {{ user.username }}</a>
     </h2>
+
     <script type="text/javascript">
         var confront = $("#confront");
         var loading = $('.loading');
@@ -18,6 +19,7 @@
                     loading.hide();
                 },
                 success: function (success) {
+                    window.location.href = '{{ path('battle.list')}}';
                 }
             });
         });

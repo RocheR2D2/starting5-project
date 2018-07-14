@@ -1,33 +1,34 @@
-<h2>{{ team['data']['name'] }} <a href="{{ path('user.team.edit', {'id': team['data']['id'] }) }}" class="btn btn-info">Edit this 5IVE</a></h2>
-<div>
-    <span>{{ team['data']['trainer'].fullName }}</span>
-    <span>{{ team['data']['stadium'].name }}</span>
-    <span>Average : {{ team['data']['teamRating'] }}</span>
-    <span>Off. Rating : {{ team['data']['offRating'] }}</span>
-    <span>Def. Rating : {{ team['data']['defRating'] }}</span>
-</div>
-<div class="row">
-    <div class="col-md-4">
+<div class="myTeams-container text-center">
+    <h2 class="title">{{ team['data']['name'] }}</h2>
+    <a href="{{ path('user.team.edit', {'id': team['data']['id'] }) }}" class="btn btn-warning edit">Edit this 5IVE</a>
+
+    <div class="details-grid">
+        <div class="item"><p class="text">Entraîneur</p><i class="far fa-user"></i><span class="text"><span class="badge badge-dark">{{ team['data']['trainer'].fullName }}</span></span></div>
+        <div class="item border-left-right"><p class="text">Stade</p><img src="{{ asset('images/stadium.png') }}" alt=""><span class="text"><span class="badge badge-dark">{{ team['data']['stadium'].name }}</span></span></div>
+        <div class="item "><p class="text">Rating global</p><i class="far fa-star"></i> <span class="text"><span class="badge badge-danger">{{ team['data']['teamRating'] }}</span></span></div>
+        <div class="item border-left-right"><p class="text">Rating offensive</p><img src="{{ asset('images/sword.png') }}" alt=""><span class="text"><span class="badge badge-warning">{{ team['data']['offRating'] }}</span></span></div>
+        <div class="item"><p class="text">Rating defensive</p><i class="fas fa-shield-alt"></i><span class="text"><span class="badge badge-warning">{{ team['data']['defRating'] }}</span></span></div>
+    </div>
+    <div class="d-flex-players">
+
         {% set player = team['players']['pointGuard'] %}
         {% include 'starting5/players/player.html.twig' with {'player': player} %}
-    </div>
-    <div class="col-md-4">
+
+
         {% set player = team['players']['shootingGuard'] %}
         {% include 'starting5/players/player.html.twig' with {'player': player} %}
-    </div>
-    <div class="col-md-4">
+
         {% set player = team['players']['smallForward'] %}
         {% include 'starting5/players/player.html.twig' with {'player': player} %}
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-5">
+
+
+
         {% set player = team['players']['powerForward'] %}
         {% include 'starting5/players/player.html.twig' with {'player': player} %}
-    </div>
-    <div class="col-md-5">
+
+
         {% set player = team['players']['center'] %}
         {% include 'starting5/players/player.html.twig' with {'player': player} %}
+
     </div>
 </div>
-<hr>

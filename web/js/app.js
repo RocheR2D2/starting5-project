@@ -4,6 +4,11 @@ app.config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 })
 
+var base_url = window.location.origin;
+if(window.location.href.indexOf("app_dev.php") > -1){
+    base_url += "/app_dev.php";
+}
+
 /* ### ADMIN QUIZZ ### */
 
 app.controller('adminQuizz', [ '$scope', function($scope){
@@ -18,11 +23,11 @@ app.controller('adminQuizz', [ '$scope', function($scope){
 
 app.factory("ServiceQuizz", function ($http) {
         var getRandomQuizz = function () {
-            return $http.post("/app_dev.php/quizz/getRandomQuizz", {responseType: "json"});
+            return $http.post( base_url + "/quizz/getRandomQuizz", {responseType: "json"});
         };
 
         var validateQuizz = function ($id,$answer) {
-            return $http.post("/app_dev.php/quizz/validateQuizz", {"id":$id,"answer":$answer});
+            return $http.post( base_url + "/quizz/validateQuizz", {"id":$id,"answer":$answer});
         };
 
     return {
@@ -77,32 +82,67 @@ app.controller('Quizz', [ '$scope', '$http', 'ServiceQuizz' , function($scope, $
 /* ### CREATE FIVE TEAM ### */
 
 app.factory("ServiceFive", function ($http) {
-    var getPlayer = function () {
-        return $http.get("/app_dev.php/team/getPlayers", {responseType: "json"});
+    var getPlayer = function (route) {
+        if(route == "public"){
+            return $http.get(base_url + "/public/getPlayers", {responseType: "json"});
+        }else{
+            return $http.get(base_url + "/team/getPlayers", {responseType: "json"});
+        }
     };
 
-    var sendTeam = function(team){
-        return $http.post("/app_dev.php/team/createTeam", team);
+    var sendTeam = function(team, route){
+        if(route == "edit"){
+            return $http.post(base_url + "/team/editTeam", team);
+        }else if(route == "public"){
+            return $http.post(base_url + "/team/createPublicTeam", team);
+        }else{
+            return $http.post(base_url + "/team/createTeam", team);
+        }
     };
 
-    var getStadiums = function(){
-        return $http.get("/app_dev.php/json/myStadiums", {responseType: "json"});
+    var getStadiums = function(route){
+        if(route == "public"){
+            return $http.get(base_url + "/public/getStadiums", {responseType: "json"});
+        }else{
+            return $http.get(base_url + "/json/myStadiums", {responseType: "json"});
+        }
     };
 
-    var getTrainers = function(){
-        return $http.get("/app_dev.php/json/myTrainers", {responseType: "json"});
+    var getTrainers = function(route){
+        if(route == "public"){
+            return $http.get(base_url + "/public/getTrainers", {responseType: "json"});
+        }else{
+            return $http.get(base_url + "/json/myTrainers", {responseType: "json"});
+        }
+    };
+
+    var getInfosEdit = function (id){
+        return $http.get(base_url + "/json/" + id + "/myTeam/", {responseType: "json"});
     }
 
     return {
         getPlayer: getPlayer,
         sendTeam: sendTeam,
         getStadiums: getStadiums,
-        getTrainers: getTrainers
+        getTrainers: getTrainers,
+        getInfosEdit: getInfosEdit
     };
 
 });
 
+
 app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, ServiceFive, $timeout){
+
+    var route = window.location.pathname;
+
+    if(route.indexOf("edit") > -1){
+        var teamId = parseInt(route.split('/team/')[1].split('/edit')[0]);
+        route = "edit";
+        $scope.route = route;
+    }else if(route.indexOf("my-five") > -1){
+        route = "public";
+        $scope.route = route;
+    }
 
     $scope.center = {};
     $scope.smallForward = {};
@@ -126,6 +166,11 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
     $scope.loadingStadiums = false;
 
     $scope.teamName = "";
+    $scope.username = "";
+
+    $scope.editTeamId = null;
+
+    $scope.sendingDone = false;
 
     getPlayers();
 
@@ -133,10 +178,12 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
 
     function getPlayers(){
 
-        ServiceFive.getPlayer().then(function(res){
+        ServiceFive.getPlayer($scope.route).then(function(res){
             $scope.players = res.data;
             $scope.loadingPlayers = false;
-
+            if(route == "edit"){
+                getInfosEdit();
+            }
             $timeout(function(){
                 var width = $(".container-players").width();
                 $(".sendTeam").css("width", width);
@@ -146,6 +193,39 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
             console.log(err);
         })
 
+    }
+
+    function getInfosEdit(){
+        ServiceFive.getInfosEdit(teamId).then(function(res){
+
+                $scope.center = res.data.center;
+                $scope.smallForward = res.data.smallForward;
+                $scope.powerForward = res.data.powerForward;
+                $scope.shootingGuard = res.data.shootingGuard;
+                $scope.pointGuard = res.data.pointGuard;
+
+
+
+                for(var i=0;i<$scope.players.length;i++){
+                    if($scope.players[i].id == $scope.center.id || $scope.players[i].id == $scope.smallForward.id || $scope.players[i].id == $scope.powerForward.id
+                    || $scope.players[i].id == $scope.shootingGuard.id || $scope.players[i].id == $scope.pointGuard.id){
+                        $scope.players.splice(1,i);
+                        if(i>0){
+                            i--;
+                        }
+
+                    }else{
+
+                    }
+                }
+
+                $scope.editTeamId = res.data.id;
+
+            $scope.teamName = res.data.name;
+            $scope.stadium = res.data.stadiumId;
+                $scope.trainer = res.data.trainerId;
+
+        })
     }
 
     $scope.clearcenter = function(){
@@ -202,26 +282,49 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
             return false;
         }
 
-        $scope.loadingTrainers = true;
+        if($scope.trainers.length <= 0){
+            $scope.loadingTrainers = true;
+            ServiceFive.getTrainers($scope.route)
+                .then(function(response){
+                    $scope.trainers = [];
+                    $scope.loadingTrainers = false;
+                    if($scope.route == 'public'){
+                        $scope.trainers = response.data;
+                    }else{
+                        for(var i=0;i<response.data.length;i++){
+                            $scope.trainers.push(response.data[i].trainerId);
+                        }
+                    }
+                    if(route != "edit"){
+                        $scope.trainer = $scope.trainers[0];
+                    }
+                }, function(error){
+                    console.log(error);
+                });
+        }
+
+    if($scope.stadiums.length <= 0){
         $scope.loadingStadiums = true;
-
-        ServiceFive.getTrainers()
+        ServiceFive.getStadiums($scope.route)
             .then(function(response){
-               $timeout(function(){
-                   $scope.trainers = response.data;
-                   $scope.loadingTrainers = false;
-               })
-            }, function(error){
-                console.log(error);
-            });
-
-        ServiceFive.getStadiums()
-            .then(function(response){
-                $scope.stadiums = response.data;
+                $scope.stadiums = [];
                 $scope.loadingStadiums = false;
+                if($scope.route == 'public'){
+                    $scope.stadiums = response.data;
+                }else{
+                    for(var i=0;i<response.data.length;i++){
+                        $scope.stadiums.push(response.data[i].stadiumId);
+                    }
+                }
+                if(route != "edit"){
+                    $scope.stadium = $scope.stadiums[0];
+                }
             }, function(error){
                 console.log(error);
             });
+    }
+
+
         $("#createTeam").modal("show");
     };
 
@@ -239,11 +342,20 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
         var team = {
             "teamName" : $scope.teamName,
             "players" : players,
-            "stadium" : JSON.parse($scope.stadium),
-            "trainer" : JSON.parse($scope.trainer)
+            "stadium" : $scope.stadium,
+            "trainer" : $scope.trainer
         };
 
-        ServiceFive.sendTeam(team).then(function(res){
+        if(route == 'public'){
+            team.username = $scope.username;
+        }
+
+        if(route == 'edit'){
+            team.id = $scope.editTeamId;
+        }
+
+
+        ServiceFive.sendTeam(team, route).then(function(res){
             $scope.sendingTeam = false;
 
             //reset players
@@ -256,8 +368,11 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
                 $scope.trainer = null;
                 $scope.stadium = null;
 
-                window.location.href= "/app_dev.php/my-teams";
-            $("#createTeam").modal("hide");
+                $scope.sendingDone = true;
+                $("#createTeam").modal("hide");
+
+                window.location.href= base_url + "/my-teams";
+
 
         }, function(err){
             console.log(err);
@@ -274,6 +389,201 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
     }
 
 }]);
+
+
+/* ### BATTLE MODE ### */
+
+app.factory("ServiceBattle", function ($http) {
+    var getPlayer = function (battleId,roundId) {
+        return $http.post(base_url + "/json/myBattlePlayers/" + battleId + "/" + roundId, {responseType: "json"});
+    };
+
+    var sendTeam = function(pathSubmit,data){
+        return $http.post(pathSubmit, data);
+    }
+
+    return {
+        getPlayer: getPlayer,
+        sendTeam: sendTeam
+    };
+
+});
+
+
+app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scope, ServiceBattle, $timeout){
+
+
+    $scope.player1 = {};
+    $scope.player2 = {};
+    $scope.player3 = {};
+
+
+    $scope.players = {};
+    $scope.loadingPlayers = true;
+
+    $scope.selectedPlayer = {};
+    $scope.selectedPoste = '';
+
+    $scope.playType = 0;
+    $scope.battleId = 0;
+    $scope.roundId = 0;
+
+    $scope.sendingTeam = false;
+
+    $scope.sendingDone = false;
+
+    getPlayers();
+
+    function getPlayers(){
+
+        var route = window.location.pathname;
+        var url = route.split("/battle/")[1];
+        url = url.split("/play/");
+
+        var battleId = url[0];
+        var roundId = url[1];
+
+        if(!battleId || !roundId){
+            return false;
+        }
+
+        $scope.battleId = battleId;
+        $scope.roundId = roundId;
+
+        ServiceBattle.getPlayer(battleId,roundId).then(function(res){
+
+            $scope.playType = res.data[0];
+            var players = res.data[1];
+            var filterPlayers = [];
+
+            //Filter to get only players stats with action point
+            for(var i =0;i<players.length;i++){
+
+                players[i].playerId.actionPoint = players[i].actionPoint;
+
+                filterPlayers.push(players[i].playerId);
+            }
+
+            $scope.players = filterPlayers;
+
+            $scope.loadingPlayers = false;
+            $timeout(function(){
+                var width = $(".container-players").width();
+                $(".sendTeam").css("width", width);
+            })
+
+        }, function(err){
+            console.log(err);
+        })
+
+    }
+
+
+    $scope.clearplayer3 = function(){
+        $scope.players.push($scope.player3);
+        $scope.player3 = {};
+    }
+
+    $scope.clearplayer1 = function(){
+        $scope.players.push($scope.player1);
+        $scope.player1 = {};
+    }
+
+    $scope.clearplayer2 = function(){
+        $scope.players.push($scope.player2);
+        $scope.player2 = {};
+    }
+
+
+    $scope.dropCallback = function (evt, ui) {
+        // the model
+        var obj = ui.draggable.scope().dndDragItem;
+
+        for(var j=0;j<$scope.players.length;j++){
+            if($scope.players[j].playerId == obj.playerId){
+                $scope.players.splice(j,1);
+                return false;
+            }
+        }
+    };
+
+    $scope.dragCallback = function(evt, ui, player){
+        $scope.selectedPlayer = player;
+        $scope.selectedPoste = player.position;
+        $scope.$apply();
+    }
+
+    $scope.dragStopCallback = function(){
+        $scope.selectedPlayer = {};
+        $scope.selectedPoste = "";
+        $scope.$apply();
+    }
+
+    $scope.sendTeam = function(){
+
+        $scope.sendingTeam = true;
+
+        var data;
+
+        switch($scope.playType){
+            case 1 :
+                data = {
+                    'players' : [$scope.player1.playerId],
+                    'playType': $scope.playType,
+                    'roundId': $scope.roundId,
+                    'battleId': $scope.battleId,
+                    'isCritical' : false
+                };
+                break;
+            case 2:
+                data = {
+                    'players': [$scope.player1.playerId, $scope.player2.playerId],
+                    'playType': $scope.playType,
+                    'roundId': $scope.roundId,
+                    'battleId': $scope.battleId,
+                    'isCritical' : false
+                };
+                break;
+            case 3:
+                data = {
+                    'players': [$scope.player1.playerId, $scope.player2.playerId, $scope.player3.playerId],
+                    'playType': $scope.playType,
+                    'roundId': $scope.roundId,
+                    'battleId': $scope.battleId,
+                    'isCritical' : false
+                };
+                break;
+        }
+
+
+        var pathSubmit = base_url + '/battle/new/play';
+
+        ServiceBattle.sendTeam(pathSubmit,data)
+            .then(function(response){
+                $scope.sendingTeam = false;
+                $scope.sendingDone = true;
+                if(route == "public"){
+                    //public route
+                }else{
+                    window.location = base_url + "/battle/" + $scope.battleId + "/played/" + $scope.roundId;
+                }
+            },
+            function(error){
+                console.log(error);
+            })
+    }
+
+    window.onresize = resizeBtn;
+
+    function resizeBtn() {
+        if (window.innerWidth > 1250) {
+            var width = $(".container-players").width();
+            $(".sendTeam").css("width", width);
+        }
+    }
+
+}]);
+
 
 /*
  Template Name: Upcube - Bootstrap 4 Admin Dashboard

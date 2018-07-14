@@ -1,21 +1,29 @@
 {% extends 'base.html.twig' %}
 
+  {% block header %}
+      <h2 class="text-light">
+          {{ name }}
+      </h2>
+  {% endblock header %}
+
 {% block body %}
 
     <div class="container">
         <div class="col-lg-12 mx-auto">
-            <h2>
-                {{ name }}
-            </h2>
+            {% if(activeTeam) %}
             <div id="battle">
-                <a href="">Battle</a>
+                <h2><a class="btn btn-battle-mode waves-effect" href=""><i class="fas fa-search"></i> Find an opponent</a></h2>
             </div>
-
+                {% else %}
+                    <div id="no-battle">
+                        <h2><a class="btn btn-battle-mode waves-effect" href="{{ path('my-teams') }}"><span class="ti-basketball"></span>Create a TEAM !</a></h2>
+                    </div>
+            {% endif %}
            <div class="row text-center">
-               <div id="myTeam" class="col-md-12">
+               <div id="myTeam" class="col-md-12 battle-my-team">
                    {% include 'starting5/battle/myTeam.html.twig' with {'team' : activeTeam }  %}
                </div>
-               <div class="col-md-12"><h2>VS</h2></div>
+               <div id="vs" style="margin-bottom:20px;" class="col-md-12 text-center"></div>
                <div id="opponent" class="col-md-12"></div>
                <div id="confrontButton" class="col-md-12"></div>
            </div>
@@ -23,6 +31,7 @@
                 var battle = $("#battle");
                 var loading = $('.loading');
                 var opponent = $('#opponent');
+                var id = $('#vs');
                 var confrontButton = $('#confrontButton');
                 battle.click(function () {
                     $.ajax({
@@ -35,9 +44,14 @@
                             loading.hide();
                         },
                         success: function (success) {
-                            opponent.empty(); confrontButton.empty();
+                            opponent.empty();
+                            confrontButton.empty();
+                            id.empty();
+                            id.append("<div class='col-md-12'><h2>VS</h2></div>");
                             opponent.append(success.opponent);
+                            opponent.css("display","block");
                             confrontButton.append(success.button);
+                            $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                         }
                     });
                 });

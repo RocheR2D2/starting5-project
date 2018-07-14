@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\NBAPlayers;
+use AppBundle\Entity\PublicTeam;
 use AppBundle\Entity\Shop;
 use AppBundle\Entity\Stadium;
 use AppBundle\Entity\Trainer;
@@ -33,6 +34,7 @@ class DashboardController extends Controller
     protected $trainerRepository;
     protected $userTrainerRepository;
     protected $userStadiumRepository;
+    protected $publicTeam;
 
     public function __construct(ObjectManager $entityManager)
     {
@@ -45,6 +47,7 @@ class DashboardController extends Controller
         $this->trainerRepository = $this->em->getRepository(Trainer::class);
         $this->userStadiumRepository = $this->em->getRepository(UserStadium::class);
         $this->userTrainerRepository = $this->em->getRepository(UserTrainer::class);
+        $this->publicTeam = $this->em->getRepository(PublicTeam::class);
     }
 
     public function homeAction() {
@@ -124,7 +127,9 @@ class DashboardController extends Controller
 
     public function newAction()
     {
-        return $this->render('starting5/dashboard/new.html.twig');
+        $userTeam = $this->userTeamDoctrine->findOneBy(['user' => $this->getUser()]);
+
+        return $this->render('starting5/dashboard/new.html.twig', ['userTeam' => $userTeam]);
     }
 
     public function getPlayerAction()
@@ -157,12 +162,14 @@ class DashboardController extends Controller
         $userTeam->setUser($user);
         $userTeam->setLike(0);
         $userTeam->setDislike(0);
+        $userTeam->setActive(1);
         $userTeam->setName($teamName);
+        $userTeam->setActive(1);
         $trainerRepo = $this->getDoctrine()->getRepository(Trainer::class);
-        $trainer = $trainerRepo->find($trainer["trainerId"]["id"]);
+        $trainer = $trainerRepo->find($trainer["id"]);
 
         $stadiumRepo = $this->getDoctrine()->getRepository(Stadium::class);
-        $stadium = $stadiumRepo->find($stadium["stadiumId"]["id"]);
+        $stadium = $stadiumRepo->find($stadium["id"]);
 
         $userTeam->setTrainerId($trainer);
         $userTeam->setStadiumId($stadium);
@@ -175,54 +182,54 @@ class DashboardController extends Controller
 
     }
 
-    public function editAction(Request $request, $id)
+    public function editAction($id)
     {
-        $user = $this->getUser();
         $userTeam = $this->userTeamDoctrine->find($id);
-        $form = $this->createForm(UserTeamType::class, $userTeam);
-
-        $pg = $this->userTeamDoctrine->find($id)->getPointGuard()->getFullName();
-        $sg = $this->userTeamDoctrine->find($id)->getShootingGuard()->getFullName();
-        $sf = $this->userTeamDoctrine->find($id)->getSmallForward()->getFullName();
-        $pf = $this->userTeamDoctrine->find($id)->getPowerForward()->getFullName();
-        $c = $this->userTeamDoctrine->find($id)->getCenter()->getFullName();
-
-        $guards = $this->userPlayers->getGuards($user);
-        $gCount = $this->userPlayers->allGuards;
-        $forwards = $this->userPlayers->getForwards($user);
-        $fCount = $this->userPlayers->allForwards;
-        $centers = $this->userPlayers->getCenters($user);
-        $cCount = $this->userPlayers->allCenters;
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $request->request->get('form');
-            $this->setNewPlayers($userTeam, $this->nbaPlayers, $data);
-            $em = $this->getDoctrine()->getManager();
-            $userTeam = $form->getData();
-            $em->persist($userTeam);
-            $em->flush();
-
-            return $this->redirectToRoute('user.team.edit', ['id' => $id]);
-        }
 
         return $this->render('starting5/dashboard/teams/edit.html.twig', array(
-            'form' => $form->createView(),
-            'userTeam' => $userTeam,
-            'id' => $id,
-            'guards' => $guards,
-            'gCount' => $gCount,
-            'forwards' => $forwards,
-            'centers' => $centers,
-            'fCount' => $fCount,
-            'cCount' => $cCount,
-            'pg' => $pg,
-            'sg' => $sg,
-            'sf' => $sf,
-            'pf' => $pf,
-            'c' => $c,
+            'userTeam' => $userTeam
         ));
+    }
+
+    public function editTeamAction(Request $request)
+    {
+        $data = $request->getContent();
+        $data = json_decode($data, true);
+
+        $id = $data["id"];
+
+        $teamName = $data["teamName"];
+        $players = $data["players"];
+        $stadium = $data["stadium"];
+        $trainer = $data["trainer"];
+
+        $user = $this->getUser();
+
+        $userTeamRepo = $this->getDoctrine()->getRepository(UserTeam::class);
+        $userTeam = $userTeamRepo->find($id);
+
+        $playerDoctrine = $this->getDoctrine()->getRepository(NBAPlayers::class);
+        $this->setNewPlayers($userTeam, $playerDoctrine, $players);
+        $this->setTeamRating($userTeam, $players);
+        $userTeam->setUser($user);
+        $userTeam->setLike(0);
+        $userTeam->setDislike(0);
+        $userTeam->setName($teamName);
+        $trainerRepo = $this->getDoctrine()->getRepository(Trainer::class);
+        $trainer = $trainerRepo->find($trainer["id"]);
+
+        $stadiumRepo = $this->getDoctrine()->getRepository(Stadium::class);
+        $stadium = $stadiumRepo->find($stadium["id"]);
+
+        $userTeam->setTrainerId($trainer);
+        $userTeam->setStadiumId($stadium);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($userTeam);
+        $em->flush();
+
+        return new Response("done");
+
     }
 
     public function setPlayers($players, $pointGuard, $shootingGuard, $smallForward, $powerForward, $center)
@@ -334,5 +341,84 @@ class DashboardController extends Controller
         $response = new Response($result);
 
         return $response;
+    }
+
+    public function publicFiveAction()
+    {
+
+        return $this->render('starting5/dashboard/public-team/public-five.html.twig');
+    }
+
+    public function getPublicPlayersAction()
+    {
+        $players = $this->nbaPlayers->findAll();
+        $serializer = $this->container->get('serializer');
+        $result = $serializer->serialize($players, 'json');
+        $response = new Response($result);
+
+        return $response;
+    }
+
+    public function getPublicTrainersAction()
+    {
+        $players = $this->trainerRepository->findAll();
+        $serializer = $this->container->get('serializer');
+        $result = $serializer->serialize($players, 'json');
+        $response = new Response($result);
+
+        return $response;
+    }
+
+    public function getPublicStadiumsAction()
+    {
+        $players = $this->stadiumRepository->findAll();
+        $serializer = $this->container->get('serializer');
+        $result = $serializer->serialize($players, 'json');
+        $response = new Response($result);
+
+        return $response;
+    }
+
+    public function createPublicTeamAction(Request $request)
+    {
+        $data = $request->getContent();
+        $data = json_decode($data, true);
+
+        $teamName = $data["teamName"];
+        $players = $data["players"];
+        $stadium = $data["stadium"];
+        $trainer = $data["trainer"];
+        $username = $data["username"];
+
+        $publicTeam = new PublicTeam();
+        $playerDoctrine = $this->getDoctrine()->getRepository(NBAPlayers::class);
+        $this->setNewPlayers($publicTeam, $playerDoctrine, $players);
+        $this->setTeamRating($publicTeam, $players);
+        $publicTeam->setUsername($username);
+        $publicTeam->setLike(0);
+        $publicTeam->setDislike(0);
+        $publicTeam->setName($teamName);
+        $trainerRepo = $this->getDoctrine()->getRepository(Trainer::class);
+        $trainer = $trainerRepo->find($trainer["id"]);
+
+        $stadiumRepo = $this->getDoctrine()->getRepository(Stadium::class);
+        $stadium = $stadiumRepo->find($stadium["id"]);
+
+        $publicTeam->setTrainerId($trainer);
+        $publicTeam->setStadiumId($stadium);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($publicTeam);
+        $em->flush();
+
+        return new Response("done");
+
+    }
+
+    public function getPublicTeamsAction()
+    {
+        $publicTeams = $this->publicTeam->findAll();
+
+        return $this->render("starting5/dashboard/public-team/public-teams.html.twig", array("publicTeams" => $publicTeams));
     }
 }
