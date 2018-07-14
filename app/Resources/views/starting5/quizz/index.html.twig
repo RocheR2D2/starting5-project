@@ -1,45 +1,71 @@
 {% extends 'base.html.twig' %}
-
+  {% block header %}
+      <h2 class="text-light">
+          QUIZZ
+      </h2>
+  {% endblock header %}
 {% block body %}
-   <section class="container" ng-controller="Quizz">
-       <h1>QUIZZ</h1>
+   <div class="container quizz" ng-controller="Quizz">
+
        <div ng-if="!started">
-           <button class="btn btn-primary" ng-click="startQuizz()">Commencer</button>
+           <button class="btn btn-battle-mode waves-effect" ng-click="startQuizz()"><span class="ti-basketball"></span> Start</button>
        </div>
+       <div ng-show="started" class="myTeams-container">
        <div ng-if="!quizzEnd" ng-cloak>
        <div ng-if="started && !validatingQuizz">
-            <div ng-show="loadingQuizz">Loading ...</div>
-           <div ng-hide="loadingQuizz">
-               <h2><strong>{[{quizz.question}]}</strong></h2>
-               <div ng-if="quizz.type == 'QCM'">
+
+
+            <div ng-show="loadingQuizz" class="loadingContainer"><i class="fa fa-spin fa-spinner"></i>Chargement du Quiz...</div>
+
+           <div ng-hide="loadingQuizz" >
+               <div class="countdown">
+                   <i class="fas fa-stopwatch"></i>
+                   <p ng-bind="countDown"></p>
+               </div>
+
+               <div ng-repeat="quizz in allquizz" ng-if="step == $index">
+
+               <h2 class="text-center question"><strong>{[{quizz.question}]}</strong></h2>
+               <div ng-if="quizz.type == 'QCM'" class="qcm">
                    <ul>
                        <li>
-                           <input type="button" ng-click="bindSelectedQCM(1)" value="{[{quizz.answer1}]}">
+                           <input class="qcm-btn" ng-class="{'selected': quizz.QCMAnswer == 1}" type="button" ng-click="bindSelectedQCM(quizz, 1)" value="{[{quizz.answer1}]}">
                        </li>
                        <li>
-                           <input type="button" ng-click="bindSelectedQCM(2)" value="{[{quizz.answer2}]}">
+                           <input class="qcm-btn" ng-class="{'selected': quizz.QCMAnswer == 2}" type="button" ng-click="bindSelectedQCM(quizz, 2)" value="{[{quizz.answer2}]}">
                        </li>
                        <li>
-                           <input type="button" ng-click="bindSelectedQCM(3)" value="{[{quizz.answer3}]}">
+                           <input class="qcm-btn" ng-class="{'selected': quizz.QCMAnswer == 3}" type="button" ng-click="bindSelectedQCM(quizz, 3)" value="{[{quizz.answer3}]}">
                        </li>
                        <li>
-                           <input type="button" ng-click="bindSelectedQCM(4)" value="{[{quizz.answer4}]}">
+                           <input class="qcm-btn" ng-class="{'selected': quizz.QCMAnswer == 4}" type="button" ng-click="bindSelectedQCM(quizz, 4)" value="{[{quizz.answer4}]}">
                        </li>
                    </ul>
                </div>
                <div ng-if="quizz.type == 'Question'">
-                   <input type="text" ng-model="quizz.QuestionAnswer">
+                   <input type="text" class="form-control" ng-model="quizz.QCMAnswer">
                </div>
-               <input ng-if="started" type="submit" placeholder="Valider" ng-click="validate()">
+                   <div class="text-center">
+                       <button class="next" ng-if="started" ng-click="next()"><i class="fas fa-chevron-right"></i></button>
+                   </div>
+               </div>
+
            </div>
+
+
+
        </div>
-       <div ng-if="validatingQuizz">
-           <p>En cours de validation ...</p>
+       <div ng-if="validatingQuizz" class="loadingContainer">
+               <i class="fa fa-spin fa-spinner"></i>En cours de validation ...
        </div>
        </div>
-       <div ng-if="quizzEnd" ng-cloak>
-        <div ng-if="validQuizz"><h1>BRAVO !</h1></div>
-           <div ng-if="!validQuizz"><h1>DOMMAGE :(</h1></div>
+       <div ng-if="quizzEnd" ng-cloak class="text-center">
+           <h2 class="text-center">Récapitulatif</h2>
+            <div ng-repeat="res in resultats">
+                <span class="badge badge-default">Question {[{ $index + 1 }]}</span> : <span class="badge" ng-class="(res.value == 'true' || res.value == true) ? 'badge-success':'badge-danger'">{[{ res.value }]}</span>
+            </div>
+           <p class="alert alert-warning">Total de points gagnés : <span class="badge" ng-class="totalPts == 0 ? 'badge-secondary': 'badge-success'">+ {[{ totalPts }]}</span></p>
        </div>
-   </section>
+       </div>
+   </div>
 {% endblock %}

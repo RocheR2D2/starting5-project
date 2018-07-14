@@ -26,8 +26,8 @@ app.factory("ServiceQuizz", function ($http) {
             return $http.post( base_url + "/quizz/getRandomQuizz", {responseType: "json"});
         };
 
-        var validateQuizz = function ($id,$answer) {
-            return $http.post( base_url + "/quizz/validateQuizz", {"id":$id,"answer":$answer});
+        var validateQuizz = function ($answer) {
+            return $http.post( base_url + "/quizz/validateQuizz", {"answer":$answer});
         };
 
     return {
@@ -45,36 +45,68 @@ app.controller('Quizz', [ '$scope', '$http', 'ServiceQuizz' , function($scope, $
     $scope.validQuizz = false;
     $scope.quizzEnd = false;
 
+    $scope.allquizz = [];
+    $scope.step = 0;
+
+    $scope.countDown = 10;
+    var timer;
+
+    $scope.startTimer = function(){
+        clearInterval(timer);
+        $scope.countDown = 10;
+        timer = setInterval(function(){
+            $scope.countDown--;
+            if($scope.countDown < 0){
+                $scope.next();
+            }
+            $scope.$apply();
+        }, 1000);
+    }
+
+
     $scope.startQuizz = function(){
         $scope.started = true;
         $scope.loadingQuizz = true;
         ServiceQuizz.getRandomQuizz().then(function (res) {
-            $scope.quizz = res.data;
+            $scope.allquizz = res.data;
             $scope.loadingQuizz = false;
+            $scope.startTimer();
         }, function (err) {
             console.log(err);
         });
     }
+
+    $scope.next = function(){
+        $scope.step++;
+
+        if($scope.step == $scope.allquizz.length){
+            $scope.validate();
+        }else{
+            $scope.startTimer();
+        }
+    }
+
 
     $scope.validate = function(){
-        var res = null;
         $scope.validatingQuizz = true;
-        if($scope.quizz.type == 'QCM'){
-            res = $scope.selectedQCM;
-        }else if($scope.quizz.type == 'Question'){
-            res = $scope.quizz.QuestionAnswer;
-        }
-        ServiceQuizz.validateQuizz($scope.quizz.id, res).then(function (res) {
-            $scope.validQuizz = (res.data == 'true' ? res.data = true : res.data = false);
+
+        ServiceQuizz.validateQuizz($scope.allquizz).then(function (res) {
             $scope.validatingQuizz = false;
             $scope.quizzEnd = true;
+            $scope.resultats = res.data[0];
+            $scope.totalPts = res.data[1];
+
+            var total = $("#user_points").text();
+            total = parseInt(total) + $scope.totalPts;
+            $("#user_points").text(total);
+
         }, function (err) {
             console.log(err);
         });
     }
 
-    $scope.bindSelectedQCM = function(newVal){
-        $scope.selectedQCM = newVal;
+    $scope.bindSelectedQCM = function(quizz, newVal){
+        quizz.QCMAnswer = newVal;
     }
 
 }]);
