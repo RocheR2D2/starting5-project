@@ -1,14 +1,15 @@
 <div>
     <div>
-        <img src="{{ asset('images/teams/' ~ battle.playerTwoId.team.teamId ~ '.svg') }}" width="70" alt="">
-        {{ battle.playerTwoId.username }}
-        {{ battle.playerTwoScore }}
-
-        -
-
-        {{ battle.playerOneScore }}
-        {{ battle.playerOneId.username }}
-        <img src="{{ asset('images/teams/' ~ battle.playerOneId.team.teamId ~ '.svg') }}" width="70" alt="">
+        <p>
+            <img src="{{ asset('images/teams/' ~ battle.playerTwoId.team.teamId ~ '.svg') }}" width="40" alt="">
+            {{ battle.playerTwoId.username }}
+            <span class="badge badge-default pull-right">{{ battle.playerTwoScore }}</span>
+        </p>
+        <p>
+            <img src="{{ asset('images/teams/' ~ battle.playerOneId.team.teamId ~ '.svg') }}" width="40" alt="">
+            {{ battle.playerOneId.username }}
+            <span class="badge badge-warning pull-right">{{ battle.playerOneScore }}</span>
+        </p>
         <div class="text-center battle-status">
         {% if battle.active and battle.isAccepted %}
             <span class="badge badge-pill badge-success">LIVE</span>
