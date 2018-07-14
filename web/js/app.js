@@ -95,6 +95,11 @@ app.controller('Quizz', [ '$scope', '$http', 'ServiceQuizz' , function($scope, $
             $scope.quizzEnd = true;
             $scope.resultats = res.data[0];
             $scope.totalPts = res.data[1];
+
+            var total = $("#user_points").text();
+            total = parseInt(total) + $scope.totalPts;
+            $("#user_points").text(total);
+
         }, function (err) {
             console.log(err);
         });

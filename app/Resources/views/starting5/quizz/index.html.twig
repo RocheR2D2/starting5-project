@@ -60,10 +60,11 @@
        </div>
        </div>
        <div ng-if="quizzEnd" ng-cloak>
+           <h2 class="text-center">Récapitulatif</h2>
             <div ng-repeat="res in resultats">
-                Question {[{ $index + 1 }]} : {[{ res.value }]}
+                Question {[{ $index + 1 }]} : <span class="badge" ng-class="(res.value == 'true' || res.value == true) ? 'badge-success':'badge-danger'">{[{ res.value }]}</span>
             </div>
-           <p>Total gagné : + {[{ totalPts }]}</p>
+           <p>Total gagné : <span class="badge" ng-class="totalPts == 0 ? 'badge-secondary': 'badge-success'">+ {[{ totalPts }]}</span></p>
        </div>
        </div>
    </div>
