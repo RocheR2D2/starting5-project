@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\NBAPlayers;
+use AppBundle\Entity\PublicTeam;
 use AppBundle\Entity\Shop;
 use AppBundle\Entity\Stadium;
 use AppBundle\Entity\Trainer;
@@ -33,6 +34,7 @@ class DashboardController extends Controller
     protected $trainerRepository;
     protected $userTrainerRepository;
     protected $userStadiumRepository;
+    protected $publicTeam;
 
     public function __construct(ObjectManager $entityManager)
     {
@@ -45,6 +47,7 @@ class DashboardController extends Controller
         $this->trainerRepository = $this->em->getRepository(Trainer::class);
         $this->userStadiumRepository = $this->em->getRepository(UserStadium::class);
         $this->userTrainerRepository = $this->em->getRepository(UserTrainer::class);
+        $this->publicTeam = $this->em->getRepository(PublicTeam::class);
     }
 
     public function homeAction() {
@@ -338,5 +341,84 @@ class DashboardController extends Controller
         $response = new Response($result);
 
         return $response;
+    }
+
+    public function publicFiveAction()
+    {
+
+        return $this->render('starting5/dashboard/public-team/public-five.html.twig');
+    }
+
+    public function getPublicPlayersAction()
+    {
+        $players = $this->nbaPlayers->findAll();
+        $serializer = $this->container->get('serializer');
+        $result = $serializer->serialize($players, 'json');
+        $response = new Response($result);
+
+        return $response;
+    }
+
+    public function getPublicTrainersAction()
+    {
+        $players = $this->trainerRepository->findAll();
+        $serializer = $this->container->get('serializer');
+        $result = $serializer->serialize($players, 'json');
+        $response = new Response($result);
+
+        return $response;
+    }
+
+    public function getPublicStadiumsAction()
+    {
+        $players = $this->stadiumRepository->findAll();
+        $serializer = $this->container->get('serializer');
+        $result = $serializer->serialize($players, 'json');
+        $response = new Response($result);
+
+        return $response;
+    }
+
+    public function createPublicTeamAction(Request $request)
+    {
+        $data = $request->getContent();
+        $data = json_decode($data, true);
+
+        $teamName = $data["teamName"];
+        $players = $data["players"];
+        $stadium = $data["stadium"];
+        $trainer = $data["trainer"];
+        $username = $data["username"];
+
+        $publicTeam = new PublicTeam();
+        $playerDoctrine = $this->getDoctrine()->getRepository(NBAPlayers::class);
+        $this->setNewPlayers($publicTeam, $playerDoctrine, $players);
+        $this->setTeamRating($publicTeam, $players);
+        $publicTeam->setUsername($username);
+        $publicTeam->setLike(0);
+        $publicTeam->setDislike(0);
+        $publicTeam->setName($teamName);
+        $trainerRepo = $this->getDoctrine()->getRepository(Trainer::class);
+        $trainer = $trainerRepo->find($trainer["id"]);
+
+        $stadiumRepo = $this->getDoctrine()->getRepository(Stadium::class);
+        $stadium = $stadiumRepo->find($stadium["id"]);
+
+        $publicTeam->setTrainerId($trainer);
+        $publicTeam->setStadiumId($stadium);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($publicTeam);
+        $em->flush();
+
+        return new Response("done");
+
+    }
+
+    public function getPublicTeamsAction()
+    {
+        $publicTeams = $this->publicTeam->findAll();
+
+        return $this->render("starting5/dashboard/public-team/public-teams.html.twig", array("publicTeams" => $publicTeams));
     }
 }

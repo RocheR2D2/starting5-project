@@ -80,14 +80,24 @@
 
             <div id="sidebar-menu">
                 <ul>
-                    <li class="menu-title">Main</li>
-
+                    <li class="menu-title">Public FIVE</li>
                     <li>
-                        <a href="{{ path('my-teams') }}" class="waves-effect">
+                        <a href="{{ path('public-five') }}" class="waves-effect">
                             <i class="ti-basketball"></i>
                             <span> 5IVE </span>
                         </a>
+                        <a href="{{ path('public-teams') }}" class="waves-effect">
+                            <i class="ti-basketball"></i>
+                            <span> All the 5IVE ! </span>
+                        </a>
+                    </li>
+                    <li class="menu-title">Battle FIVE</li>
+                    <li>
                         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            <a href="{{ path('my-teams') }}" class="waves-effect">
+                                <i class="ti-basketball"></i>
+                                <span> 5IVE </span>
+                            </a>
                             <a href="{{ path('user.players') }}" class="waves-effect">
                                 <i class="ti-user"></i>
                                 <span> My Players </span>
