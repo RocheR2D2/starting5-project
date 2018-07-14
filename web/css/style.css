@@ -3224,6 +3224,7 @@ body.fixed-left .side-menu.left {
     align-items: center;
     justify-content: center;
     width: 100%;
+    padding-top: 35px;
 }
 
  .input-player{
@@ -4067,4 +4068,14 @@ body.fixed-left .side-menu.left {
     height: 100%;
     background-image: url('../images/404.jpg');
     background-size: cover;
+}
+
+.playerSearchbar{
+    margin-top: 0px;
+    padding: 5px;
+    position: fixed;
+    width: 100%;
+    top: 54px;
+    background-color: #FAFAFA;
+    z-index: 100;
 }
