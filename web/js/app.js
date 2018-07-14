@@ -152,7 +152,31 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', '$filter', functio
 
     $scope.clearplayerSearch = function(){
         $scope.playerSearch = "";
+        $scope.playersLimit = 20;
     }
+
+    $scope.playersLimit = 20;
+
+    //InfiniteScroll
+    $scope.loadMore = function() {
+        if($scope.playersLimit <= $scope.players.length) {
+            if ($scope.playersLimit + 20 < $scope.players.length) {
+                $scope.playersLimit += 20;
+            } else {
+                $scope.playersLimit = $scope.players.length;
+            }
+        }
+    };
+
+    // Each time the user scrolls
+    $(".container-players").scroll(function() {
+        // End of the document reached?
+        if ($(".container-players").scrollTop() + $(".container-players").height() + 20 > $(".list-player").scrollTop() + $(".list-player").height()) {
+            $scope.loadMore();
+            $scope.$digest();
+        }
+    });
+
 
     $scope.center = {};
     $scope.smallForward = {};
