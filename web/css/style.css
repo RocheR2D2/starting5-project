@@ -4041,8 +4041,9 @@ body.fixed-left .side-menu.left {
     display:none;
 }
 
-#confront{
+#confront {
     margin-top: -35px;
+}
 
 #404block {
     position: absolute;
@@ -4066,4 +4067,21 @@ body.fixed-left .side-menu.left {
 
 .public-team-link{
     font-size: 2em;
+}
+
+.quizz .btn-battle-mode{
+    font-size: 2em;
+}
+
+.quizz .myTeams-container{
+    padding: 20px;
+}
+
+.quizz .loadingContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em;
+    padding: 70px 0;
 }
