@@ -243,7 +243,7 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', '$filter', functio
                 for(var i=0;i<$scope.players.length;i++){
                     if($scope.players[i].id == $scope.center.id || $scope.players[i].id == $scope.smallForward.id || $scope.players[i].id == $scope.powerForward.id
                     || $scope.players[i].id == $scope.shootingGuard.id || $scope.players[i].id == $scope.pointGuard.id){
-                        $scope.players.splice(1,i);
+                        $scope.players.splice(i,1);
                         if(i>0){
                             i--;
                         }
