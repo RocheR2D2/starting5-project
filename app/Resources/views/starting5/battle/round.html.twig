@@ -12,7 +12,7 @@
         {% endif %}
     </div>
     {% if round.done == true %}
-        <p class="score">Score: {{ round.attackerId.username }} {{ round.attackerPoints }} - {{ round.defenderPoints }} {{ round.defenderId.username }}</p>
+        <p class="score">{{ round.attackerId.username }} {{ round.attackerPoints }} - {{ round.defenderPoints }} {{ round.defenderId.username }}</p>
     {% elseif(round.done is null and playMade is not empty and round.round == activeRound) %}
         <p class="score">Waiting for opponent ...</p>
     {% else %}

@@ -212,9 +212,13 @@
             </div>
 
             <div class="col-lg-3 col-md-3 container-players" ng-class="selectedPlayer.fullName ? 'selected':''">
+                <div class="playerSearchbarContainer" ng-show="!loadingPlayers">
+                    <input type="text" class="playerSearchbar" placeholder="Rechercer un joueur" ng-model="playerSearch" ng-model-options="{debounce: 50}">
+                    <i class="fas fa-eraser" ng-show="playerSearch != ''" ng-click="clearplayerSearch()"></i>
+                </div>
                 <div class="list-player" ng-if="!loadingPlayers">
-                    <div class="item-player" ng-repeat="player in players track by $index" data-drop="true" ng-model="players" jqyoui-droppable="{ index: {[{$index}]} }">
-                        <div class="btn btn-player" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="players" jqyoui-draggable="{index: {[{$index}]},placeholder:true,animate: false, onDrag: 'dragCallback(player)', onStop : 'dragStopCallback()'}" ng-hide="!player.fullName">
+                    <div class="item-player" ng-repeat="player in players | filter:playerSearch | limitTo:playersLimit track by $index" data-drop="true" ng-model="players" jqyoui-droppable="{ index: {[{$index}]} , applyFilter: 'filterIt' }">
+                        <div class="btn btn-player" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="players" jqyoui-draggable="{index: {[{$index}]},placeholder:true,animate: false, onDrag: 'dragCallback(player)', onStop : 'dragStopCallback()' , applyFilter: 'filterIt'}" ng-hide="!player.fullName">
                             <div class="left-side">
                                 <p>{[{player.rating}]} - {[{player.position}]}</p>
                                 <p class="name">{[{player.fullName}]}</p>

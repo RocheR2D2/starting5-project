@@ -163,7 +163,7 @@ app.factory("ServiceFive", function ($http) {
 });
 
 
-app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, ServiceFive, $timeout){
+app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', '$filter', function($scope, ServiceFive, $timeout, $filter){
 
     var route = window.location.pathname;
 
@@ -175,6 +175,40 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
         route = "public";
         $scope.route = route;
     }
+
+    $scope.playerSearch = "";
+
+    $scope.filterIt = function() {
+        return $filter('filter')($scope.players, $scope.playerSearch);
+    };
+
+    $scope.clearplayerSearch = function(){
+        $scope.playerSearch = "";
+        $scope.playersLimit = 20;
+    }
+
+    $scope.playersLimit = 20;
+
+    //InfiniteScroll
+    $scope.loadMore = function() {
+        if($scope.playersLimit <= $scope.players.length) {
+            if ($scope.playersLimit + 20 < $scope.players.length) {
+                $scope.playersLimit += 20;
+            } else {
+                $scope.playersLimit = $scope.players.length;
+            }
+        }
+    };
+
+    // Each time the user scrolls
+    $(".container-players").scroll(function() {
+        // End of the document reached?
+        if ($(".container-players").scrollTop() + $(".container-players").height() + 20 > $(".list-player").scrollTop() + $(".list-player").height()) {
+            $scope.loadMore();
+            $scope.$digest();
+        }
+    });
+
 
     $scope.center = {};
     $scope.smallForward = {};
@@ -241,7 +275,7 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
                 for(var i=0;i<$scope.players.length;i++){
                     if($scope.players[i].id == $scope.center.id || $scope.players[i].id == $scope.smallForward.id || $scope.players[i].id == $scope.powerForward.id
                     || $scope.players[i].id == $scope.shootingGuard.id || $scope.players[i].id == $scope.pointGuard.id){
-                        $scope.players.splice(1,i);
+                        $scope.players.splice(i,1);
                         if(i>0){
                             i--;
                         }
@@ -403,7 +437,13 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
                 $scope.sendingDone = true;
                 $("#createTeam").modal("hide");
 
+            if(route == "public"){
+                window.location.href = base_url + "/public/teams";
+            }else{
                 window.location.href= base_url + "/my-teams";
+            }
+
+
 
 
         }, function(err){
@@ -594,11 +634,7 @@ app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scop
             .then(function(response){
                 $scope.sendingTeam = false;
                 $scope.sendingDone = true;
-                if(route == "public"){
-                    //public route
-                }else{
-                    window.location = base_url + "/battle/" + $scope.battleId + "/played/" + $scope.roundId;
-                }
+                window.location = base_url + "/battle/" + $scope.battleId + "/played/" + $scope.roundId;
             },
             function(error){
                 console.log(error);
