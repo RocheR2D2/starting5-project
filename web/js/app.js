@@ -131,7 +131,7 @@ app.factory("ServiceFive", function ($http) {
 });
 
 
-app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, ServiceFive, $timeout){
+app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', '$filter', function($scope, ServiceFive, $timeout, $filter){
 
     var route = window.location.pathname;
 
@@ -143,6 +143,12 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
         route = "public";
         $scope.route = route;
     }
+
+    $scope.playerSearch = "";
+
+    $scope.filterIt = function() {
+        return $filter('filter')($scope.players, $scope.playerSearch);
+    };
 
     $scope.center = {};
     $scope.smallForward = {};
