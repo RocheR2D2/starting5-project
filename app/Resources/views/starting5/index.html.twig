@@ -1,41 +1,333 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html lang="fr" class="no-js">
+<head>
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="img/fav.png">
+    <!-- Meta Description -->
+    <meta name="description" content="">
+    <!-- Meta Keyword -->
+    <meta name="keywords" content="">
+    <!-- meta character set -->
+    <meta charset="UTF-8">
+    <!-- Site Title -->
+    <title>START5NG</title>
 
-    {% block header %}
-        Welcome to Starting5
-    {% endblock header %}
-
-{% block body %}
-
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,500,600" rel="stylesheet">
+    <!--
+    CSS
+    ============================================= -->
+    <link rel="stylesheet" href="{{ asset('css/linearicons.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/nice-select.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/magnific-popup.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/main.css')}}">
+</head>
+<body>
+<div class="main-wrapper-first">
+    <header>
         <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h2>About this page</h2>
-                    <p class="lead">This is a great place to talk about your webpage. This template is purposefully unstyled so you can use it as a boilerplate or starting point for you own landing page designs! This template features:</p>
-                    <ul>
-                        <li>Clickable nav links that smooth scroll to page sections</li>
-                        <li>Responsive behavior when clicking nav links perfect for a one page website</li>
-                        <li>Bootstrap's scrollspy feature which highlights which section of the page you're on in the navbar</li>
-                        <li>Minimal custom CSS so you are free to explore your own unique design options</li>
-                    </ul>
+            <div class="header-wrap">
+                <div class="header-top d-flex justify-content-between align-items-center">
+                    <div class="logo">
+                        <a href="{{ url('homepage') }}"><img src="img/logo.png" alt=""></a>
+                    </div>
+                    <div class="main-menubar d-flex align-items-center">
+                        <nav class="hide">
+                            <a href="{{ url('homepage') }}">Home</a>
+                            <a href="{{ url('dashboard') }}">STARTING5</a>
+                            <a href="#contact">Contact Us</a>
+                        </nav>
+                        <div class="menu-bar"><span class="lnr lnr-menu"></span></div>
+                    </div>
                 </div>
             </div>
         </div>
-
+    </header>
+    <div class="banner-area">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h2>Services we offer</h2>
-                    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut optio velit inventore, expedita quo laboriosam possimus ea consequatur vitae, doloribus consequuntur ex. Nemo assumenda laborum vel, labore ut velit dignissimos.</p>
+            <div class="row justify-content-center height align-items-center">
+                <div class="col-lg-8">
+                    <div class="banner-content text-center">
+                        <span class="text-white top text-uppercase">Créer ton 5 Majeur avec</span>
+                        <h1 class="text-white text-uppercase">Starting5</h1>
+                        <a href="{{ url('dashboard') }}" class="primary-btn d-inline-flex align-items-center"><span class="mr-10">Créer votre FIV5</span><span class="lnr lnr-arrow-right"></span></a>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
+    <!-- Start Feature Area -->
+    <section class="featured-area">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h2>Contact us</h2>
-                    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero odio fugiat voluptatem dolor, provident officiis, id iusto! Obcaecati incidunt, qui nihil beatae magnam et repudiandae ipsa exercitationem, in, quo totam.</p>
+                <div class="col-md-4">
+                    <div class="single-feature d-flex flex-wrap justify-content-between">
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <span class="lnr lnr-user"></span>
+                        </div>
+                        <div class="desc">
+                            <h6 class="title text-uppercase">Déloquer des joueurs</h6>
+                            <p>Ouvrez des packs quotidiennement afin d'obtenir un maximum de carte et enrichir votre collection de joueurs NBA !</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="single-feature d-flex flex-wrap justify-content-between">
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <span class="lnr lnr-users"></span>
+                        </div>
+                        <div class="desc">
+                            <h6 class="title text-uppercase">Créer votre équipe</h6>
+                            <p>Choisissez les meilleurs joueurs de votre collection, et créer votre 5 majeurs de rêve !</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="single-feature d-flex flex-wrap justify-content-between">
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <span class="lnr lnr-star"></span>
+                        </div>
+                        <div class="desc">
+                            <h6 class="title text-uppercase">Confronter votre équipe</h6>
+                            <p>Défiez les autres 5 majeurs d'autres joueurs, et dominer la ligue !</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-{% endblock %}
+    </section>
+    <!-- End Feature Area -->
+    <!-- Start Service Area -->
+    <section class="service-area">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="section-title text-center">
+                        <h3 class="text-white">STARTING5</h3>
+                        <span class="text-white text-uppercase">C'est quoi exactement ?</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-service">
+                        <div class="thumb" style="background: url({{ asset('images/adam.jpg') }});">
+                            <div class="overlay overlay-content d-flex justify-content-center align-items-center">
+                                <a href="{{ url('dashboard') }}" class="primary-btn hover d-inline-flex align-items-center"><span class="mr-10">STARTING5</span><span class="lnr lnr-arrow-right"></span></a>
+                            </div>
+                        </div>
+                        <div class="desc">
+                            <h6 class="text-uppercase text-white">Testez votre culture NBA</h6>
+                            <p class="text-white">Répondez à des quiz quotidiennement, gagnez plus de point et montrez à quel point vous aimez la NBA !</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-service">
+                        <div class="thumb" style="background: url({{ asset('images/lebronwade.jpg') }});">
+                            <div class="overlay overlay-content d-flex justify-content-center align-items-center">
+                                <a href="{{ url('dashboard') }}" class="primary-btn hover d-inline-flex align-items-center"><span class="mr-10">STARTING5</span><span class="lnr lnr-arrow-right"></span></a>
+                            </div>
+                        </div>
+                        <div class="desc">
+                            <h6 class="text-uppercase text-white">Ouverture de pack joueurs !</h6>
+                            <p class="text-white">Faites des pack opening grâce aux points que vous avez accumulé, vous aurez peut-être un de vos joueurs préférés !</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-service">
+                        <div class="thumb" style="background: url({{ asset('images/thedecisionlebron.jpg') }});">
+                            <div class="overlay overlay-content d-flex justify-content-center align-items-center">
+                                <a href="{{ url('dashboard') }}" class="primary-btn hover d-inline-flex align-items-center"><span class="mr-10">STARTING5</span><span class="lnr lnr-arrow-right"></span></a>
+                            </div>
+                        </div>
+                        <div class="desc">
+                            <h6 class="text-uppercase text-white">Le marché des joueurs</h6>
+                            <p class="text-white">Vous n'arrivez pas à trouver le joueur de vos rêves, vous pouvez acheter des joueurs sur le marché !</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-service">
+                        <div class="thumb" style="background: url({{ asset('images/gregg.jpg') }});">
+                            <div class="overlay overlay-content d-flex justify-content-center align-items-center">
+                                <a href="{{ url('dashboard') }}" class="primary-btn hover d-inline-flex align-items-center"><span class="mr-10">STARTING5</span><span class="lnr lnr-arrow-right"></span></a>
+                            </div>
+                        </div>
+                        <div class="desc">
+                            <h6 class="text-uppercase text-white">Êtes-vous un tacticien ?</h6>
+                            <p class="text-white">Faites parler votre esprit stratégique et remportez un maximum de duel !</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-service">
+                        <div class="thumb" style="background: url({{ asset('images/warriorsdynasty.jpeg') }});">
+                            <div class="overlay overlay-content d-flex justify-content-center align-items-center">
+                                <a href="{{ url('dashboard') }}" class="primary-btn hover d-inline-flex align-items-center"><span class="mr-10">STARTING5</span><span class="lnr lnr-arrow-right"></span></a>
+                            </div>
+                        </div>
+                        <div class="desc">
+                            <h6 class="text-uppercase text-white">Batissez votre équipe</h6>
+                            <p class="text-white">Construisez votre 5 majeur petit à petit avec les joueurs que vous aurez accumulé grâce aux ouverture de pack !</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-service">
+                        <div class="thumb" style="background: url({{ asset('images/nbafinals.jpg') }});">
+                            <div class="overlay overlay-content d-flex justify-content-center align-items-center">
+                                <a href="{{ url('dashboard') }}" class="primary-btn hover d-inline-flex align-items-center"><span class="mr-10">STARTING5</span><span class="lnr lnr-arrow-right"></span></a>
+                            </div>
+                        </div>
+                        <div class="desc">
+                            <h6 class="text-uppercase text-white">Confrontez votre équipe !</h6>
+                            <p class="text-white">Confrontez votre équipe à celle des autres et montrez à quel point elle est complète !</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-service">
+                        <div class="thumb" style="background: url({{ asset('images/billrussel.jpg') }});">
+                            <div class="overlay overlay-content d-flex justify-content-center align-items-center">
+                                <a href="{{ url('dashboard') }}" class="primary-btn hover d-inline-flex align-items-center"><span class="mr-10">STARTING5</span><span class="lnr lnr-arrow-right"></span></a>
+                            </div>
+                        </div>
+                        <div class="desc">
+                            <h6 class="text-uppercase text-white">Une collection en OR !</h6>
+                            <p class="text-white">Essayez d’obtenir tous les joueurs du jeu !</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="single-service">
+                        <div class="thumb" style="background: url({{ asset('images/mj.jpg') }});">
+                            <div class="overlay overlay-content d-flex justify-content-center align-items-center">
+                                <a href="{{ url('dashboard') }}" class="primary-btn hover d-inline-flex align-items-center"><span class="mr-10">STARTING5</span><span class="lnr lnr-arrow-right"></span></a>
+                            </div>
+                        </div>
+                        <div class="desc">
+                            <h6 class="text-uppercase text-white">Votre DREAM TEAM</h6>
+                            <p class="text-white">Bâtissez votre équipe de rêve sur STARTING5 !</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Service Area -->
+    <!-- Start Amazing Works Area -->
+</div>
+<div class="main-wrapper">
+    <!-- Start Subscription Area -->
+    <section class="subscription-area">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="section-title text-center">
+                        <h3>Abonnez-vous à notre NEWSLETTER</h3>
+                        <span class="text-uppercase">Restez en contact avec nous !</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div id="mc_embed_signup">
+                        <form target="_blank" novalidate action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&id=92a4423d01" method="get" class="subscription relative">
+                            <input type="email" name="EMAIL" placeholder="Email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Votre adresse mail'" required>
+                            <div style="position: absolute; left: -5000px;">
+                                <input type="text" name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="">
+                            </div>
+                            <button class="primary-btn hover d-inline-flex align-items-center"><span class="mr-10">S'abonner</span><span class="lnr lnr-arrow-right"></span></button>
+                            <div class="info"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Subscription Area -->
+    <!-- Start Footer Widget Area -->
+    <section class="footer-widget-area" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="single-widget d-flex flex-wrap justify-content-between">
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <span class="lnr lnr-pushpin"></span>
+                        </div>
+                        <div class="desc">
+                            <h6 class="title text-uppercase">Nous rendre visite ?</h6>
+                            <p>56/8, panthapath, west <br> dhanmondi, kalabagan, <br>Dhaka - 1205</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="single-widget d-flex flex-wrap justify-content-between">
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <span class="lnr lnr-earth"></span>
+                        </div>
+                        <div class="desc">
+                            <h6 class="title text-uppercase">Nous joindre par mail ?</h6>
+                            <div class="contact">
+                                <a href="mailto:tony@starting5.com">tony@starting5.com</a> <br>
+                                <a href="mailto:thomas@starting5.com">thomas@starting5.com</a>
+                                <a href="mailto:rudy@starting5.com">rudy@starting5.com</a>
+                                <a href="mailto:clement@starting5.com">clement@starting5.com</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="single-widget d-flex flex-wrap justify-content-between">
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <span class="lnr lnr-phone"></span>
+                        </div>
+                        <div class="desc">
+                            <h6 class="title text-uppercase">Appelez-nous pour plus d'informations !</h6>
+                            <div class="contact">
+                                <a href="tel:1545">012 4562 982 3612</a> <br>
+                                <a href="tel:54512">012 6321 956 4587</a>
+                                <a href="tel:54512">012 6321 956 4507</a>
+                                <a href="tel:54512">012 6321 950 4587</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Footer Widget Area -->
+    <!-- Start footer Area -->
+    <footer>
+        <div class="container">
+            <div class="footer-content d-flex justify-content-between align-items-center flex-wrap">
+                <div class="logo">
+                    <img src="img/logo.png" alt="">
+                </div>
+                <div class="copy-right-text">Copyright &copy; 2017  |  All rights reserved to Dinomuz inc. This template is made with <3 by <a href="https://colorlib.com" target="_blank">Colorlib</a></div>
+            </div>
+        </div>
+    </footer>
+    <!-- End footer Area -->
+</div>
+
+
+
+
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/jquery.ajaxchimp.min.js') }}"></script>
+<script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('js/jquery.nice-select.min.js') }}"></script>
+<script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+<script src="{{ asset('js/main.js') }}"></script>
+</body>
+</html>

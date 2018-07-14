@@ -3,16 +3,19 @@
 {% block body %}
 
     <div class="battle-details battle-played">
+        <div class="top-head">
+            <div class="return-link">
+                <a class="btn btn-outline-dark" href="{{ path('battle.detail', {'battleId': battleId}) }}">Back</a>
+            </div>
+            {% if roundResult is not empty %}
+                <div class="col-md-12 text-center">
+                    <p><u>Round Score</u>: <b>{{ roundResult.score }}</b></p>
+                    <p><u>Battle Score</u>: <b>{{ roundResult.battleScore }}</b></p>
+                </div>
+            {% endif %}
+        </div>
         <div class="container">
             <div class="myTeams-container row text-center">
-                <a href="{{ path('battle.detail', {'battleId': battleId}) }}">Back</a>
-                {% if roundResult is not empty %}
-                    <div class="col-md-12 text-center">
-                        <span class="badge badge-default">Round Score</span><span class="badge badge-warning">{{ roundResult.score }}</span>
-                        <span class="badge badge-default">Battle Score</span><span class="badge badge-danger">{{ roundResult.battleScore }}</span>
-                    </div>
-                    <hr>
-                {% endif %}
                 <div class="col-md-2"></div>
                 {% if offPlayers | length > 0 %}
                     <div class="col-md-4 offensive">

@@ -1,12 +1,13 @@
 <div class="myTeams-container text-center">
     <h2 class="title">{{ team['data']['name'] }}</h2>
     <a href="{{ path('user.team.edit', {'id': team['data']['id'] }) }}" class="btn btn-warning edit">Edit this 5IVE</a>
-    <div>
-        <span class="badge badge-default">Head coach</span> <span class="badge badge-primary">{{ team['data']['trainer'].fullName }}</span>
-        <span class="badge badge-default">Stadium</span> <span class="badge badge-dark">{{ team['data']['stadium'].name }}</span>
-        <span class="badge badge-default">Team Rating</span> <span class="badge badge-danger">{{ team['data']['teamRating'] }}</span>
-        <span class="badge badge-default">Offensive Rating</span> <span class="badge badge-warning">{{ team['data']['offRating'] }}</span>
-        <span class="badge badge-default">Defensive Rating</span> <span class="badge badge-warning">{{ team['data']['defRating'] }}</span>
+
+    <div class="details-grid">
+        <div class="item"><p class="text">Entraîneur</p><i class="far fa-user"></i><span class="text"><span class="badge badge-dark">{{ team['data']['trainer'].fullName }}</span></span></div>
+        <div class="item border-left-right"><p class="text">Stade</p><img src="{{ asset('images/stadium.png') }}" alt=""><span class="text"><span class="badge badge-dark">{{ team['data']['stadium'].name }}</span></span></div>
+        <div class="item "><p class="text">Rating global</p><i class="far fa-star"></i> <span class="text"><span class="badge badge-danger">{{ team['data']['teamRating'] }}</span></span></div>
+        <div class="item border-left-right"><p class="text">Rating offensive</p><img src="{{ asset('images/sword.png') }}" alt=""><span class="text"><span class="badge badge-warning">{{ team['data']['offRating'] }}</span></span></div>
+        <div class="item"><p class="text">Rating defensive</p><i class="fas fa-shield-alt"></i><span class="text"><span class="badge badge-warning">{{ team['data']['defRating'] }}</span></span></div>
     </div>
     <div class="d-flex-players">
 

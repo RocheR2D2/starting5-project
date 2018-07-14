@@ -1,12 +1,12 @@
 <div class="myTeams-container">
     {% if(team) %}
     <h2 class="title">{{ team.name }}</h2>
-        <div>
-            <span class="badge badge-default">Head coach</span> <span class="badge badge-primary">{{ team.trainerId.fullName }}</span>
-            <span class="badge badge-default">Stadium</span> <span class="badge badge-dark">{{ team.stadiumId.name }}</span>
-            <span class="badge badge-default">Team Rating</span> <span class="badge badge-danger">{{ team.teamRating }}</span>
-            <span class="badge badge-default">Offensive Rating</span> <span class="badge badge-warning">{{ team.offRating }}</span>
-            <span class="badge badge-default">Defensive Rating</span> <span class="badge badge-warning">{{ team.defRating }}</span>
+        <div class="details-grid">
+            <div class="item"><p class="text">Entraîneur</p><i class="far fa-user"></i><span class="text">{{ team.trainerId.fullName }}</span></div>
+            <div class="item border-left-right"><p class="text">Stade</p><img src="{{ asset('images/stadium.png') }}" alt=""><span class="text">{{ team.stadiumId.name }}</span></div>
+            <div class="item "><p class="text">Rating global</p><i class="far fa-star"></i> <span class="text">{{ team.teamRating }}</span></div>
+            <div class="item border-left-right"><p class="text">Rating offensive</p><img src="{{ asset('images/sword.png') }}" alt=""><span class="text">{{ team.offRating }}</span></div>
+            <div class="item"><p class="text">Rating defensive</p><i class="fas fa-shield-alt"></i><span class="text">{{ team.defRating }}</span></div>
         </div>
     <div class="d-flex-players">
 

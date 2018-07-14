@@ -4,7 +4,11 @@
         <div class="description">
             <div class="top-left">
                 <span class="rating">{{ player.rating }}</span>
-                <span class="position">{{ player.position }}</span>
+                <span>
+                    <img src="{{ asset('images/teams/' ~ player.teamId.teamId ~ '.svg') }}"
+                         alt="{{ player.teamId.teamId }}"
+                         class="playerTeam">
+                </span>
             </div>
             <div>
                 <img src="https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{{ player.playerId }}.png"

@@ -12,7 +12,7 @@
         <div class="col-lg-12 mx-auto">
             {% if(activeTeam) %}
             <div id="battle">
-                <h2><a class="btn btn-battle-mode waves-effect" href=""><span class="ti-basketball"></span>Find an opponent</a></h2>
+                <h2><a class="btn btn-battle-mode waves-effect" href=""><i class="fas fa-search"></i> Find an opponent</a></h2>
             </div>
                 {% else %}
                     <div id="no-battle">
@@ -23,6 +23,7 @@
                <div id="myTeam" class="col-md-12 battle-my-team">
                    {% include 'starting5/battle/myTeam.html.twig' with {'team' : activeTeam }  %}
                </div>
+               <div id="vs" style="margin-bottom:20px;" class="col-md-12 text-center"></div>
                <div id="opponent" class="col-md-12"></div>
                <div id="confrontButton" class="col-md-12"></div>
            </div>
@@ -30,6 +31,7 @@
                 var battle = $("#battle");
                 var loading = $('.loading');
                 var opponent = $('#opponent');
+                var id = $('#vs');
                 var confrontButton = $('#confrontButton');
                 battle.click(function () {
                     $.ajax({
@@ -42,9 +44,12 @@
                             loading.hide();
                         },
                         success: function (success) {
-                            opponent.empty(); confrontButton.empty();
-                            opponent.append("<div class='col-md-12'><h2>VS</h2></div>");
+                            opponent.empty();
+                            confrontButton.empty();
+                            id.empty();
+                            id.append("<div class='col-md-12'><h2>VS</h2></div>");
                             opponent.append(success.opponent);
+                            opponent.css("display","block");
                             confrontButton.append(success.button);
                             $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                         }

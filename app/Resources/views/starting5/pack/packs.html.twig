@@ -6,6 +6,7 @@
             <img src="{{ asset('images/packs/' ~ key ~'.jpg') }}" alt="">
                         <span class="pack-name">
                             <p class="{{ key }}">{{ pack.name }}</p>
+                            <p class="pack-price">{{ pack.price }}<i class="ti-cup"></i></p>
                         </span>
         </div>
     {% endfor %}
