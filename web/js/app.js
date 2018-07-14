@@ -45,6 +45,9 @@ app.controller('Quizz', [ '$scope', '$http', 'ServiceQuizz' , function($scope, $
     $scope.validQuizz = false;
     $scope.quizzEnd = false;
 
+    $scope.allquizz = [];
+    $scope.step = 0;
+
     $scope.startQuizz = function(){
         $scope.started = true;
         $scope.loadingQuizz = true;
@@ -56,16 +59,18 @@ app.controller('Quizz', [ '$scope', '$http', 'ServiceQuizz' , function($scope, $
         });
     }
 
-    $scope.validate = function(){
-        var res = null;
-        $scope.validatingQuizz = true;
-        if($scope.quizz.type == 'QCM'){
-            res = $scope.selectedQCM;
-        }else if($scope.quizz.type == 'Question'){
-            res = $scope.quizz.QuestionAnswer;
+    $scope.next = function(){
+        $scope.step++;
+
+        if($scope.step == $scope.allquizz.length){
+            $scope.validate();
         }
-        ServiceQuizz.validateQuizz($scope.quizz.id, res).then(function (res) {
-            $scope.validQuizz = (res.data == 'true' ? res.data = true : res.data = false);
+    }
+
+
+    $scope.validate = function(){
+        $scope.validatingQuizz = true;
+        ServiceQuizz.validateQuizz($scope.quizz.id, $scope.allquizz).then(function (res) {
             $scope.validatingQuizz = false;
             $scope.quizzEnd = true;
         }, function (err) {
@@ -73,8 +78,8 @@ app.controller('Quizz', [ '$scope', '$http', 'ServiceQuizz' , function($scope, $
         });
     }
 
-    $scope.bindSelectedQCM = function(newVal){
-        $scope.selectedQCM = newVal;
+    $scope.bindSelectedQCM = function(quizz, newVal){
+        quizz.QCMAnswer = newVal;
     }
 
 }]);

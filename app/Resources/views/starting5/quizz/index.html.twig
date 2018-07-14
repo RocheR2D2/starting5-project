@@ -13,30 +13,34 @@
 
            <div ng-hide="loadingQuizz">
 
-               <div ng-repeat="quizz in allquizz">
+               <div ng-repeat="quizz in allquizz" ng-if="step == $index">
+
                <h2><strong>{[{quizz.question}]}</strong></h2>
                <div ng-if="quizz.type == 'QCM'">
                    <ul>
                        <li>
-                           <input type="button" ng-click="bindSelectedQCM(1)" value="{[{quizz.answer1}]}">
+                           <input type="button" ng-click="bindSelectedQCM(quizz, 1)" value="{[{quizz.answer1}]}">
                        </li>
                        <li>
-                           <input type="button" ng-click="bindSelectedQCM(2)" value="{[{quizz.answer2}]}">
+                           <input type="button" ng-click="bindSelectedQCM(quizz, 2)" value="{[{quizz.answer2}]}">
                        </li>
                        <li>
-                           <input type="button" ng-click="bindSelectedQCM(3)" value="{[{quizz.answer3}]}">
+                           <input type="button" ng-click="bindSelectedQCM(quizz, 3)" value="{[{quizz.answer3}]}">
                        </li>
                        <li>
-                           <input type="button" ng-click="bindSelectedQCM(4)" value="{[{quizz.answer4}]}">
+                           <input type="button" ng-click="bindSelectedQCM(quizz, 4)" value="{[{quizz.answer4}]}">
                        </li>
                    </ul>
                </div>
                <div ng-if="quizz.type == 'Question'">
                    <input type="text" ng-model="quizz.QuestionAnswer">
                </div>
-               <input ng-if="started" type="submit" placeholder="Valider" ng-click="validate()">
+
+               <input ng-if="started" type="submit" placeholder="suivant" ng-click="next()">
                </div>
+
            </div>
+
 
 
        </div>
