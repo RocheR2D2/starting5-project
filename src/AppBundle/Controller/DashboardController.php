@@ -34,6 +34,7 @@ class DashboardController extends Controller
     protected $trainerRepository;
     protected $userTrainerRepository;
     protected $userStadiumRepository;
+    protected $publicTeam;
 
     public function __construct(ObjectManager $entityManager)
     {
@@ -46,6 +47,7 @@ class DashboardController extends Controller
         $this->trainerRepository = $this->em->getRepository(Trainer::class);
         $this->userStadiumRepository = $this->em->getRepository(UserStadium::class);
         $this->userTrainerRepository = $this->em->getRepository(UserTrainer::class);
+        $this->publicTeam = $this->em->getRepository(PublicTeam::class);
     }
 
     public function homeAction() {
@@ -410,5 +412,12 @@ class DashboardController extends Controller
 
         return new Response("done");
 
+    }
+
+    public function getPublicTeamsAction()
+    {
+        $publicTeams = $this->publicTeam->findAll();
+
+        return $this->render("starting5/dashboard/public-team/public-teams.html.twig", array("publicTeams" => $publicTeams));
     }
 }
