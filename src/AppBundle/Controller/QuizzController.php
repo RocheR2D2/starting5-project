@@ -65,7 +65,7 @@ class QuizzController extends Controller
             $quizz = $em->getRepository("AppBundle:Quizz")->find($quizzAnswer->id);
             if($quizz->getType() == 'QCM' && $quizz->getQCMAnswer() == trim(strtolower($quizzAnswer->QCMAnswer))){
                 array_push($validQuizz, array("value" => true));
-            }else if($quizz->getType() == 'Question' && trim(strtolower($quizz->getAnswer1())) == trim(strtolower($quizzAnswer->QuestionAnswer))){
+            }else if($quizz->getType() == 'Question' && trim(strtolower($quizz->getAnswer1())) == trim(strtolower($quizzAnswer->QCMAnswer))){
                 array_push($validQuizz, array("value" => true));
             }else{
                 array_push($validQuizz,array("value" => false));

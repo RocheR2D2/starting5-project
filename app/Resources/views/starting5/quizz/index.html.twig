@@ -13,6 +13,10 @@
 
            <div ng-hide="loadingQuizz">
 
+               <div>
+                   <p ng-bind="countDown"></p>
+               </div>
+
                <div ng-repeat="quizz in allquizz" ng-if="step == $index">
 
                <h2><strong>{[{quizz.question}]}</strong></h2>
@@ -33,7 +37,7 @@
                    </ul>
                </div>
                <div ng-if="quizz.type == 'Question'">
-                   <input type="text" ng-model="quizz.QuestionAnswer">
+                   <input type="text" ng-model="quizz.QCMAnswer">
                </div>
 
                <input ng-if="started" type="submit" placeholder="suivant" ng-click="next()">

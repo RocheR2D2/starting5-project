@@ -48,12 +48,29 @@ app.controller('Quizz', [ '$scope', '$http', 'ServiceQuizz' , function($scope, $
     $scope.allquizz = [];
     $scope.step = 0;
 
+    $scope.countDown = 10;
+    var timer;
+
+    $scope.startTimer = function(){
+        clearInterval(timer);
+        $scope.countDown = 7;
+        timer = setInterval(function(){
+            $scope.countDown--;
+            if($scope.countDown < 0){
+                $scope.next();
+            }
+            $scope.$apply();
+        }, 1000);
+    }
+
+
     $scope.startQuizz = function(){
         $scope.started = true;
         $scope.loadingQuizz = true;
         ServiceQuizz.getRandomQuizz().then(function (res) {
             $scope.allquizz = res.data;
             $scope.loadingQuizz = false;
+            $scope.startTimer();
         }, function (err) {
             console.log(err);
         });
@@ -64,12 +81,15 @@ app.controller('Quizz', [ '$scope', '$http', 'ServiceQuizz' , function($scope, $
 
         if($scope.step == $scope.allquizz.length){
             $scope.validate();
+        }else{
+            $scope.startTimer();
         }
     }
 
 
     $scope.validate = function(){
         $scope.validatingQuizz = true;
+
         ServiceQuizz.validateQuizz($scope.allquizz).then(function (res) {
             $scope.validatingQuizz = false;
             $scope.quizzEnd = true;
