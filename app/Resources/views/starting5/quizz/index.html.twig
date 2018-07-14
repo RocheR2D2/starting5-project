@@ -49,8 +49,10 @@
        </div>
        </div>
        <div ng-if="quizzEnd" ng-cloak>
-        <div ng-if="validQuizz"><h1>BRAVO !</h1></div>
-           <div ng-if="!validQuizz"><h1>DOMMAGE :(</h1></div>
+            <div ng-repeat="res in resultats">
+                Question {[{ $index + 1 }]} : {[{ res.value }]}
+            </div>
+           <p>Total gagné : + {[{ totalPts }]}</p>
        </div>
    </section>
 {% endblock %}

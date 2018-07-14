@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
 use SensioLabs\Security\Exception\HttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,26 +49,53 @@ class QuizzController extends Controller
     public function validateQuizzAction(Request $request)
     {
         $Req = json_decode($request->getContent());
-        $id = $Req->id;
-        if (null === $id) {
-            throw new NotFoundHttpException("L'id n'existe pas.");
-        }
+
         $answer = $Req->answer;
         if (null === $answer) {
             throw new NotFoundHttpException("La réponse n'existe pas.");
         }
 
         $em = $this->getDoctrine()->getManager();
-        $quizz = $em->getRepository("AppBundle:Quizz")->find($id);
 
-        if($quizz->getType() == 'QCM' && $quizz->getQCMAnswer() == $answer){
-            return new Response("true");
-        }else if($quizz->getType() == 'Question' && $quizz->getAnswer1() == $answer){
-            return new Response("true");
-        }else{
-            return new Response("false");
+        $validQuizz = array();
+
+        foreach($answer as $quizzAnswer){
+
+
+            $quizz = $em->getRepository("AppBundle:Quizz")->find($quizzAnswer->id);
+            if($quizz->getType() == 'QCM' && $quizz->getQCMAnswer() == trim(strtolower($quizzAnswer->QCMAnswer))){
+                array_push($validQuizz, array("value" => true));
+            }else if($quizz->getType() == 'Question' && trim(strtolower($quizz->getAnswer1())) == trim(strtolower($quizzAnswer->QuestionAnswer))){
+                array_push($validQuizz, array("value" => true));
+            }else{
+                array_push($validQuizz,array("value" => false));
+            }
         }
-        return new Response("Erreur");
+
+        $user = $this->getUser();
+        $total = 0;
+        $winPoint = 500;
+
+        foreach ($validQuizz as $valid){
+            if($valid["value"] == true){
+                $total += $winPoint;
+            }
+        }
+
+        $user->setQuizPoints($user->getQuizPoints() + $total);
+
+        $em->persist($user);
+        $em->flush();
+
+        $results = array();
+
+        array_push($results, $validQuizz);
+        array_push($results, $total);
+
+        $serializer = $this->get('serializer');
+        $response = $serializer->serialize($results,'json');
+        return new Response($response);
+
     }
 }
 

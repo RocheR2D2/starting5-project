@@ -26,8 +26,8 @@ app.factory("ServiceQuizz", function ($http) {
             return $http.post( base_url + "/quizz/getRandomQuizz", {responseType: "json"});
         };
 
-        var validateQuizz = function ($id,$answer) {
-            return $http.post( base_url + "/quizz/validateQuizz", {"id":$id,"answer":$answer});
+        var validateQuizz = function ($answer) {
+            return $http.post( base_url + "/quizz/validateQuizz", {"answer":$answer});
         };
 
     return {
@@ -70,9 +70,11 @@ app.controller('Quizz', [ '$scope', '$http', 'ServiceQuizz' , function($scope, $
 
     $scope.validate = function(){
         $scope.validatingQuizz = true;
-        ServiceQuizz.validateQuizz($scope.quizz.id, $scope.allquizz).then(function (res) {
+        ServiceQuizz.validateQuizz($scope.allquizz).then(function (res) {
             $scope.validatingQuizz = false;
             $scope.quizzEnd = true;
+            $scope.resultats = res.data[0];
+            $scope.totalPts = res.data[1];
         }, function (err) {
             console.log(err);
         });
