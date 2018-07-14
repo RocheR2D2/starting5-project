@@ -3933,4 +3933,6 @@ body.fixed-left .side-menu.left {
 .public-team .title .username{
     font-size: 0.3em;
     color: #424858;
+    text-transform: uppercase;
+    font-weight: 100;
 }
