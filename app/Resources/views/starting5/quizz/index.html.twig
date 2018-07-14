@@ -15,7 +15,7 @@
        <div ng-if="started && !validatingQuizz">
 
 
-            <div ng-show="loadingQuizz" class="loadingContainer"><i class="fa fa-spin fa-spinner"></i>chargements des quizz ...</div>
+            <div ng-show="loadingQuizz" class="loadingContainer"><i class="fa fa-spin fa-spinner"></i>Chargement du Quiz...</div>
 
            <div ng-hide="loadingQuizz" >
                <div class="countdown">
@@ -59,12 +59,12 @@
                <i class="fa fa-spin fa-spinner"></i>En cours de validation ...
        </div>
        </div>
-       <div ng-if="quizzEnd" ng-cloak>
+       <div ng-if="quizzEnd" ng-cloak class="text-center">
            <h2 class="text-center">Récapitulatif</h2>
             <div ng-repeat="res in resultats">
-                Question {[{ $index + 1 }]} : <span class="badge" ng-class="(res.value == 'true' || res.value == true) ? 'badge-success':'badge-danger'">{[{ res.value }]}</span>
+                <span class="badge badge-default">Question {[{ $index + 1 }]}</span> : <span class="badge" ng-class="(res.value == 'true' || res.value == true) ? 'badge-success':'badge-danger'">{[{ res.value }]}</span>
             </div>
-           <p>Total gagné : <span class="badge" ng-class="totalPts == 0 ? 'badge-secondary': 'badge-success'">+ {[{ totalPts }]}</span></p>
+           <p class="alert alert-warning">Total de points gagnés : <span class="badge" ng-class="totalPts == 0 ? 'badge-secondary': 'badge-success'">+ {[{ totalPts }]}</span></p>
        </div>
        </div>
    </div>

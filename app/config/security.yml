@@ -36,4 +36,9 @@ security:
         - { path: ^/profile/edit, role: ROLE_USER }
         - { path: ^/my-teams, role: ROLE_USER }
         - { path: ^/battle/\+d, role: ROLE_USER }
-        - { path: ^/battle/\+d/play/\+d, role: ROLE_USER }
+        - { path: ^/quizz, role: ROLE_USER }
+        - { path: ^/quizz/getRandomQuizz, role: ROLE_USER }
+        - { path: ^/quizz/validateQuizz, role: ROLE_USER }
+        - { path: ^/admin/quizz, role: ROLE_ADMIN }
+        - { path: ^/admin/quizzForm, role: ROLE_ADMIN }
+        - { path: ^/admin/getAllQuizz, role: ROLE_ADMIN }
