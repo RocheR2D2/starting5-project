@@ -4052,3 +4052,18 @@ body.fixed-left .side-menu.left {
     background-image: url('../images/404.jpg');
     background-size: cover;
 }
+
+.public-team .title .username{
+    font-size: 0.3em;
+    color: #424858;
+    text-transform: uppercase;
+    font-weight: 100;
+}
+
+.public-team.myTeams-container{
+    margin: 20px auto;
+}
+
+.public-team-link{
+    font-size: 2em;
+}
