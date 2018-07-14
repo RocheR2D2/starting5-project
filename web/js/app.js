@@ -131,7 +131,7 @@ app.factory("ServiceFive", function ($http) {
 });
 
 
-app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, ServiceFive, $timeout){
+app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', '$filter', function($scope, ServiceFive, $timeout, $filter){
 
     var route = window.location.pathname;
 
@@ -143,6 +143,12 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
         route = "public";
         $scope.route = route;
     }
+
+    $scope.playerSearch = "";
+
+    $scope.filterIt = function() {
+        return $filter('filter')($scope.players, $scope.playerSearch);
+    };
 
     $scope.center = {};
     $scope.smallForward = {};
@@ -371,7 +377,13 @@ app.controller('Five', [ '$scope', 'ServiceFive', '$timeout', function($scope, S
                 $scope.sendingDone = true;
                 $("#createTeam").modal("hide");
 
+            if(route == "public"){
+                window.location.href = base_url + "/public/teams";
+            }else{
                 window.location.href= base_url + "/my-teams";
+            }
+
+
 
 
         }, function(err){
@@ -562,11 +574,7 @@ app.controller('Battle', [ '$scope', 'ServiceBattle', '$timeout', function($scop
             .then(function(response){
                 $scope.sendingTeam = false;
                 $scope.sendingDone = true;
-                if(route == "public"){
-                    //public route
-                }else{
-                    window.location = base_url + "/battle/" + $scope.battleId + "/played/" + $scope.roundId;
-                }
+                window.location = base_url + "/battle/" + $scope.battleId + "/played/" + $scope.roundId;
             },
             function(error){
                 console.log(error);
