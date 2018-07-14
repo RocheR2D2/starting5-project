@@ -53,7 +53,7 @@ app.controller('Quizz', [ '$scope', '$http', 'ServiceQuizz' , function($scope, $
 
     $scope.startTimer = function(){
         clearInterval(timer);
-        $scope.countDown = 7;
+        $scope.countDown = 10;
         timer = setInterval(function(){
             $scope.countDown--;
             if($scope.countDown < 0){

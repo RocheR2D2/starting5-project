@@ -18,34 +18,36 @@
             <div ng-show="loadingQuizz" class="loadingContainer"><i class="fa fa-spin fa-spinner"></i>chargements des quizz ...</div>
 
            <div ng-hide="loadingQuizz" >
-               <div>
+               <div class="countdown">
+                   <i class="fas fa-stopwatch"></i>
                    <p ng-bind="countDown"></p>
                </div>
 
                <div ng-repeat="quizz in allquizz" ng-if="step == $index">
 
-               <h2><strong>{[{quizz.question}]}</strong></h2>
-               <div ng-if="quizz.type == 'QCM'">
+               <h2 class="text-center question"><strong>{[{quizz.question}]}</strong></h2>
+               <div ng-if="quizz.type == 'QCM'" class="qcm">
                    <ul>
                        <li>
-                           <input type="button" ng-click="bindSelectedQCM(quizz, 1)" value="{[{quizz.answer1}]}">
+                           <input class="qcm-btn" ng-class="{'selected': quizz.QCMAnswer == 1}" type="button" ng-click="bindSelectedQCM(quizz, 1)" value="{[{quizz.answer1}]}">
                        </li>
                        <li>
-                           <input type="button" ng-click="bindSelectedQCM(quizz, 2)" value="{[{quizz.answer2}]}">
+                           <input class="qcm-btn" ng-class="{'selected': quizz.QCMAnswer == 2}" type="button" ng-click="bindSelectedQCM(quizz, 2)" value="{[{quizz.answer2}]}">
                        </li>
                        <li>
-                           <input type="button" ng-click="bindSelectedQCM(quizz, 3)" value="{[{quizz.answer3}]}">
+                           <input class="qcm-btn" ng-class="{'selected': quizz.QCMAnswer == 3}" type="button" ng-click="bindSelectedQCM(quizz, 3)" value="{[{quizz.answer3}]}">
                        </li>
                        <li>
-                           <input type="button" ng-click="bindSelectedQCM(quizz, 4)" value="{[{quizz.answer4}]}">
+                           <input class="qcm-btn" ng-class="{'selected': quizz.QCMAnswer == 4}" type="button" ng-click="bindSelectedQCM(quizz, 4)" value="{[{quizz.answer4}]}">
                        </li>
                    </ul>
                </div>
                <div ng-if="quizz.type == 'Question'">
-                   <input type="text" ng-model="quizz.QCMAnswer">
+                   <input type="text" class="form-control" ng-model="quizz.QCMAnswer">
                </div>
-
-               <input ng-if="started" type="submit" placeholder="suivant" ng-click="next()">
+                   <div class="text-center">
+                       <button class="next" ng-if="started" ng-click="next()"><i class="fas fa-chevron-right"></i></button>
+                   </div>
                </div>
 
            </div>
