@@ -42,7 +42,7 @@ class AdminController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($quizz);
                 $em->flush();
-                return new Response("Quizz ajouté.");
+                return $this->render('starting5/admin/quizz/index.html.twig');
             }
         }
         return $this->render('starting5/admin/quizz/quizzAddForm.html.twig', array('form' => $form->createView()));

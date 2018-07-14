@@ -21,13 +21,25 @@ class QuizzController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $quizzs = $em->getRepository("AppBundle:Quizz")->findAll();
-        shuffle($quizzs);
-        $quizz = new Quizz();
-        $quizz = $quizzs[0];
-        if($quizz->getType() == 'Question')
-        {
-            $quizz->setAnswer1(null);
+
+        if(sizeof($quizzs) < 3){
+            throw new NotFoundHttpException("Not enough quizz");
         }
+
+        shuffle($quizzs);
+        $quizz = array($quizzs[0],$quizzs[1],$quizzs[2]);
+
+        foreach($quizz as $quiz){
+            if($quiz->getType() == 'Question')
+            {
+                $quiz->setAnswer1(null);
+            }
+            else if($quiz->getType() == 'QCM')
+            {
+                $quiz->setQCMAnswer(null);
+            }
+        }
+
         $serializer = $this->get('serializer');
         $response = $serializer->serialize($quizz,'json');
         return new Response($response);
