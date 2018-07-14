@@ -49,7 +49,7 @@ app.controller('Quizz', [ '$scope', '$http', 'ServiceQuizz' , function($scope, $
         $scope.started = true;
         $scope.loadingQuizz = true;
         ServiceQuizz.getRandomQuizz().then(function (res) {
-            $scope.quizz = res.data;
+            $scope.allquizz = res.data;
             $scope.loadingQuizz = false;
         }, function (err) {
             console.log(err);

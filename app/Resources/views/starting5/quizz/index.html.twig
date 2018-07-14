@@ -9,7 +9,11 @@
        <div ng-if="!quizzEnd" ng-cloak>
        <div ng-if="started && !validatingQuizz">
             <div ng-show="loadingQuizz">Loading ...</div>
+
+
            <div ng-hide="loadingQuizz">
+
+               <div ng-repeat="quizz in allquizz">
                <h2><strong>{[{quizz.question}]}</strong></h2>
                <div ng-if="quizz.type == 'QCM'">
                    <ul>
@@ -31,7 +35,10 @@
                    <input type="text" ng-model="quizz.QuestionAnswer">
                </div>
                <input ng-if="started" type="submit" placeholder="Valider" ng-click="validate()">
+               </div>
            </div>
+
+
        </div>
        <div ng-if="validatingQuizz">
            <p>En cours de validation ...</p>
