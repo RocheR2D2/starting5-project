@@ -4070,12 +4070,25 @@ body.fixed-left .side-menu.left {
     background-size: cover;
 }
 
+.playerSearchbarContainer{
+    position: fixed;
+    top: 54px;
+    z-index: 100;
+    width: 100%;
+}
+
 .playerSearchbar{
+    position: relative;
     margin-top: 0px;
     padding: 5px;
-    position: fixed;
     width: 100%;
-    top: 54px;
     background-color: #FAFAFA;
-    z-index: 100;
+}
+
+.playerSearchbarContainer .fa-eraser{
+    position: fixed;
+    right: 10px;
+    top: 65px;
+    color: #737373;
+    cursor: pointer;
 }
