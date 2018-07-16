@@ -3620,6 +3620,7 @@ body.fixed-left .side-menu.left {
     position: relative;
     margin-bottom: 40px;
     background:white;
+    align-items: center;
 }
 
 
