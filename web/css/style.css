@@ -3651,7 +3651,7 @@ body.fixed-left .side-menu.left {
 
 .myTeams-container .details-grid .item{
     min-width: 20%;
-    height: 100px;
+    height: 110px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -3666,7 +3666,7 @@ body.fixed-left .side-menu.left {
 
 .myTeams-container .details-grid .item .far, .myTeams-container .details-grid .item .fas{
     color: #8e2500;
-    font-size: 30px;
+    font-size: 35px;
 }
 
 .myTeams-container .details-grid .item .badge{

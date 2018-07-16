@@ -2,11 +2,11 @@
     {% if(team) %}
     <h2 class="title">{{ team.name }}</h2>
         <div class="details-grid">
-            <div class="item"><p class="text">Entraîneur</p><i class="far fa-user"></i><span class="text">{{ team.trainerId.fullName }}</span></div>
-            <div class="item"><p class="text">Stade</p><img src="{{ asset('images/stadium.png') }}" alt=""><span class="text">{{ team.stadiumId.name }}</span></div>
-            <div class="item "><p class="text">Rating global</p><i class="far fa-star"></i> <span class="text">{{ team.teamRating }}</span></div>
-            <div class="item"><p class="text">Rating offensive</p><img src="{{ asset('images/sword.png') }}" alt=""><span class="text">{{ team.offRating }}</span></div>
-            <div class="item"><p class="text">Rating defensive</p><i class="fas fa-shield-alt"></i><span class="text">{{ team.defRating }}</span></div>
+            <div class="item"><p class="text">Entraîneur</p><i class="far fa-user"></i><span class="text"><span class="badge badge-dark">{{ team.trainerId.fullName }}</span></span></div>
+            <div class="item"><p class="text">Stade</p><img src="{{ asset('images/stadium.png') }}" alt=""><span class="text"><span class="badge badge-dark">{{ team.stadiumId.name }}</span></span></div>
+            <div class="item "><p class="text">Rating global</p><i class="far fa-star"></i> <span class="text"><span class="badge badge-dark">{{ team.teamRating }}</span></span></div>
+            <div class="item"><p class="text">Rating offensive</p><img src="{{ asset('images/sword.png') }}" alt=""><span class="text"><span class="badge badge-dark">{{ team.offRating }}</span></span></div>
+            <div class="item"><p class="text">Rating defensive</p><i class="fas fa-shield-alt"></i><span class="text"><span class="badge badge-dark">{{ team.defRating }}</span></span></div>
         </div>
     <div class="d-flex-players">
 
