@@ -8,6 +8,45 @@
         <div class="container dashboard">
             <div class="row">
                 {% include 'starting5/battle/button.html.twig' %}
+                <div class="col-md-12 myTeams-container">
+                    <h2 class="title">Your collection</h2>
+                    <div class="collection">
+                        <div class="item">
+                            <p class="text">
+                                NBA Players
+                            </p>
+                            <i class="fas fa-user ico"></i>
+                            <div class="text">
+                                <span id="countMyPlayers">{{ countMyPlayers }}</span> / <span>{{ countAllPlayers }}</span>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <p class="text">
+                                NBA Stadiums
+                            </p>
+                            <img src="{{ asset('images/stadium.png') }}" alt="">
+                            <div class="text">
+                                <span id="countMyPlayers">{{ countMyStadiums }}</span> / <span>{{ countAllStadiums }}</span>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <p class="text">
+                                NBA Head Coaches
+                            </p>
+                            <i class="fas fa-user-tie ico"></i>
+                            <div class="text">
+                                <span id="countMyPlayers">{{ countMyTrainers }}</span> / <span>{{ countAllTrainers }}</span>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <p class="text">
+                                Open Pack
+                            </p>
+                            <i class="ti-package ico"></i>
+                            <p class="text">{{ app.user.openPack }}</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-12 myTeams-container" id="lastPlayers">
                     {% include 'starting5/players/lastPlayers.html.twig' with {'lastPlayers': lastPlayers} %}
                 </div>
@@ -22,45 +61,6 @@
                         {% else %}
                             <span class="bg-danger">Shop is unavailable</span>
                         {% endif %}
-                    </div>
-                </div>
-                <div class="col-md-12 myTeams-container">
-                    <h2 class="title">Your collection</h2>
-                    <div class="collection">
-                    <div class="item">
-                        <p class="text">
-                           NBA Players
-                        </p>
-                        <i class="fas fa-user ico"></i>
-                        <div class="text">
-                            <span id="countMyPlayers">{{ countMyPlayers }}</span> / <span>{{ countAllPlayers }}</span>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <p class="text">
-                           NBA Stadiums
-                        </p>
-                        <img src="{{ asset('images/stadium.png') }}" alt="">
-                        <div class="text">
-                            <span id="countMyPlayers">{{ countMyStadiums }}</span> / <span>{{ countAllStadiums }}</span>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <p class="text">
-                            NBA Head Coaches
-                        </p>
-                        <i class="fas fa-user-tie ico"></i>
-                        <div class="text">
-                            <span id="countMyPlayers">{{ countMyTrainers }}</span> / <span>{{ countAllTrainers }}</span>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <p class="text">
-                            Open Pack
-                        </p>
-                        <i class="ti-package ico"></i>
-                        <p class="text">{{ app.user.openPack }}</p>
-                    </div>
                     </div>
                 </div>
             </div>
