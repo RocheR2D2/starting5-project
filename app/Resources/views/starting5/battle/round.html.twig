@@ -1,4 +1,4 @@
-<div class="col-lg-3 col-md-3 col-xs-6 round-card {% if (round.done or round.round == activeRound) and loop.last == false %} done {% endif %}">
+<div class="col-lg-3 col-md-3 col-xs-6 round-card {% if (round.done or round.round == activeRound) and loop.last == false %} done {% elseif((round.done or round.round == activeRound) and loop.last == true) %} done-last {%  endif %} %}">
     <div>
         <h2>Round #{{ round.round }}</h2>
         {% if round.done == NULL and round.round == activeRound and playMade is empty %}

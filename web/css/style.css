@@ -3923,7 +3923,7 @@ body.fixed-left .side-menu.left {
     background-color: #dadada;
 }
 
-.battle-details .round-container .round-card.done{
+.battle-details .round-container .round-card.done, .battle-details .round-container .round-card.done-last{
     background-color: #FFF;
 }
 
