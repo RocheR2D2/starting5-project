@@ -6,15 +6,15 @@
 
 {% block body %}
         <div class="container">
-            <div class="col-lg-12 mx-auto all-players">
-                <h1>
+            <div class="col-lg-12 mx-auto all-players myTeams-container">
+                <h1 class="title">
                     All My Players
-                    <span>
-                <a href="{{ path('user.players.guard') }}" class="btn btn-primary">Guards</a>
-                <a href="{{ path('user.players.forward') }}" class="btn btn-info">Forwards</a>
-                <a href="{{ path('user.players.center') }}" class="btn btn-danger">Centers</a>
-                </span>
                 </h1>
+                <div class="col-md-12 text-center mb-4">
+                    <a href="{{ path('user.players.guard') }}" class="btn btn-primary">Guards</a>
+                    <a href="{{ path('user.players.forward') }}" class="btn btn-info">Forwards</a>
+                    <a href="{{ path('user.players.center') }}" class="btn btn-danger">Centers</a>
+                </div>
                 {% if count > 0 %}
                     <div class="row myPlayers">
                         {{ render(controller('AppBundle:MyPlayers:players')) }}
